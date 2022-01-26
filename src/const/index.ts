@@ -1,0 +1,1 @@
+export const WIDTH_SIZE = 375;
