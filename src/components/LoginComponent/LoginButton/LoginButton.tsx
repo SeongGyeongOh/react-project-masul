@@ -14,10 +14,11 @@ const StyledButton = styled(Button)`
 
 type PropsType = {
   snsType: string;
+  handleLogin: () => void | null;
 };
 
-const LoginButton = ({ snsType }: PropsType) => {
-  return <StyledButton>{snsType}</StyledButton>;
+const LoginButton = ({ snsType, handleLogin }: PropsType) => {
+  return <StyledButton onClick={() => handleLogin()}>{snsType}</StyledButton>;
 };
 
 export default LoginButton;

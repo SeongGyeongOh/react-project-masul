@@ -1,8 +1,8 @@
 import React from 'react';
-// import ImgLogo from '../../assets/logo/logo_main_tit.png';
+import logo from '../../assets/logo/logo.jpg';
 
 const Logo = () => {
-  return <div className="logo_wrap">로고영역</div>;
+  return <img style={{ width: '4rem' }} src={logo} alt="로고"></img>;
 };
 
 export default Logo;
