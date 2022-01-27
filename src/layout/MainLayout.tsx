@@ -11,7 +11,7 @@ const MainLayout = ({ child }: Props) => {
   return (
     <>
       <Header />
-      {child}
+      <div className="mainpd">{child}</div>
       <Footer />
     </>
   );
