@@ -1,5 +1,5 @@
 import React from 'react';
-import RecommendDetails from '../../containers/recommendDetails/RecommendDetails';
+import RecommendDetails from '../../containers/RecommendDetails/RecommendDetails';
 
 const RecommendPage = () => {
   return (
