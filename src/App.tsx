@@ -1,7 +1,5 @@
 import React from 'react';
-import './App.less';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import { Button } from 'antd';
 import RecommendPage from './pages/recommend/RecommendPage';
 
 const App = () => {
