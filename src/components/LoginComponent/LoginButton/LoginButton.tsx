@@ -4,15 +4,21 @@ import styled from 'styled-components';
 
 const StyledButton = styled(Button)`
   color: black;
-  margin: 0.5rem 0rem;
+  font-weight: normal;
+  border: 1px solid;
+  width: 250px;
+  height: 50px;
+  margin: 1rem 0px;
+  font-size: 1.4rem;
 `;
 
 type PropsType = {
   snsType: string;
+  handleLogin: () => void | null;
 };
 
-const LoginButton = ({ snsType }: PropsType) => {
-  return <StyledButton>{snsType}</StyledButton>;
+const LoginButton = ({ snsType, handleLogin }: PropsType) => {
+  return <StyledButton onClick={() => handleLogin()}>{snsType}</StyledButton>;
 };
 
 export default LoginButton;
