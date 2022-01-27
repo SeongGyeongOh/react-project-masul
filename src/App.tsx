@@ -1,6 +1,7 @@
 import React from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import RecommendPage from './pages/Recommend';
+import Login from './pages/Login';
+import RecommendPage from './pages/recommend';
 
 const App = () => {
   return (
@@ -8,7 +9,7 @@ const App = () => {
       <Routes>
         <Route path="/" element={<></>} />
         <Route path="/recommend" element={<RecommendPage />} />
-        <Route path="/login" element={<></>} />
+        <Route path="/login" element={<Login />} />
         <Route path="/community" element={<></>} />
         <Route path="/alcoholcup" element={<></>} />
         <Route path="/menu" element={<></>} />
