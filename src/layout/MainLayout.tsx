@@ -1,16 +1,20 @@
 import React from 'react';
+import Footer from '../components/Footer';
+import Header from '../components/Header';
 
 type Props = {
   child: React.ReactNode;
 };
 
-export const MainLayout = ({ child }: Props) => {
+const MainLayout = ({ child }: Props) => {
   // const { child: ReactElement } = props
   return (
     <>
-      <header></header>
+      <Header />
       {child}
-      <footer></footer>
+      <Footer />
     </>
   );
 };
+
+export default MainLayout;

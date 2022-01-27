@@ -1,6 +1,6 @@
 import React from 'react';
-import SampleContainer from '../../containers/SampleContainer';
-// import MainLayout from '../../layout';
+import SampleContainer from '../../containers/Sample';
+import MainLayout from '../../layout/MainLayout';
 
 type Sample = {};
 
