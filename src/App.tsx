@@ -1,7 +1,7 @@
 import React from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import RecommendPage from './pages/recommend/RecommendPage';
 import Login from './pages/Login';
+import RecommendPage from './pages/recommend';
 
 const App = () => {
   return (
