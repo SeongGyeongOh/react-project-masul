@@ -1,20 +1,18 @@
 import React from 'react';
+import Footer from '../components/Footer';
+import Header from '../components/Header';
 
 type Props = {
-  child: React.ReactNode
-}
+  child: React.ReactNode;
+};
 
-const MainLayout = ({child}: Props) => {
+const MainLayout = ({ child }: Props) => {
   // const { child: ReactElement } = props
   return (
     <>
-    <header>
-    </header>
-      {
-        child
-      }
-      <footer>
-      </footer>
+      <Header />
+      {child}
+      <Footer />
     </>
   );
 };

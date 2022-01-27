@@ -1,8 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.less';
 import App from './App';
-import './assets/less/common.less';
+import './assets/scss/common.scss';
 import { createStore, applyMiddleware, compose } from 'redux';
 import { Provider } from 'react-redux';
 import logger from 'redux-logger';
@@ -10,7 +9,7 @@ import { composeWithDevTools } from 'redux-devtools-extension';
 import rootReducer from './modules/reducers';
 import createSagaMiddleware from 'redux-saga';
 import rootSaga from './modules/sagas';
-import 'antd/dist/antd.css';
+import 'antd/dist/antd.min.css';
 
 const sagaMiddleware = createSagaMiddleware();
 
