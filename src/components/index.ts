@@ -1,2 +1,2 @@
 export * from './SampleComponent';
-import AlcholcupTable from './AlcholcupTable';
+export * from './AlcholcupTable';

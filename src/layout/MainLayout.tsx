@@ -4,7 +4,7 @@ type Props = {
   child: React.ReactNode;
 };
 
-const MainLayout = ({ child }: Props) => {
+export const MainLayout = ({ child }: Props) => {
   // const { child: ReactElement } = props
   return (
     <>
@@ -14,5 +14,3 @@ const MainLayout = ({ child }: Props) => {
     </>
   );
 };
-
-export default MainLayout;

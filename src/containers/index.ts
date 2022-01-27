@@ -1,2 +1,2 @@
 export * from './';
-import AlcholcupDetails from './AlcholcupDetails';
+export * from './AlcholcupDetails';

@@ -1,7 +1,5 @@
 import React from 'react';
 
-const AlcholcupTable = () => {
-  return <div className="position-relative"></div>;
+export const AlcholcupTable = () => {
+  return <div>술드컵 컴포넌트</div>;
 };
-
-export default AlcholcupTable;

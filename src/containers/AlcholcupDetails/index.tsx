@@ -1,7 +1,10 @@
 import React from 'react';
 
-const AlcholcupDetails = () => {
-  return <div>ssss</div>;
+export const AlcholcupDetails = () => {
+  return (
+    <>
+      <div>술드컵 디테일 입니ㄴㅇㅁㅇㅁㄴㅇㅁㄴㅇㄴㅁㅇㅁㅇㅁㄴ다.</div>
+      <hr />
+    </>
+  );
 };
-
-export default AlcholcupDetails;
