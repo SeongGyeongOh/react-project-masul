@@ -5,7 +5,7 @@ import Logo from './Logo';
 
 const Header = () => {
   return (
-    <div className="Header_wrap">
+    <div className="header-menu flex_wrap">
       <Link to="/">
         <Logo />
       </Link>
