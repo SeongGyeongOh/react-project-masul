@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 
 const Footer = () => {
   return (
-    <ul className="header-menu">
+    <ul className="footer-menu flex_wrap">
       <li>
         <Link to="/alcoholcup">About</Link>
       </li>
