@@ -1,5 +1,5 @@
 import React from 'react';
-import RecommendForm from '../../components/RecommedForm/recommendForm';
+import RecommendForm from '../../components/RecommedForm';
 
 const RecommendDetails = () => {
   return (
