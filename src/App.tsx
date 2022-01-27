@@ -1,6 +1,6 @@
 import React from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import RecommendPage from './pages/recommend/RecommendPage';
+import RecommendPage from './pages/Recommend';
 
 const App = () => {
   return (
