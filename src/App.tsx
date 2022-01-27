@@ -1,8 +1,5 @@
 import React from 'react';
-import './App.less';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import { Button } from 'antd';
-import LoginContainer from './containers/LoginContainer';
 import RecommendPage from './pages/recommend/RecommendPage';
 import Login from './pages/Login';
 
