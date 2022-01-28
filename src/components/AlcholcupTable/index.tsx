@@ -26,14 +26,14 @@ const AlcholStyled = styled.div`
 `;
 
 export const AlcholcupTable = () => {
-  const [alchol, setAlchol] = useState(data);
-  const [displays, setDisplays] = useState([alchol]);
+  const [alchol, setAlchol] = useState([data]);
+  const [displays, setDisplays] = useState([]);
   const [winners, setWinners] = useState([]);
 
   useEffect(() => {
     data.sort(() => Math.random() - 0.5).slice(0, 64);
 
-    setAlchol(data);
+    setAlchol([data]);
     // setDisplays([data[0], data[1]]);
   }, []);
 
