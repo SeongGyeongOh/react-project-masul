@@ -1,6 +1,7 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
 import styled from 'styled-components';
+import Icon from '../../const/Icons/Icon';
 import { data } from '../../modules/data';
 
 const AlcholStyled = styled.div`
