@@ -1,7 +1,12 @@
 import React from 'react';
+import MultiSteps from './MultiSteps';
 
-const RecommendForm = () => {
-  return <div className="position-relative"></div>;
+const index = () => {
+  return (
+    <div>
+      <MultiSteps />
+    </div>
+  );
 };
 
-export default RecommendForm;
+export default index;
