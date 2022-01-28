@@ -42,14 +42,26 @@ const CommunityList = () => {
   ];
 
   return (
-    <TableBox dataSource={data} className="table__list">
-      <Column title="글번호" dataIndex="articleNumber" key="articleNumber" width={10} />
-      <Column title="제목" dataIndex="title" key="title" width={30} />
-      <Column title="닉네임" dataIndex="nickName" key="nickName" width={20} />
-      <Column title="등록일" dataIndex="registrationDate" key="registrationDate" width={20} />
-      <Column title="조회수" dataIndex="views" key="views" width={20} />
-      <Column title="좋아요" dataIndex="heart" key="heart" width={20} />
-    </TableBox>
+    <div className="community">
+      <div className="community__box">
+        <div className="community__box__left">
+          <div className="community__box__left__box">J</div>
+        </div>
+        <div className="community__box__right">
+          <div className="community__box__right__title">
+            <input type="text" placeholder="제목" />
+          </div>
+          <div className="community__box__right__content">
+            <div className="community__box__right__content__input">
+              <input type="text" placeholder="내용" />
+            </div>
+            <div className="community__box__right__content__btn">
+              <button>글쓰기</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   );
 };
 export default CommunityList;
