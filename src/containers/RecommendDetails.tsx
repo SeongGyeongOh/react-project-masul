@@ -3,8 +3,7 @@ import RecommendForm from '../components/RecommedForm/index';
 
 const RecommendDetails = () => {
   return (
-    <div>
-      <h2>디테일영역</h2>
+    <div className="recomendDetails_wrap">
       <RecommendForm />
     </div>
   );
