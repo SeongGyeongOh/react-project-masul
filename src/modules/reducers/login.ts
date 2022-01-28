@@ -12,7 +12,11 @@ import { action } from 'typesafe-actions';
 //   measurementId: 'G-FPZNNC8Y09',
 // };
 
-const initialState = {
+export type LoginState = {
+  isLogin: boolean;
+};
+
+const initialState: LoginState = {
   isLogin: false,
 };
 
@@ -22,7 +26,7 @@ export const KAKAO_LOGIN = 'KAKAO_LOGIN';
 export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
 export const LOGIN_FAIL = 'LOGIN_FAIL';
 
-type Action =
+export type Action =
   | { type: 'GOOGLE_LOGIN' }
   | { type: 'NAVER_LOGIN' }
   | { type: 'KAKAO_LOGIN' }
@@ -37,16 +41,15 @@ const login = (state = initialState, action: Action) =>
   produce(state, (draft) => {
     switch (action.type) {
       case GOOGLE_LOGIN:
-        break;
       case NAVER_LOGIN:
-        break;
       case KAKAO_LOGIN:
-        break;
       case LOGIN_SUCCESS:
+        console.log('로그인 리듀서', draft.isLogin);
         draft.isLogin = true;
         break;
       case LOGIN_FAIL:
-        break;
+      default:
+        return state;
     }
   });
 

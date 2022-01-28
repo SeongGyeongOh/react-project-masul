@@ -3,13 +3,15 @@ import React from 'react';
 import styled from 'styled-components';
 
 const StyledButton = styled(Button)`
-  color: black;
+  color: white;
   font-weight: normal;
-  border: 1px solid;
+  border: 2px solid white;
   width: 250px;
   height: 50px;
   margin: 1rem 0px;
   font-size: 1.4rem;
+  background-color: rgba(0, 0, 0, 0);
+  border-radius: 0.5rem;
 `;
 
 type PropsType = {

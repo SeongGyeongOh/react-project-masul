@@ -1,12 +1,12 @@
-import axios from 'axios';
+import { LoginService } from './../../service/firebase';
 import { all, fork, put, takeLatest, call, takeEvery } from 'redux-saga/effects';
+import { GOOGLE_LOGIN, NAVER_LOGIN, KAKAO_LOGIN, LOGIN_SUCCESS, LOGIN_FAIL, Action } from '../reducers/login';
 
-import { GOOGLE_LOGIN, NAVER_LOGIN, KAKAO_LOGIN, LOGIN_SUCCESS, LOGIN_FAIL } from '../reducers/login';
+const login = new LoginService();
 
-function* login() {
+function* googleLogin(action: Action) {
   try {
-    // 구글 로그인 처리
-    // console.log()
+    login.googleLogin();
     yield put({
       type: LOGIN_SUCCESS,
     });
@@ -16,12 +16,20 @@ function* login() {
       type: LOGIN_FAIL,
     });
   }
+
+  login.onAuthChange();
 }
 
-function* watchLoadData() {
-  yield takeLatest(GOOGLE_LOGIN, login);
+function* naverLogin(action: Action) {
+  // 네이버 로그인
+}
+
+function* kakaoLogin(action: Action) {
+  // 카카오 로그인
 }
 
 export default function* loginSaga() {
-  yield takeEvery('*', watchLoadData);
+  yield takeEvery(GOOGLE_LOGIN, googleLogin);
+  yield takeEvery(NAVER_LOGIN, naverLogin);
+  yield takeEvery(KAKAO_LOGIN, kakaoLogin);
 }
