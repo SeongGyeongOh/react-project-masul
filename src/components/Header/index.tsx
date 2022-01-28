@@ -1,23 +1,18 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './Header.scss';
-import { Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import Logo from './Logo';
-import styled from 'styled-components';
-import icon_login from '../../assets/icons/icon-login.png';
-
-const StyledIcon = styled.img`
-  width: 1.5rem;
-`;
+import Icon from '../../const/Icons/Icon';
 
 const Header = () => {
   return (
     <div className="header-menu flex_wrap">
-      <Link to="/">
+      <NavLink to="/">
         <Logo />
-      </Link>
-      <Link to="/login">
-        <StyledIcon src={icon_login} />
-      </Link>
+      </NavLink>
+      <NavLink to="/login" className={({ isActive }) => (isActive ? 'active' : 'not')}>
+        <Icon size={28} color="#B6B6CA" icon="login" />
+      </NavLink>
     </div>
   );
 };

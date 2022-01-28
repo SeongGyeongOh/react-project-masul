@@ -1,6 +1,35 @@
 .footer-menu {
-  margin-bottom: 0 !important;
-  padding: 7px 0;
-  border: 1px solid black;
-  padding: 5px 15px;
+  border-radius: 30px;
+  border: 0.5px solid #ddd;
+  box-shadow: 0px 0px 5px 0.1px #ddd;
+  justify-content: space-between !important;
+  margin-bottom: 20px;
+  padding: 5px 10px;
+
+  li {
+    a {
+      padding: 10px 18px 8px;
+      &.active {
+        // background: #3fa7f1;
+        // border-radius: 30px;
+        position: relative;
+
+        svg {
+          fill: #33434d;
+        }
+
+        &::after {
+          content: '';
+          width: 0.3rem;
+          height: 0.3rem;
+          border-radius: 50%;
+          position: absolute;
+          left: 50%;
+          bottom: 5px;
+          transform: translateX(-50%);
+          background: #33434d;
+        }
+      }
+    }
+  }
 }
