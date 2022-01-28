@@ -1,46 +1,54 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './footer.scss';
-import { Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import styled from 'styled-components';
-import icon_alcholcup from '../../assets/icons/icon-alcholcup.png';
-import icon_community from '../../assets/icons/icon-community.png';
-import icon_home from '../../assets/icons/icon-home.png';
-import icon_recommend from '../../assets/icons/icon-recommend.png';
-import icon_search from '../../assets/icons/icon-search.png';
+import Icon from '../../const/Icons/Icon';
+
+const FooterStyled = styled.div`
+  width: 350px;
+  margin: 0 auto;
+`;
 
 const StyledIcon = styled.img`
   width: 1.8rem;
 `;
 
 const Footer = () => {
+  const [value, setValue] = useState('#B6B6CA');
+
+  const colorChange = () => {
+    setValue('red');
+  };
   return (
-    <ul className="footer-menu flex_wrap">
-      <li>
-        <Link to="/alcoholcup">
-          <StyledIcon src={icon_alcholcup} alt="로고" />
-        </Link>
-      </li>
-      <li>
-        <Link to="/recommend">
-          <StyledIcon src={icon_recommend} alt="로고" />
-        </Link>
-      </li>
-      <li>
-        <Link to="/">
-          <StyledIcon src={icon_home} alt="로고" />
-        </Link>
-      </li>
-      <li>
-        <Link to="/community">
-          <StyledIcon src={icon_community} alt="로고" />
-        </Link>
-      </li>
-      <li>
-        <Link to="/">
-          <StyledIcon src={icon_search} alt="로고" />
-        </Link>
-      </li>
-    </ul>
+    <FooterStyled>
+      <ul className="footer-menu flex_wrap">
+        <li>
+          <NavLink to="/alcoholcup" className={({ isActive }) => (isActive ? 'active' : 'not')}>
+            <Icon size={28} color={'#B6B6CA'} icon="alcholcup" />
+          </NavLink>
+        </li>
+        <li>
+          <NavLink to="/recommend" className={({ isActive }) => (isActive ? 'active' : 'not')}>
+            <Icon size={28} color={'#B6B6CA'} icon="recommend" />
+          </NavLink>
+        </li>
+        <li>
+          <NavLink to="/" className={({ isActive }) => (isActive ? 'active' : 'not')}>
+            <Icon size={28} color={'#B6B6CA'} icon="home" />
+          </NavLink>
+        </li>
+        <li>
+          <NavLink to="/community" className={({ isActive }) => (isActive ? 'active' : 'not')}>
+            <Icon size={28} color={'#B6B6CA'} icon="community" />
+          </NavLink>
+        </li>
+        <li>
+          <NavLink to="/menu" className={({ isActive }) => (isActive ? 'active' : 'not')}>
+            <Icon size={28} color={'#B6B6CA'} icon="menu" />
+          </NavLink>
+        </li>
+      </ul>
+    </FooterStyled>
   );
 };
 
