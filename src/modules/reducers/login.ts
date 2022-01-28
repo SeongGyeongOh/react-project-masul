@@ -1,17 +1,6 @@
 import produce from 'immer';
 import { action } from 'typesafe-actions';
 
-// export const firebaseConfig = {
-//   apiKey: 'AIzaSyDRrAdASG2BR60Rpzl2_vE0EwYgiO1dHa0',
-//   authDomain: 'exfirebasedb.firebaseapp.com',
-//   databaseURL: 'https://exfirebasedb.firebaseio.com',
-//   projectId: 'exfirebasedb',
-//   storageBucket: 'exfirebasedb.appspot.com',
-//   messagingSenderId: '565903642129',
-//   appId: '1:565903642129:web:30c337526f91a6e8c8abb0',
-//   measurementId: 'G-FPZNNC8Y09',
-// };
-
 export type LoginState = {
   isLogin: boolean;
 };
@@ -25,16 +14,26 @@ export const NAVER_LOGIN = 'NAVER_LOGIN';
 export const KAKAO_LOGIN = 'KAKAO_LOGIN';
 export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
 export const LOGIN_FAIL = 'LOGIN_FAIL';
+export const LOGOUT = 'LOGOUT';
+export const LOGOUT_SUCCESS = 'LOGOUT_SUCCESS';
+export const LOGOUT_FAIL = 'LOGOUT_FAIL';
 
 export type Action =
   | { type: 'GOOGLE_LOGIN' }
   | { type: 'NAVER_LOGIN' }
   | { type: 'KAKAO_LOGIN' }
   | { type: 'LOGIN_SUCCESS' }
-  | { type: 'LOGIN_FAIL' };
+  | { type: 'LOGIN_FAIL' }
+  | { type: 'LOGOUT' }
+  | { type: 'LOGOUT_SUCCESS' }
+  | { type: 'LOGOUT_FAIL' };
 
 export const googleLogin = {
   type: GOOGLE_LOGIN,
+};
+
+export const logout = {
+  type: LOGOUT,
 };
 
 const login = (state = initialState, action: Action) =>
@@ -48,6 +47,11 @@ const login = (state = initialState, action: Action) =>
         draft.isLogin = true;
         break;
       case LOGIN_FAIL:
+      case LOGOUT:
+      case LOGOUT_SUCCESS:
+        draft.isLogin = false;
+        break;
+      case LOGOUT_FAIL:
       default:
         return state;
     }

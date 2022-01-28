@@ -1,6 +1,6 @@
 import { googleLogin } from './../modules/reducers/login';
 import { initializeApp } from 'firebase/app';
-import { getAuth, GoogleAuthProvider, onAuthStateChanged, signInWithPopup } from 'firebase/auth';
+import { getAuth, GoogleAuthProvider, onAuthStateChanged, signInWithPopup, signOut } from 'firebase/auth';
 
 const firebaseConfig = {
   apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
@@ -34,5 +34,15 @@ export class LoginService {
         console.log('로그아웃');
       }
     });
+  }
+
+  onLogout() {
+    signOut(this.auth)
+      .then(() => {
+        console.log('로그아웃 성공');
+      })
+      .catch((error) => {
+        console.log('로그아웃 에러');
+      });
   }
 }

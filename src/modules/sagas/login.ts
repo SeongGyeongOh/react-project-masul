@@ -1,6 +1,16 @@
+import { LOGOUT } from './../reducers/login';
 import { LoginService } from './../../service/firebase';
 import { all, fork, put, takeLatest, call, takeEvery } from 'redux-saga/effects';
-import { GOOGLE_LOGIN, NAVER_LOGIN, KAKAO_LOGIN, LOGIN_SUCCESS, LOGIN_FAIL, Action } from '../reducers/login';
+import {
+  GOOGLE_LOGIN,
+  NAVER_LOGIN,
+  KAKAO_LOGIN,
+  LOGIN_SUCCESS,
+  LOGIN_FAIL,
+  LOGOUT_SUCCESS,
+  LOGOUT_FAIL,
+  Action,
+} from '../reducers/login';
 
 const login = new LoginService();
 
@@ -28,7 +38,22 @@ function* kakaoLogin(action: Action) {
   // 카카오 로그인
 }
 
+function* logout(action: Action) {
+  try {
+    login.onLogout();
+    yield put({
+      type: LOGOUT_SUCCESS,
+    });
+  } catch (error) {
+    console.log(error);
+    yield put({
+      type: LOGOUT_FAIL,
+    });
+  }
+}
+
 export default function* loginSaga() {
+  yield takeEvery(LOGOUT, logout);
   yield takeEvery(GOOGLE_LOGIN, googleLogin);
   yield takeEvery(NAVER_LOGIN, naverLogin);
   yield takeEvery(KAKAO_LOGIN, kakaoLogin);

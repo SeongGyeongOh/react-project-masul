@@ -12,6 +12,11 @@ const StyledButton = styled(Button)`
   font-size: 1.4rem;
   background-color: rgba(0, 0, 0, 0);
   border-radius: 0.5rem;
+  &:hover {
+    border: 2px solid white;
+    opacity: 0.8;
+    color: #5d94b6;
+  }
 `;
 
 type PropsType = {

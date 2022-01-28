@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 import LoginConponent from '../components/LoginComponent';
 import { RootState } from '../modules/reducers';
-import { googleLogin, GOOGLE_LOGIN, LoginState } from '../modules/reducers/login';
+import { googleLogin, logout } from '../modules/reducers/login';
 import logo_main from '../assets/logo/logo_main.png';
 
 const StyledDiv = styled.div`
@@ -15,7 +15,7 @@ const StyledDiv = styled.div`
   background-repeat: no-repeat;
   background-color: #33434d;
   display: flex;
-  padding-top: 8rem;
+  padding-top: 15rem;
   flex-direction: column;
   justify-content: center;
   align-items: center;
@@ -33,13 +33,17 @@ export const LoginContainer = () => {
     dispatch(googleLogin);
   };
 
+  const handleLogout = () => {
+    dispatch(logout);
+  };
+
   useEffect(() => {
     // console.log(isLogin);
   });
 
   return (
     <StyledDiv>
-      <LoginConponent handleLogin={handleLogin} />
+      <LoginConponent handleLogin={handleLogin} handleLogout={handleLogout} isLogin={isLogin} />
     </StyledDiv>
   );
 };
