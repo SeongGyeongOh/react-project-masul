@@ -6,6 +6,12 @@ import Login from './pages/Login';
 import Recommend from './pages/Recommend';
 import Community from './pages/Community';
 
+declare global {
+  interface Window {
+    Kakao: any;
+  }
+}
+
 const App = () => {
   return (
     <BrowserRouter>

@@ -1,11 +1,20 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
-import LoginConponent from '../components/LoginComponent';
+import LoginComponent from '../components/LoginComponent';
 import { RootState } from '../modules/reducers';
-import { googleLogin, logout } from '../modules/reducers/login';
+import {
+  googleLogin,
+  logout,
+  loginStateChanged,
+  loginSuccess,
+  logoutSuccess,
+  kakaoLogin,
+} from '../modules/reducers/login';
 import logo_main from '../assets/logo/logo_main.png';
+import { LoginService } from '../service/loginService';
+import { useNavigate } from 'react-router-dom';
 
 const StyledDiv = styled.div`
   width: 100%;
@@ -23,27 +32,53 @@ const StyledDiv = styled.div`
 
 export const LoginContainer = () => {
   const dispatch = useDispatch();
+  const loginService = new LoginService();
+  const navigate = useNavigate();
+
   const { isLogin } = useSelector((state: RootState) => ({
     isLogin: state.login.isLogin,
   }));
 
-  console.log('로그인 확인', isLogin);
+  console.log('로그인 컨테이너', isLogin);
+  const handleLogin = (e: React.MouseEvent<HTMLElement, MouseEvent>) => {
+    e.preventDefault();
+    if (e.currentTarget.id === 'google') {
+      dispatch(googleLogin);
+    }
 
-  const handleLogin = () => {
-    dispatch(googleLogin);
+    if (e.currentTarget.id === 'kakao') {
+      dispatch(kakaoLogin);
+    }
+
+    // navigate('/');
   };
 
   const handleLogout = () => {
     dispatch(logout);
   };
 
-  useEffect(() => {
-    // console.log(isLogin);
-  });
+  // const kakaoLogin = () => {
+  //   window.Kakao.Auth.login({
+  //     success: (response: any) => {
+  //       window.Kakao.API.request({
+  //         url: '/v2/user/me',
+  //         success: (res: any) => {
+  //           console.log('사용자 정보', res);
+  //         },
+  //       });
+  //     },
+  //     fail: (err: any) => {
+  //       // console.log(err);
+  //       alert(JSON.stringify(err));
+  //     },
+  //   });
+  // };
+
+  useEffect(() => {}, []);
 
   return (
     <StyledDiv>
-      <LoginConponent handleLogin={handleLogin} handleLogout={handleLogout} isLogin={isLogin} />
+      <LoginComponent handleLogin={handleLogin} handleLogout={handleLogout} isLogin={isLogin} />
     </StyledDiv>
   );
 };

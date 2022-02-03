@@ -1,5 +1,6 @@
-import { LOGOUT } from './../reducers/login';
-import { LoginService } from './../../service/firebase';
+import { ggLogin } from './../../service/loginService';
+import { useDispatch } from 'react-redux';
+import { LoginService } from '../../service/loginService';
 import { all, fork, put, takeLatest, call, takeEvery } from 'redux-saga/effects';
 import {
   GOOGLE_LOGIN,
@@ -10,13 +11,16 @@ import {
   LOGOUT_SUCCESS,
   LOGOUT_FAIL,
   Action,
+  LOGOUT,
+  LOGIN_STATE_CHANGED,
 } from '../reducers/login';
+import { async } from '@firebase/util';
 
-const login = new LoginService();
+const loginService = new LoginService();
 
 function* googleLogin(action: Action) {
   try {
-    login.googleLogin();
+    yield call(ggLogin);
     yield put({
       type: LOGIN_SUCCESS,
     });
@@ -26,21 +30,29 @@ function* googleLogin(action: Action) {
       type: LOGIN_FAIL,
     });
   }
+}
 
-  login.onAuthChange();
+function* kakaoLogin(action: Action) {
+  try {
+    loginService.kakaoLogin();
+    yield put({
+      type: LOGIN_SUCCESS,
+    });
+  } catch (err) {
+    console.log(err);
+    yield put({
+      type: LOGIN_FAIL,
+    });
+  }
 }
 
 function* naverLogin(action: Action) {
   // 네이버 로그인
 }
 
-function* kakaoLogin(action: Action) {
-  // 카카오 로그인
-}
-
 function* logout(action: Action) {
   try {
-    login.onLogout();
+    loginService.onLogout();
     yield put({
       type: LOGOUT_SUCCESS,
     });

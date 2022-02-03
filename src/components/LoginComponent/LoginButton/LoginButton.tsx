@@ -21,11 +21,16 @@ const StyledButton = styled(Button)`
 
 type PropsType = {
   snsType: string;
-  handleLogin: () => void | null;
+  text: string;
+  handleLogin: (e: React.MouseEvent<HTMLElement, MouseEvent>) => void | null;
 };
 
-const LoginButton = ({ snsType, handleLogin }: PropsType) => {
-  return <StyledButton onClick={() => handleLogin()}>{snsType}</StyledButton>;
+const LoginButton = ({ snsType, text, handleLogin }: PropsType) => {
+  return (
+    <StyledButton id={snsType} onClick={(event) => handleLogin(event)}>
+      {text}
+    </StyledButton>
+  );
 };
 
 export default LoginButton;
