@@ -1,7 +1,9 @@
 import React from 'react';
-import { AlcholcupDetails } from '../../containers/AlcholcupDetails';
+import { AlcholcupContainers } from '../../containers/AlcholcupContainers';
 import MainLayout from '../../layout/MainLayout';
 
-export const Alcholcup = () => {
-  return <MainLayout child={<AlcholcupDetails />} />;
+const Alcholcup = () => {
+  return <MainLayout child={<AlcholcupContainers />} />;
 };
+
+export default Alcholcup;

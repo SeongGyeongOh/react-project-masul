@@ -8,7 +8,7 @@ const CommunityList = () => {
 
   const TableBox = styled(Table)`
     width: 100%;
-    backgroundcolor: red;
+    background-color: red;
   `;
 
   const data = [
