@@ -2,12 +2,17 @@
 import { combineReducers } from 'redux';
 import post from './post';
 import login from './login';
+import list from './list';
 
-// 여러 reducer를 사용하는 경우 reducer를 하나로 묶어주는 메소드입니다.
-// store에 저장되는 리듀서는 오직 1개입니다.
 const rootReducer = combineReducers({
   post,
   login,
+  list,
 });
 
+// 루트 리듀서를 내보내주세요.
 export default rootReducer;
+
+// 루트 리듀서의 반환값를 유추해줍니다
+// 추후 이 타입을 컨테이너 컴포넌트에서 불러와서 사용해야 하므로 내보내줍니다.
+export type RootState = ReturnType<typeof rootReducer>;
