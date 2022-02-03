@@ -1,7 +1,8 @@
+import { data } from './../data';
 import axios from 'axios';
 import { all, fork, put, takeLatest, call } from 'redux-saga/effects';
-
-import { LOAD_RESTAURANT_REQUEST, LOAD_RESTAURANT_SUCCESS, LOAD_RESTAURANT_FAILURE } from '../reducers/post';
+import { DataAction } from '../reducers/post';
+import { ADD_POST_REQUEST, ADD_POST_SUCCESS, ADD_POST_FAILURE } from '../reducers/post';
 
 function loadDataApi() {
   //   return axios.get(
@@ -9,22 +10,22 @@ function loadDataApi() {
   //   );
 }
 
-function* loadData() {
+function* postData(action: DataAction) {
   try {
     // const result = yield call(loadDataApi);
     yield put({
-      type: LOAD_RESTAURANT_SUCCESS,
+      type: ADD_POST_SUCCESS,
     });
   } catch (err) {
     console.error(err);
     yield put({
-      type: LOAD_RESTAURANT_FAILURE,
+      type: ADD_POST_FAILURE,
     });
   }
 }
 
 function* watchLoadData() {
-  yield takeLatest(LOAD_RESTAURANT_REQUEST, loadData);
+  yield takeLatest(ADD_POST_REQUEST, postData);
 }
 
 export default function* postSaga() {

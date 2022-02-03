@@ -2,12 +2,10 @@
 import { combineReducers } from 'redux';
 import post from './post';
 import login from './login';
-import list from './list';
 
 const rootReducer = combineReducers({
   post,
   login,
-  list,
 });
 
 // 루트 리듀서를 내보내주세요.

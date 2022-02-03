@@ -1,37 +1,52 @@
-import produce from "immer";
-
-// 초깃값 (상태가 객체가 아니라 그냥 숫자여도 상관 없습니다.)
-const initialState = {
-  apiData: [],
-  status: false,
-};
-
-// 액션 타입
-export const LOAD_RESTAURANT_REQUEST = "LOAD_RESTAURANT_REQUEST";
-export const LOAD_RESTAURANT_SUCCESS = "LOAD_RESTAURANT_SUCCESS";
-export const LOAD_RESTAURANT_FAILURE = "LOAD_RESTAURANT_FAILURE";
+export const ADD_POST_REQUEST = 'ADD_POST_REQUEST' as const;
+export const ADD_POST_SUCCESS = 'ADD_POST_SUCCESS' as const;
+export const ADD_POST_FAILURE = 'ADD_POST_FAILURE' as const;
 
 // 액션 생성 함수
-export const loadData = {
-  type: LOAD_RESTAURANT_REQUEST,
+export const addPost = (data: any) => {
+  return {
+    type: ADD_POST_REQUEST,
+    data: data,
+  };
 };
 
-const post = (state = initialState, action: any) =>
-  produce(state, (draft) => {
-    switch (action.type) {
-      case LOAD_RESTAURANT_REQUEST:
-        draft.status = false;
-        break;
-      case LOAD_RESTAURANT_SUCCESS:
-        draft.status = true;
-        draft.apiData.unshift();
-        break;
-      case LOAD_RESTAURANT_FAILURE:
-        draft.status = false;
-        break;
-      default:
-        return state;
-    }
-  });
+// 모든 액션 객체들에 대한 타입 준비
+export type DataAction = ReturnType<typeof addPost>;
+
+// 상태에서 사용 할 할 일 항목 데이터 타입 정의
+type IData = {
+  key: number;
+  title: string;
+  content: string;
+  nickName: string;
+  date: string;
+  heart: number;
+};
+
+type DataProps = {
+  key: number;
+  title: string;
+  content: string;
+  nickName: string;
+  date: string;
+  heart: number;
+};
+
+type PostState = {
+  data: DataProps[];
+};
+
+// 초기상태를 선언합니다.
+const initialState: PostState = {
+  data: [],
+};
+// 리듀서 작성
+function post(state: PostState = initialState, action: DataAction): PostState {
+  switch (action.type) {
+    case ADD_POST_REQUEST:
+    default:
+      return state;
+  }
+}
 
 export default post;

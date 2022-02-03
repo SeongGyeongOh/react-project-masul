@@ -1,13 +1,13 @@
-import React, { useState } from 'react';
+import React from 'react';
 import './CommunityInput.scss';
 import { Input } from 'antd';
 
 type ListProps = {
   content: string;
   title: string;
-  onChangeTitle: any;
-  onChangeContent: any;
-  onSubmit: any;
+  onChangeTitle: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onChangeContent: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
+  onSubmit: (e: React.MouseEvent<HTMLButtonElement>) => void;
 };
 
 const CommunityInput = ({ title, content, onChangeTitle, onChangeContent, onSubmit }: ListProps) => {
