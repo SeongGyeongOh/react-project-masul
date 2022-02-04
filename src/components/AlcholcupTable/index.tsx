@@ -1,59 +1,40 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { useState, useEffect } from 'react';
-import styled from 'styled-components';
-import Icon from '../../const/Icons/Icon';
-import { data } from '../../modules/data';
+import AlcholcupCard from './AlcholcupCard';
+import { Button } from 'antd';
+import { useDispatch, useSelector } from 'react-redux';
+import { AlcholStyled } from './styled';
+import { alcholRequestData } from '../../modules/reducers/alcholcup';
+import Loading from '../Loading';
 
-const AlcholStyled = styled.div`
-  .tableWrap {
-    padding: 5px;
+export const AlcholcupTable = ({ alcholcup }: any) => {
+  const [showAlcholcup, setShowAlcholcup] = useState(false);
+  const [visible, setVisible] = useState(true);
+  const dispatch = useDispatch();
+  const { alcholLoading } = useSelector((state: any) => state.alcholcup);
 
-    .table__box {
-      text-align: center;
-      width: 100%;
-      height: 19rem;
-      background-color: #ddd;
-      margin-bottom: 10px;
-      p {
-        font-size: 1.6rem;
-        position: absolute;
-        left: 50%;
-        transform: translateX(-50%);
-        bottom: 2%;
-      }
-    }
-  }
-`;
-
-export const AlcholcupTable = () => {
-  const [alchol, setAlchol] = useState(data);
-  const [displays, setDisplays] = useState([alchol]);
-  const [winners, setWinners] = useState([]);
-
-  useEffect(() => {
-    data.sort(() => Math.random() - 0.5).slice(0, 64);
-
-    setAlchol(data);
-    // setDisplays([data[0], data[1]]);
+  const loadAlcholDatas = useCallback(() => {
+    setShowAlcholcup(true);
+    setVisible(false);
   }, []);
 
-  console.log(data.sort(() => Math.random() - 0.5).slice(0, 64));
+  useEffect(() => {
+    dispatch(alcholRequestData());
+  }, []);
+
   return (
-    <AlcholStyled>
-      <div className="tableWrap">
-        <div className="table__box position-relative">
-          <div className="table__img">
-            <img src="" alt="" />
-          </div>
-          <p>햄버거</p>
-        </div>
-        <div className="table__box position-relative">
-          <div className="table__img">
-            <img src="" alt="" />
-          </div>
-          <p>라멘</p>
-        </div>
-      </div>
-    </AlcholStyled>
+    <>
+      <AlcholStyled>
+        {alcholLoading
+          ? !showAlcholcup && <Loading />
+          : visible && (
+              <Button className="alcholcupBtn" type="primary" onClick={loadAlcholDatas}>
+                술드컵 시작🍺
+              </Button>
+            )}
+        {showAlcholcup ? <AlcholcupCard alcholcup={alcholcup} /> : null}
+        {/* <div className="round">현재 라운드 진행상황 : 64 / 64</div> */}
+      </AlcholStyled>
+    </>
   );
 };

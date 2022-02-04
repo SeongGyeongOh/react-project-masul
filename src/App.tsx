@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Home from './pages/Home';
-import { Alcholcup } from './pages';
+import Alcholcup from './pages/Alcholcup';
 import Login from './pages/Login';
 import Recommend from './pages/Recommend';
 import Community from './pages/Community';
