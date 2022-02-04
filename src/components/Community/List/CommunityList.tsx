@@ -1,5 +1,6 @@
 import React from 'react';
 import './CommunityList.scss';
+import Icon from '../../../const/Icons/Icon';
 
 type DataProps = {
   key: number;
@@ -7,36 +8,41 @@ type DataProps = {
   content: string;
   nickName: string;
   date: string;
-  heart: number;
 };
 
 type dataTaype = {
   data: DataProps[];
+  clickDeletePost: (key: number) => void;
 };
 
-const CommunityList = ({ data }: dataTaype) => {
-  console.log(data);
-  //   const data = [
-  //     {
-  //       key: 1, // key
-  //       title: '마정한바보', // 제목
-  //       content: '멍청청', // 내용
-  //       nickName: '빛나리', // 닉네임
-  //       date: '2022-01-27 15:42', // 등록일
-  //     },
-  //   ];
-
-  return (
-    <div className="community">
-      <div className="community__top">
-        <div className="community__top__nickname">
-          <span>J</span>
+const CommunityList = ({ data, clickDeletePost }: dataTaype) => {
+  const postList = data.map((item) => {
+    return (
+      <div className="community" key={item.key}>
+        <div className="community__top">
+          <div className="community__top__nickname">
+            <span>j</span>
+          </div>
+          <div className="community__top__info">
+            <div>{item.nickName}</div>
+            <div className="community__top__info__date">{item.title}</div>
+          </div>
         </div>
-        <div className="community__top__title"></div>
+        <div className="community__middles">{item.content}</div>
+        <div className="community__bottom">
+          <div className="community__bottom__icon">
+            <div>
+              <Icon size={21} color={'#B6B6CA'} icon="modify" />
+            </div>
+            <div onClick={() => clickDeletePost(item.key)}>
+              <Icon size={21} color={'#B6B6CA'} icon="garbage" />
+            </div>
+          </div>
+        </div>
       </div>
-      <div className="community__middle"></div>
-      <div className="community__bottom"></div>
-    </div>
-  );
+    );
+  });
+
+  return <ul>{postList}</ul>;
 };
 export default CommunityList;

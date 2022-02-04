@@ -1,4 +1,5 @@
 .community {
+  margin-top: 12px;
   width: 100%;
   height: 160px;
   box-sizing: border-box;
@@ -6,4 +7,49 @@
   display: flex;
   flex-direction: column;
   padding: 12px;
+  .community__top {
+    display: flex;
+    justify-content: space-between;
+    flex: 1;
+
+    .community__top__nickname {
+      height: 3rem;
+      width: 3rem;
+      display: flex;
+      justify-content: center;
+      span {
+        height: 2rem;
+        width: 2rem;
+        background-color: red;
+        border-radius: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+    }
+    .community__top__info {
+      width: 16.5rem;
+      display: flex;
+      justify-content: space-between;
+    }
+  }
+  .community__middles {
+    flex: 2;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    word-wrap: break-word;
+    display: -webkit-box;
+    -webkit-line-clamp: 2; /* ellipsis line */
+    -webkit-box-orient: vertical;
+  }
+  .community__bottom {
+    padding-top: 0.5rem;
+    flex: 1;
+    display: flex;
+    justify-content: end;
+    .community__bottom__icon {
+      display: flex;
+      gap: 1rem;
+    }
+  }
 }
