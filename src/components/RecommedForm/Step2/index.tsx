@@ -9,7 +9,11 @@ const condition = [
   { id: 3, url: present, condition: 'present', txt: '선물' },
 ];
 
-const Step2 = () => {
+type PropsTypsStep = {
+  stepOne: any;
+};
+
+const Step2 = ({ stepOne }: PropsTypsStep) => {
   return (
     <div className="step step2">
       <div className="step_layout step2">

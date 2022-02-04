@@ -17,7 +17,7 @@ const RecommendDetails = () => {
   // const recomData = useSelector(state => state.)
 
   return (
-    <div className="recomendDetails_wrap">
+    <div className="recommendDetails_wrap">
       <RecommendForm recommendData={recommendData} data={data} />
     </div>
   );
