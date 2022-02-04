@@ -45,8 +45,8 @@ function* naverLoginSaga(action: LoginAction) {}
 function* setUserNicknameSaga(action: LoginAction) {
   try {
     // db에 유저 정보 올리기!!
-    const payload = action.payload?.valueOf();
-    console.log(payload);
+    // const payload: string | UserType | { snsType: string; nickName: string } | undefined = action.payload;
+    // console.log('액션', action);
   } catch (err) {
     console.log(err);
   }
