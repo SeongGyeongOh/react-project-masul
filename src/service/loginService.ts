@@ -15,8 +15,12 @@ export class LoginService {
   provider = new GoogleAuthProvider();
 
   googleLogin = async () => {
-    const res = await signInWithPopup(this.auth, this.provider);
-    const data = res.user.uid;
+    try {
+      await signInWithPopup(this.auth, this.provider);
+      console.log('구글 로그인 성공');
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   googleLogout = async () => {
@@ -36,12 +40,7 @@ export class LoginService {
   kakaoLogin() {
     window.Kakao.Auth.login({
       success: (response: any) => {
-        window.Kakao.API.request({
-          url: '/v2/user/me',
-          success: (res: any) => {
-            console.log('사용자 정보', res);
-          },
-        });
+        console.log('카카오 로그인 성공');
       },
       fail: (err: any) => {
         console.log(err);

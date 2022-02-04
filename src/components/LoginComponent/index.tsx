@@ -8,9 +8,7 @@ type Props = {
   isLogin: boolean;
 };
 
-const LoginComponent = ({ handleLogin, handleLogout, isLogin }: Props) => {
-  console.log('로그인 컴포넌트', isLogin);
-
+const LoginComponent = ({ handleLogin }: Props) => {
   return (
     <>
       <LoginButton snsType="kakao" text="카카오 로그인" handleLogin={handleLogin} />
