@@ -22,11 +22,6 @@ const type = [
   { id: 9, url: b, type: '브랜디' },
 ];
 
-// const [data, setData] = useState<boolean>(false);
-// const stateCh = (e: any) => {
-//   setData(e);
-// };
-
 const Step1 = () => {
   return (
     <div className="step step1">

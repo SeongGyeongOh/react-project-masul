@@ -2,10 +2,15 @@ import React from 'react';
 import MultiSteps from './MultiSteps';
 import './recommend.scss';
 
-const index = () => {
+type Props = {
+  recommendData: () => void;
+  data: any;
+};
+
+const index = ({ recommendData, data }: Props) => {
   return (
     <div>
-      <MultiSteps />
+      <MultiSteps recommendData={recommendData} data={data} />
     </div>
   );
 };

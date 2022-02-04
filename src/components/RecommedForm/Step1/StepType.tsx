@@ -4,6 +4,7 @@ interface ChildProps {
   id: number;
   url: string;
   type: string;
+  // getCheck: (arg: boolean) => void;
   // stateCh: (e: any) => void;
   // data: boolean;
 }
