@@ -1,4 +1,3 @@
-import { kakaoLogin, googleLogin } from './../modules/reducers/login';
 import { initializeApp } from 'firebase/app';
 import { getAuth, GoogleAuthProvider, onAuthStateChanged, signInWithPopup, signOut, User } from 'firebase/auth';
 
@@ -9,33 +8,29 @@ const firebaseConfig = {
   projectId: process.env.REACT_APP_FIREBASE_PROJECT_ID,
 };
 
-export const ggLogin = async () => {
-  const auth = getAuth();
-  const provider = new GoogleAuthProvider();
-  const res = await signInWithPopup(auth, provider);
-  const data = res.user.uid;
-};
-
 export class LoginService {
   firebaseApp = initializeApp(firebaseConfig);
   auth = getAuth();
 
   provider = new GoogleAuthProvider();
 
+  googleLogin = async () => {
+    const res = await signInWithPopup(this.auth, this.provider);
+    const data = res.user.uid;
+  };
+
+  googleLogout = async () => {
+    try {
+      await signOut(this.auth);
+    } catch (err) {
+      console.log('로그아웃 에러', err);
+    }
+  };
+
   onAuthChange(onUserStateChange: (user: User | null) => void) {
     onAuthStateChanged(this.auth, (user) => {
       onUserStateChange(user);
     });
-  }
-
-  onLogout() {
-    signOut(this.auth)
-      .then(() => {
-        console.log('로그아웃 성공');
-      })
-      .catch((error) => {
-        console.log('로그아웃 에러');
-      });
   }
 
   kakaoLogin() {
@@ -53,4 +48,14 @@ export class LoginService {
       },
     });
   }
+
+  kakaoLogout = () => {
+    if (!window.Kakao.Auth.getAccessToken()) {
+      alert('Not logged in.');
+      return;
+    }
+    window.Kakao.Auth.logout(function () {
+      console.log('로그아웃 완료', window.Kakao.Auth.getAccessToken());
+    });
+  };
 }

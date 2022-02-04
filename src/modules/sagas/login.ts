@@ -1,72 +1,60 @@
-import { ggLogin } from './../../service/loginService';
+import {
+  logoutFailAction,
+  logoutSuccessAction,
+  loginSuccessAction,
+  LoginAction,
+  snsLoginAction,
+  logoutAction,
+} from './../reducers/login';
 import { useDispatch } from 'react-redux';
 import { LoginService } from '../../service/loginService';
 import { all, fork, put, takeLatest, call, takeEvery } from 'redux-saga/effects';
-import {
-  GOOGLE_LOGIN,
-  NAVER_LOGIN,
-  KAKAO_LOGIN,
-  LOGIN_SUCCESS,
-  LOGIN_FAIL,
-  LOGOUT_SUCCESS,
-  LOGOUT_FAIL,
-  Action,
-  LOGOUT,
-  LOGIN_STATE_CHANGED,
-} from '../reducers/login';
-import { async } from '@firebase/util';
 
 const loginService = new LoginService();
 
-function* googleLogin(action: Action) {
+// 구글 로그인
+function* snsLoginSaga(action: LoginAction) {
   try {
-    yield call(ggLogin);
-    yield put({
-      type: LOGIN_SUCCESS,
-    });
-  } catch (err) {
-    console.error(err);
-    yield put({
-      type: LOGIN_FAIL,
-    });
-  }
-}
+    if (action.payload === 'google') {
+      yield call(loginService.googleLogin);
+    }
 
-function* kakaoLogin(action: Action) {
-  try {
-    loginService.kakaoLogin();
+    if (action.payload === 'kakao') {
+      yield call(loginService.kakaoLogin);
+    }
+
     yield put({
-      type: LOGIN_SUCCESS,
+      type: loginSuccessAction.type,
     });
   } catch (err) {
     console.log(err);
-    yield put({
-      type: LOGIN_FAIL,
-    });
   }
 }
 
-function* naverLogin(action: Action) {
-  // 네이버 로그인
-}
+// 네이버 로그인
+function* naverLoginSaga(action: LoginAction) {}
 
-function* logout(action: Action) {
+function* logoutSaga(action: LoginAction) {
   try {
-    loginService.onLogout();
+    if (action.payload === 'google') {
+      yield call(loginService.googleLogout);
+    }
+    if (action.payload === 'kakao') {
+      yield call(loginService.kakaoLogout);
+    }
+
     yield put({
-      type: LOGOUT_SUCCESS,
+      type: logoutSuccessAction.type,
     });
   } catch (error) {
     console.log(error);
     yield put({
-      type: LOGOUT_FAIL,
+      type: logoutFailAction.type,
     });
   }
 }
 
 export default function* loginSaga() {
-  yield takeEvery(LOGOUT, logout);
-  yield takeEvery(GOOGLE_LOGIN, googleLogin);
-  yield takeEvery(NAVER_LOGIN, naverLogin);
-  yield takeEvery(KAKAO_LOGIN, kakaoLogin);
+  yield takeEvery(snsLoginAction, snsLoginSaga);
+  yield takeEvery(logoutAction, logoutSaga);
 }

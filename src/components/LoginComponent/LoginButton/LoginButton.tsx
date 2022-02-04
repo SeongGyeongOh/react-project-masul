@@ -2,7 +2,7 @@ import { Button } from 'antd';
 import React from 'react';
 import styled from 'styled-components';
 
-const StyledButton = styled(Button)`
+export const StyledButton = styled(Button)`
   color: white;
   font-weight: normal;
   border: 2px solid white;

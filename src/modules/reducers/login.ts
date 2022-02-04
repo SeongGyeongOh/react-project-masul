@@ -1,78 +1,70 @@
+import { AxiosError } from 'axios';
 import produce from 'immer';
-import { action } from 'typesafe-actions';
+import { action, ActionType, createAsyncAction, createReducer } from 'typesafe-actions';
+import { createAction } from '@reduxjs/toolkit';
 
 export type LoginState = {
   isLogin: boolean;
-  userId: any;
+  userId: string;
+  snsType: string;
+  nickName: string | null;
 };
 
 const initialState: LoginState = {
   isLogin: false,
-  userId: null,
+  userId: '',
+  snsType: '',
+  nickName: null,
 };
 
-export const GOOGLE_LOGIN = 'GOOGLE_LOGIN';
-export const NAVER_LOGIN = 'NAVER_LOGIN';
-export const KAKAO_LOGIN = 'KAKAO_LOGIN';
-export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
-export const LOGIN_FAIL = 'LOGIN_FAIL';
-export const LOGOUT = 'LOGOUT';
-export const LOGOUT_SUCCESS = 'LOGOUT_SUCCESS';
-export const LOGOUT_FAIL = 'LOGOUT_FAIL';
-export const LOGIN_STATE_CHANGED = 'LOGIN_STATE_CHANGED';
+export const snsLoginAction = createAction('SNS_LOGIN', (snsType: string) => {
+  return { payload: snsType };
+});
+export const loginSuccessAction = createAction('LOGIN_SUCCESS');
+export const loginFailAction = createAction('LOGIN_FAIL');
+export const logoutAction = createAction('LOGOUT', (snsType: string) => {
+  return { payload: snsType };
+});
 
-export type Action =
-  | { type: 'GOOGLE_LOGIN' }
-  | { type: 'NAVER_LOGIN' }
-  | { type: 'KAKAO_LOGIN' }
-  | { type: 'LOGIN_SUCCESS' }
-  | { type: 'LOGIN_FAIL' }
-  | { type: 'LOGOUT' }
-  | { type: 'LOGOUT_SUCCESS' }
-  | { type: 'LOGOUT_FAIL' }
-  | { type: 'LOGIN_STATE_CHANGED' };
+export const setNicknameAction = createAction('SET_NICKNAME', (nickName: string) => {
+  return { payload: nickName };
+});
+export const logoutSuccessAction = createAction('LOGOUT_SUCCESS');
+export const logoutFailAction = createAction('LOGOUT_FAIL');
 
-export const googleLogin = {
-  type: GOOGLE_LOGIN,
+const actions = {
+  snsLoginAction,
+  loginSuccessAction,
+  loginFailAction,
+  logoutAction,
+  logoutSuccessAction,
+  logoutFailAction,
+  setNicknameAction,
 };
 
-export const kakaoLogin = {
-  type: KAKAO_LOGIN,
-};
+export type LoginAction = ActionType<typeof actions>;
 
-export const logout = {
-  type: LOGOUT,
-};
-
-export const loginStateChanged = {
-  type: LOGIN_STATE_CHANGED,
-};
-
-export const loginSuccess = {
-  type: LOGIN_SUCCESS,
-};
-
-export const logoutSuccess = {
-  type: LOGOUT_SUCCESS,
-};
-
-const login = (state = initialState, action: Action) =>
+const login = (state = initialState, action: LoginAction) =>
   produce(state, (draft) => {
     switch (action.type) {
-      case GOOGLE_LOGIN:
-      case NAVER_LOGIN:
-      case KAKAO_LOGIN:
-      case LOGIN_SUCCESS:
-        draft.isLogin = true;
-        console.log(draft.isLogin);
+      case snsLoginAction.type:
+        draft.snsType = action.payload;
         break;
-      case LOGIN_FAIL:
-      case LOGOUT:
-      case LOGOUT_SUCCESS:
+      case loginSuccessAction.type:
+        draft.isLogin = true;
+        break;
+      case loginFailAction.type:
+        break;
+      case logoutAction.type:
+        break;
+      case logoutSuccessAction.type:
         draft.isLogin = false;
         break;
-      case LOGOUT_FAIL:
-      case LOGIN_STATE_CHANGED:
+      case logoutFailAction.type:
+        break;
+      case setNicknameAction.type:
+        draft.nickName = action.payload;
+        break;
       default:
         return state;
     }
