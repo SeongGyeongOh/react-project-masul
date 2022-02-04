@@ -1,5 +1,3 @@
-import { data } from './../data';
-import exp from 'constants';
 import produce from 'immer';
 
 export const ADD_POST_REQUEST = 'post/ADD_POST_REQUEST' as const;
@@ -9,6 +7,10 @@ export const ADD_POST_FAILURE = 'post/ADD_POST_FAILURE' as const;
 export const DELETE_POST_REQUEST = 'post/DELETE_POST_REQUEST' as const;
 export const DELETE_POST_SUCCESS = 'post/DELETE_POST_SUCCESS' as const;
 export const DELETE_POST_FAILURE = 'post/DELETE_POST_FAILURE' as const;
+// 액션 타입
+export const LOAD_RESTAURANT_REQUEST = 'LOAD_RESTAURANT_REQUEST';
+export const LOAD_RESTAURANT_SUCCESS = 'LOAD_RESTAURANT_SUCCESS';
+export const LOAD_RESTAURANT_FAILURE = 'LOAD_RESTAURANT_FAILURE';
 
 // 액션 생성 함수
 
