@@ -24,12 +24,10 @@ const type = [
 ];
 
 type PropsTypsStep = {
-  data: any;
-  stepOne: string;
   dataType: (arg: string) => void;
 };
 
-const Step1 = ({ data, dataType }: PropsTypsStep) => {
+const Step1 = ({ dataType }: PropsTypsStep) => {
   //StepType 자식에게 보내는 용의 useState
   const [parentType, setParentType] = useState<string>('');
 
@@ -40,14 +38,14 @@ const Step1 = ({ data, dataType }: PropsTypsStep) => {
 
   //parentType이 변경될 떄마다 dataType에 result를 담아 부모에게 전달!
   useEffect(() => {
-    const result = data.filter((recom: { type: string }) => {
-      {
-        if (recom.type === parentType) {
-          return true;
-        }
-      }
-    });
-    dataType(result);
+    // const result = data.filter((recom: { type: string }) => {
+    //   {
+    //     if (recom.type === parentType) {
+    //       return true;
+    //     }
+    //   }
+    // });
+    dataType(parentType);
   }, [parentType]);
 
   return (

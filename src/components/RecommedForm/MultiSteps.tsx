@@ -6,7 +6,13 @@ import Step3 from './Step3';
 import Step4 from './Step4';
 import { Steps, Step } from 'react-multistep-component';
 import { isConstructorDeclaration } from 'typescript';
-
+// const result = data.filter((recom: { type: string }) => {
+//   {
+//     if (recom.type === parentType) {
+//       return true;
+//     }
+//   }
+// });
 type PropsTyps = {
   recommendData: () => void;
   data: any;
@@ -21,13 +27,21 @@ const MultiSteps = ({ recommendData, data }: PropsTyps) => {
   };
   console.log(stepOne);
 
+  //Step2 자식한테 보내는 용의 useState
+  const [stepTwo, setStepTwo] = useState<string>('');
+  //StepCon 자식이 클릭한 type값을 가져와 dataType에 담음
+  const dataCon = (stepTwo: string): void => {
+    setStepTwo(stepTwo); //stepOne을 step2쪽으로 전달
+  };
+  console.log(stepTwo);
+
   return (
     <Steps currentStep={1} prevButton="prev">
       <Step>
-        <Step1 data={data} dataType={dataType} stepOne={stepOne} />
+        <Step1 dataType={dataType} />
       </Step>
       <Step>
-        <Step2 stepOne={stepOne} />
+        <Step2 dataCon={dataCon} />
       </Step>
       <Step>
         <Step3 />
