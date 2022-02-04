@@ -1,3 +1,4 @@
+import { LoginState } from './login';
 /** root reducer */
 import { combineReducers } from 'redux';
 import post from './post';
@@ -15,5 +16,4 @@ const rootReducer = combineReducers({
 });
 
 export default rootReducer;
-
 export type RootState = ReturnType<typeof rootReducer>;
