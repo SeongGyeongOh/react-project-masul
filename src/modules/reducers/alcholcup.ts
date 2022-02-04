@@ -34,6 +34,7 @@ const initialState: alcholcupProps = {
 };
 
 const dummyAlcholcup = data.sort(() => Math.random() - 0.5).slice(0, 16);
+const aa = [...data.sort(() => Math.random() - 0.5).slice(0, 16)];
 
 export type Action =
   | ReturnType<typeof alcholRequestData>
@@ -81,7 +82,6 @@ export const likeFailureData = (error: alcholcupProps) => {
 
 const alcholcup = (state: alcholcupProps = initialState, action: Action) =>
   produce(state, (draft) => {
-    const dummyAlcholcup = data.sort(() => Math.random() - 0.5).slice(0, 16);
     switch (action.type) {
       case ALCHOLCUP_REQUEST:
         draft.alcholLoading = true;

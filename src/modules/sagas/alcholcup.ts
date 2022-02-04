@@ -18,7 +18,10 @@ function addAlcholcupAPI(data: alcholcupProps) {
 
 function* addAlcholcup(action: Action) {
   console.log(action);
-  const dummyAlcholcup = data.sort(() => Math.random() - 0.5).slice(0, 16);
+
+  // const dummyAlcholcup = data.sort(() => Math.random() - 0.5).slice(0, 16);
+  const temp = [...data];
+  const dummyAlcholcup = temp.sort(() => Math.random() - 0.5).slice(0, 16);
   try {
     // const result = yield call(addAlcholcupAPI, action.data);
     yield delay(4500);

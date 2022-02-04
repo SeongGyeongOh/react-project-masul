@@ -7,13 +7,13 @@ type Props = {
   child: React.ReactNode;
 };
 
+const StyledLayout = styled.div`
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+`;
+
 const MainLayout = ({ child }: Props) => {
-  // const { child: ReactElement } = props
-  const StyledLayout = styled.div`
-    height: 100vh;
-    display: flex;
-    flex-direction: column;
-  `;
   return (
     <StyledLayout>
       <Header />
