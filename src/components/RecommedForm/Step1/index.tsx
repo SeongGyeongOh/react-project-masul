@@ -38,13 +38,6 @@ const Step1 = ({ dataType }: PropsTypsStep) => {
 
   //parentType이 변경될 떄마다 dataType에 result를 담아 부모에게 전달!
   useEffect(() => {
-    // const result = data.filter((recom: { type: string }) => {
-    //   {
-    //     if (recom.type === parentType) {
-    //       return true;
-    //     }
-    //   }
-    // });
     dataType(parentType);
   }, [parentType]);
 
