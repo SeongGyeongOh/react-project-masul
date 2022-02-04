@@ -1,6 +1,7 @@
 import React from 'react';
 import { AlcholcupTable } from '../components/AlcholcupTable';
 import styled from 'styled-components';
+import AlcholcupTitle from '../components/AlcholcupTable/AlcholcupTitle/index';
 
 const AlcholDetails = styled.div`
   .alcholDetails__wrap {
@@ -12,13 +13,13 @@ const AlcholDetails = styled.div`
   }
 `;
 
-export const AlcholcupDetails = () => {
+export const AlcholcupContainers = ({ alcholcup }: any) => {
+  // const datas: any = useSelector((state: any) => state.alcholcup);
+
   return (
     <AlcholDetails>
-      <div className="text-align-center margin-bottom-20 alcholDetails__wrap">
-        술드컵 : 좋아하거나, 괜찮아 보이는 원탑 술을 골라봐요~!
-      </div>
-      <AlcholcupTable />
+      <AlcholcupTitle />
+      <AlcholcupTable alcholcup={alcholcup} />
     </AlcholDetails>
   );
 };

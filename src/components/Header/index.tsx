@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import './Header.scss';
+import './header.scss';
 import { NavLink } from 'react-router-dom';
 import Logo from './Logo';
 import Icon from '../../const/Icons/Icon';
