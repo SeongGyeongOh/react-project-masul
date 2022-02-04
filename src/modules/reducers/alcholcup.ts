@@ -113,7 +113,6 @@ const alcholcup = (state: alcholcupProps = initialState, action: Action) =>
         draft.likeAlcholLoading = false;
         // draft.likeAlcholError = action.error;
         break;
-        break;
       default:
         break;
     }
