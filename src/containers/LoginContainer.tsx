@@ -45,10 +45,6 @@ export const LoginContainer = () => {
   const handleLogin = (e: React.MouseEvent<HTMLElement, MouseEvent>) => {
     e.preventDefault();
     dispatch(snsLoginAction(e.currentTarget.id));
-    // if (e.currentTarget.id === 'naver') {
-    //   console.log('네이버 로그인을 합시다');
-    // }
-    // navigate('/');
   };
 
   const handleLogout = () => {
@@ -56,6 +52,9 @@ export const LoginContainer = () => {
   };
 
   const setNickname = () => {
+    // const token =
+    //   snsType === 'google' ? loginService.auth.currentUser?.getIdToken() : window.Kakao.Auth.getAccessToken();
+    // console.log('토큰 확인', token);
     const nickname = nicknameInput.current?.state.value;
     nickname ? dispatch(setNicknameAction(nickname, userId, snsType)) : alert('닉네임을 입력해주세요');
   };
@@ -71,7 +70,7 @@ export const LoginContainer = () => {
           <StyledButton onClick={setNickname}>다음</StyledButton>
         </>
       )}
-      {isLogin && nickName !== null && <StyledButton onClick={() => handleLogout()}>로그아웃</StyledButton>}
+      {isLogin && nickName !== null && <StyledButton onClick={() => handleLogout()}>{nickName}</StyledButton>}
     </StyledDiv>
   );
 };

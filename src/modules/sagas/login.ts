@@ -7,16 +7,11 @@ import {
   logoutAction,
   setNicknameAction,
 } from './../reducers/login';
-import { useDispatch } from 'react-redux';
 import { LoginService } from '../../service/loginService';
 import { all, fork, put, takeLatest, call, takeEvery } from 'redux-saga/effects';
 import UserService from '../../service/userService';
+import { ActionType } from 'typesafe-actions';
 
-type UserType = {
-  nickName: string;
-  userId: string;
-  snsType: string;
-};
 const loginService = new LoginService();
 const userService = new UserService();
 
@@ -24,16 +19,19 @@ const userService = new UserService();
 function* snsLoginSaga(action: LoginAction) {
   try {
     if (action.payload === 'google') {
-      yield call(loginService.googleLogin);
+      yield put({
+        type: loginSuccessAction.type,
+        payload: action.payload,
+      });
     }
 
     if (action.payload === 'kakao') {
       yield call(loginService.kakaoLogin);
+      yield put({
+        type: loginSuccessAction.type,
+        payload: action.payload,
+      });
     }
-
-    yield put({
-      type: loginSuccessAction.type,
-    });
   } catch (err) {
     console.log(err);
   }
@@ -42,11 +40,25 @@ function* snsLoginSaga(action: LoginAction) {
 // 네이버 로그인
 function* naverLoginSaga(action: LoginAction) {}
 
-function* setUserNicknameSaga(action: LoginAction) {
+function* setUserNicknameSaga(action: ActionType<typeof setNicknameAction>) {
   try {
     // db에 유저 정보 올리기!!
-    // const payload: string | UserType | { snsType: string; nickName: string } | undefined = action.payload;
-    // console.log('액션', action);
+    const { userId, nickName, snsType } = action.payload;
+
+    if (snsType === 'kakao') {
+      window.Kakao.API.request({
+        url: '/v1/user/update_profile',
+        data: {
+          properties: {
+            nickname: nickName,
+          },
+        },
+      });
+    }
+
+    if (snsType === 'google') {
+      loginService.googleUpdateProfile(nickName);
+    }
   } catch (err) {
     console.log(err);
   }

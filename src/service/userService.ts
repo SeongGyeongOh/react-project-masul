@@ -12,15 +12,12 @@ export default class UserService {
 
   database = getDatabase();
 
-  upload(userId: string, nickName: string) {
+  upload(token: string, userId: string, nickName: string) {
     console.log('유저정보', userId, nickName);
-    // const db = this.database;
-    // set(ref(db, `masulUsers/${userId}`), {
-    //   userId: userId,
-    //   nickName: nickName,
-    // });
+    const db = this.database;
+    set(ref(db, `masulUsers/${token}`), {
+      userId: userId,
+      nickName: nickName,
+    });
   }
-
-  // 디비 작업
-  // userId : Date.now()
 }

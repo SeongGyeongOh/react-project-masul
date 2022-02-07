@@ -26,7 +26,9 @@ export type UserType = {
 export const snsLoginAction = createAction('SNS_LOGIN', (snsType: string) => {
   return { payload: snsType };
 });
-export const loginSuccessAction = createAction('LOGIN_SUCCESS');
+export const loginSuccessAction = createAction('LOGIN_SUCCESS', (userToken: string) => {
+  return { payload: userToken };
+});
 export const loginFailAction = createAction('LOGIN_FAIL');
 export const logoutAction = createAction('LOGOUT', (snsType: string) => {
   return { payload: snsType };
@@ -55,7 +57,7 @@ export const checkUserLogin = createAction('CHECK_USER_LOGIN', (snsType: string,
 export const logoutSuccessAction = createAction('LOGOUT_SUCCESS');
 export const logoutFailAction = createAction('LOGOUT_FAIL');
 
-const actions = {
+export const actions = {
   snsLoginAction,
   loginSuccessAction,
   loginFailAction,

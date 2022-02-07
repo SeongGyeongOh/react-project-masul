@@ -19,23 +19,40 @@ declare global {
 const App = () => {
   const loginService = new LoginService();
   const dispatch = useDispatch();
-  const { isLogin, snsType, nickName } = useSelector((state: RootState) => ({
+  const { isLogin, snsType } = useSelector((state: RootState) => ({
     isLogin: state.login.isLogin,
     snsType: state.login.snsType,
-    nickName: state.login.nickName,
+    // nickName: state.login.nickName,
   }));
 
   useEffect(() => {
     loginService.onAuthChange((user) => {
       if (user) {
+        // 이메일로 유저 특정
         // TODO : 유저 닉네임 가져오기
-        dispatch(checkUserLogin('google', '닉네임 안썼다ㅜㅜ'));
+        // console.log(user.email);
+        // console.log(user.getIdToken());
+        console.log('사용자 정보', user);
+        // dispatch(checkUserLogin('google', nickname || '닉네임 안썼다'));
       }
     });
 
     if (window.Kakao.Auth.getAccessToken()) {
-      // TODO : 유저 닉네임 가져오기
-      dispatch(checkUserLogin('kakao', '닉네임 안썼다ㅜㅜ'));
+      let nickname = '';
+      window.Kakao.API.request({
+        url: '/v2/user/me',
+        data: {
+          property_keys: ['properties.nickname'],
+        },
+        success: (response: any) => {
+          nickname = response.properties.nickname;
+          dispatch(checkUserLogin('kakao', nickname || '닉네임 안썼다'));
+          // console.log(response.properties.nickname);
+        },
+        fail: (error: any) => {
+          console.log(error);
+        },
+      });
     }
   }, []);
 
