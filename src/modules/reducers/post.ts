@@ -22,9 +22,10 @@ export const loadPostRequest = () => {
   };
 };
 
-export const loadPostSuccess = () => {
+export const loadPostSuccess = (data: DataProps) => {
   return {
     type: LOAD_POST_SUCCESS,
+    data: data,
   };
 };
 
@@ -55,17 +56,17 @@ export const addPostFailure = (data: DataProps) => {
 };
 
 // 게시글 삭제
-export const deletePostRequest = (key: number) => {
+export const deletePostRequest = (id: number) => {
   return {
     type: DELETE_POST_REQUEST,
-    data: key,
+    data: id,
   };
 };
 
-export const deletePostSuccess = (key: number) => {
+export const deletePostSuccess = (id: number) => {
   return {
     type: DELETE_POST_SUCCESS,
-    data: key,
+    data: id,
   };
 };
 
@@ -90,14 +91,14 @@ export type DataAction =
 // 상태에서 사용 할 할 일 항목 데이터 타입 정의
 
 export type DataProps = {
-  key: number;
+  id: number;
   title: string;
   content: string;
   nickName: string;
-  date: string;
+  status: string;
 };
 
-type PostState = {
+export type PostState = {
   data: DataProps[];
   addPostLoading: boolean;
   addPostDone: boolean;
@@ -105,6 +106,9 @@ type PostState = {
   deletePostLoading: boolean;
   deletePostDone: boolean;
   deletePostError: null;
+  loadPostLoading: boolean;
+  loadPostDone: boolean;
+  loadPostError: null;
 };
 
 // 초기상태를 선언합니다.
@@ -116,11 +120,30 @@ const initialState: PostState = {
   deletePostLoading: false,
   deletePostDone: false,
   deletePostError: null,
+  loadPostLoading: false,
+  loadPostDone: false,
+  loadPostError: null,
 };
 // 리듀서 작성
 const post = (state: PostState = initialState, action: DataAction) =>
   produce(state, (draft) => {
     switch (action.type) {
+      case LOAD_POST_REQUEST:
+        draft.addPostLoading = true;
+        draft.addPostDone = false;
+        draft.addPostError = null;
+        break;
+      case LOAD_POST_SUCCESS:
+        draft.addPostLoading = false;
+        draft.addPostDone = true;
+        draft.addPostError = null;
+        draft.data.unshift(action.data);
+        break;
+      case LOAD_POST_FAILURE:
+        draft.addPostLoading = false;
+        draft.addPostDone = false;
+        draft.addPostError = null;
+        break;
       case ADD_POST_REQUEST:
         draft.addPostLoading = true;
         draft.addPostDone = false;
@@ -146,7 +169,7 @@ const post = (state: PostState = initialState, action: DataAction) =>
         draft.deletePostLoading = false;
         draft.deletePostDone = true;
         draft.deletePostError = null;
-        draft.data = draft.data.filter((v) => v.key !== action.data);
+        draft.data = draft.data.filter((v) => v.id !== action.data);
         break;
       case DELETE_POST_FAILURE:
         draft.deletePostLoading = false;

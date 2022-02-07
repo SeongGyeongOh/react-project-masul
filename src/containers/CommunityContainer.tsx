@@ -8,7 +8,7 @@ import { RootState } from '../modules/reducers';
 const CommunityContainer = () => {
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
-  const [key, setKey] = useState(1);
+  const [id, setId] = useState(1);
 
   const dispatch = useDispatch();
 
@@ -26,20 +26,20 @@ const CommunityContainer = () => {
 
   const clickAddPost = () => {
     const result = {
-      key: key, // key
+      id: id, // key
       title: title, // 제목
       content: content, // 내용
       nickName: 'wjdgksak', // 닉네임
-      date: '2022-01-27 15:42', // 등록일
+      status: 'public', // 등록일
     };
     dispatch(addPostRequest(result));
-    setKey(key + 1);
+    setId(id + 1);
     setTitle('');
     setContent('');
   };
 
-  const clickDeletePost = (key: number) => {
-    dispatch(deletePostRequest(key));
+  const clickDeletePost = (id: number) => {
+    dispatch(deletePostRequest(id));
   };
 
   useEffect(() => {

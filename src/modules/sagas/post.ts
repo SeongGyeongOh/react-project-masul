@@ -11,21 +11,24 @@ import {
   LOAD_POST_SUCCESS,
   LOAD_POST_FAILURE,
 } from '../reducers/post';
+import { DataProps } from '../reducers/post';
 
-axios.defaults.baseURL = '172.20.2.115:6007';
+type resultType = {
+  data: DataProps[];
+};
 
 // 게시글 load
 function loadPostDataApi() {
-  return axios.get('/boards');
+  return axios.get('http://172.20.2.115:6007/boards');
 }
 
 function* loadPost() {
   try {
-    const result: Promise<AxiosResponse<any, any>> = yield call(loadPostDataApi);
-    console.log(result);
+    const result: resultType = yield call(loadPostDataApi);
+    const { data } = result;
     yield put({
       type: LOAD_POST_SUCCESS,
-      data: result,
+      data: data[0],
     });
   } catch (err) {
     console.error(err);
