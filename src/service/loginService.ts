@@ -27,15 +27,13 @@ export class LoginService {
   provider = new GoogleAuthProvider();
 
   googleLogin = async () => {
-    const result = await signInWithPopup(this.auth, this.provider);
-    return result.user.getIdToken();
+    await signInWithPopup(this.auth, this.provider);
   };
 
   googleUpdateProfile = (nickname: string) => {
-    console.log(this.auth.currentUser);
-    // updateProfile(this.auth.currentUser!, {
-    //   displayName: nickname,
-    // });
+    updateProfile(this.auth.currentUser!, {
+      displayName: nickname,
+    });
   };
 
   googleLogout = async () => {

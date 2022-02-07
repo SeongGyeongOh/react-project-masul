@@ -52,9 +52,6 @@ export const LoginContainer = () => {
   };
 
   const setNickname = () => {
-    // const token =
-    //   snsType === 'google' ? loginService.auth.currentUser?.getIdToken() : window.Kakao.Auth.getAccessToken();
-    // console.log('토큰 확인', token);
     const nickname = nicknameInput.current?.state.value;
     nickname ? dispatch(setNicknameAction(nickname, userId, snsType)) : alert('닉네임을 입력해주세요');
   };

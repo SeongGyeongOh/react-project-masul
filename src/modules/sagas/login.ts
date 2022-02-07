@@ -19,6 +19,7 @@ const userService = new UserService();
 function* snsLoginSaga(action: LoginAction) {
   try {
     if (action.payload === 'google') {
+      yield call(loginService.googleLogin);
       yield put({
         type: loginSuccessAction.type,
         payload: action.payload,
