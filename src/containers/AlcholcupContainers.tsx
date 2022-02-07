@@ -1,7 +1,14 @@
-import React from 'react';
-import { AlcholcupTable } from '../components/AlcholcupTable';
+import React, { useState, useCallback, useEffect } from 'react';
+import { AlcholcupComponents } from '../components/AlcholcupComponents';
 import styled from 'styled-components';
-import AlcholcupTitle from '../components/AlcholcupTable/AlcholcupTitle/index';
+import { useSelector, useDispatch } from 'react-redux';
+import { RootState } from '../modules/reducers';
+import Loading from '../components/Loading';
+import { Button, Select } from 'antd';
+import { alcholRequestData } from '../modules/reducers/alcholcup';
+import { DataType } from '../modules/data';
+import RoundSelect from '../components/AlcholcupComponents/RoundSelect';
+import AlcholcupTitle from '../components/AlcholcupComponents/AlcholcupTitle';
 
 const AlcholDetails = styled.div`
   .alcholDetails__wrap {
@@ -13,13 +20,59 @@ const AlcholDetails = styled.div`
   }
 `;
 
-export const AlcholcupContainers = ({ alcholcup }: any) => {
-  // const datas: any = useSelector((state: any) => state.alcholcup);
+type AlcholcupType = {
+  visible: boolean;
+  showAlcholcup: boolean;
+  roundValue: number | undefined;
+  value: number;
+  alcholLists: DataType[];
+};
+
+export const AlcholcupContainers = () => {
+  // dispatch
+  const dispatch = useDispatch();
+
+  // useSelector
+  const alcholcupLists: DataType[] = useSelector((state: RootState) => state.alcholcup.data);
+
+  // useState
+  const [visible, setVisible] = useState(true);
+  const [showAlcholcup, setShowAlcholcup] = useState(false);
+  const [roundValue, setRoundValue] = useState(16);
+
+  // datas
+  const alcholLists = [...alcholcupLists].sort(() => Math.random() - 0.5).slice(0, roundValue);
+
+  // 이벤트
+  const loadAlcholDatas = useCallback(() => {
+    setVisible(false);
+    setShowAlcholcup(true);
+    dispatch(alcholRequestData());
+  }, []);
+
+  const handleChange = useCallback((value) => {
+    console.log(`selected ${value}`);
+    setRoundValue(value);
+  }, []);
+
+  console.log(alcholLists);
 
   return (
     <AlcholDetails>
       <AlcholcupTitle />
-      <AlcholcupTable alcholcup={alcholcup} />
+      {visible ? <RoundSelect handleChange={handleChange} /> : null}
+      {alcholcupLists.length < 0
+        ? showAlcholcup && <Loading />
+        : visible && (
+            <Button className="alcholcupBtn" type="primary" onClick={loadAlcholDatas} style={{ display: 'block' }}>
+              술드컵 시작🍺
+            </Button>
+          )}
+      {showAlcholcup ? (
+        <AlcholcupComponents alcholLists={alcholLists} roundValue={roundValue} />
+      ) : (
+        '준비중 입니다만,,,,🙈'
+      )}
     </AlcholDetails>
   );
 };

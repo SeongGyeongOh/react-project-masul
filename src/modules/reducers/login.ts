@@ -17,7 +17,7 @@ const initialState: LoginState = {
   nickName: null,
 };
 
-type UserType = {
+export type UserType = {
   nickName: string;
   userId: string;
   snsType: string;
@@ -33,12 +33,14 @@ export const logoutAction = createAction('LOGOUT', (snsType: string) => {
 });
 
 export const setNicknameAction = createAction('SET_NICKNAME', (nickName: string, userId: string, snsType: string) => {
+  const params: UserType = {
+    nickName: nickName,
+    userId: userId,
+    snsType: snsType,
+  };
+
   return {
-    payload: {
-      nickName: nickName,
-      userId: userId,
-      snsType: snsType,
-    },
+    payload: params,
   };
 });
 

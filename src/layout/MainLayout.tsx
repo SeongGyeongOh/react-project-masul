@@ -8,9 +8,15 @@ type Props = {
 };
 
 const StyledLayout = styled.div`
-  height: 100vh;
+  height: 90vh;
   display: flex;
+  overflow: auto;
   flex-direction: column;
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+  &::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, Opera*/
+  }
 `;
 
 const MainLayout = ({ child }: Props) => {
