@@ -1,23 +1,34 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { collapseTextChangeRangesAcrossMultipleVersions } from 'typescript';
 
 interface ChildProps {
   id: number;
   url: string;
   txt: string;
+  feeling:string;
+  clickSelData : (type: string,typeName:string) => void;
+  changeNum:(num:number) => void;
+  currentNum:number;
 }
 
-const StepFeeling = ({ id, url, txt }: ChildProps) => {
-  const [isFeeling, setFeeling] = useState<boolean>(false);
-  const feelingCl = () => {
-    setFeeling(!isFeeling);
-  };
+const StepFeeling = ({ id, url, txt,feeling,clickSelData,changeNum,currentNum}: ChildProps) => {
+  const [clickChild,setChild] = useState<string>('');
+
+  useEffect(()=>{
+    setChild('');
+    if(id===currentNum){
+      setChild('active');
+    }
+  },[currentNum])
 
   return (
-    <li key={id}>
-      <div onClick={feelingCl} className={isFeeling ? 'li_img active' : 'li_img'}>
+    <li onClick={()=>{
+      changeNum(id);
+      }}  className={clickChild=='active' ? 'active' : ''} key={id}>
+      <div onClick={()=>{clickSelData(feeling,'feeling')}} className='li_img'>
         <img src={url} />
       </div>
-      <div onClick={feelingCl} className={isFeeling ? 'li_txt active' : 'li_txt'}>
+      <div className='li_txt'>
         {txt}
       </div>
     </li>

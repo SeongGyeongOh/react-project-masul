@@ -9,20 +9,16 @@ const condition = [
   { id: 3, url: present, condition: 'present', txt: '선물' },
 ];
 type PropsTypsStep = {
-  dataCon: (arg: string) => void;
+  clickSelData : (type: string,typeName:string) => void;
 };
 
-const Step2 = ({ dataCon }: PropsTypsStep) => {
-  //StepCon 자식에게 보내는 용의 useState
-  const [parentCon, setParentCon] = useState<string>('');
-  //StepCon 자식이 클릭한 type값을 가져와서 필터 함수를 걸어, result라는 변수에 담음
-  const updateCon = (parentCon: string): void => {
-    setParentCon(parentCon);
-  };
-  //parentCon이 변경될 떄마다 dataCon에 result를 담아 부모에게 전달!
-  useEffect(() => {
-    dataCon(parentCon);
-  }, [parentCon]);
+const Step2 = ({ clickSelData, }: PropsTypsStep) => {
+
+  const [currentNum,setNum] = useState<number>(0);
+  const changeNum = (currentNum:number) => {
+    setNum(currentNum);
+  }
+
 
   return (
     <div className="step step2">
@@ -36,9 +32,10 @@ const Step2 = ({ dataCon }: PropsTypsStep) => {
                 url={list.url}
                 txt={list.txt}
                 condition={list.condition}
-                id={0}
-                parentCon={parentCon}
-                updateCon={updateCon}
+                id={list.id}
+                clickSelData={clickSelData}
+                changeNum={changeNum}
+                currentNum={currentNum}
               />
             );
           })}
