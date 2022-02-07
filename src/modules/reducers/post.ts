@@ -1,5 +1,10 @@
 import produce from 'immer';
 
+// 액션 타입
+export const LOAD_POST_REQUEST = 'post/LOAD_POST_REQUEST' as const;
+export const LOAD_POST_SUCCESS = 'post/LOAD_POST_SUCCESS' as const;
+export const LOAD_POST_FAILURE = 'post/LOAD_POST_FAILURE' as const;
+
 export const ADD_POST_REQUEST = 'post/ADD_POST_REQUEST' as const;
 export const ADD_POST_SUCCESS = 'post/ADD_POST_SUCCESS' as const;
 export const ADD_POST_FAILURE = 'post/ADD_POST_FAILURE' as const;
@@ -7,14 +12,28 @@ export const ADD_POST_FAILURE = 'post/ADD_POST_FAILURE' as const;
 export const DELETE_POST_REQUEST = 'post/DELETE_POST_REQUEST' as const;
 export const DELETE_POST_SUCCESS = 'post/DELETE_POST_SUCCESS' as const;
 export const DELETE_POST_FAILURE = 'post/DELETE_POST_FAILURE' as const;
-// 액션 타입
-export const LOAD_RESTAURANT_REQUEST = 'LOAD_RESTAURANT_REQUEST';
-export const LOAD_RESTAURANT_SUCCESS = 'LOAD_RESTAURANT_SUCCESS';
-export const LOAD_RESTAURANT_FAILURE = 'LOAD_RESTAURANT_FAILURE';
 
 // 액션 생성 함수
 
 // 게시글 생성
+export const loadPostRequest = () => {
+  return {
+    type: LOAD_POST_REQUEST,
+  };
+};
+
+export const loadPostSuccess = () => {
+  return {
+    type: LOAD_POST_SUCCESS,
+  };
+};
+
+export const loadPostFailure = () => {
+  return {
+    type: LOAD_POST_FAILURE,
+  };
+};
+
 export const addPostRequest = (data: DataProps) => {
   return {
     type: ADD_POST_REQUEST,
@@ -58,6 +77,9 @@ export const deletePostFailure = () => {
 
 // 모든 액션 객체들에 대한 타입 준비
 export type DataAction =
+  | ReturnType<typeof loadPostRequest>
+  | ReturnType<typeof loadPostSuccess>
+  | ReturnType<typeof loadPostFailure>
   | ReturnType<typeof addPostRequest>
   | ReturnType<typeof addPostSuccess>
   | ReturnType<typeof addPostFailure>
@@ -124,7 +146,7 @@ const post = (state: PostState = initialState, action: DataAction) =>
         draft.deletePostLoading = false;
         draft.deletePostDone = true;
         draft.deletePostError = null;
-        draft.data = draft.data.filter((v) => v.key === action.data);
+        draft.data = draft.data.filter((v) => v.key !== action.data);
         break;
       case DELETE_POST_FAILURE:
         draft.deletePostLoading = false;

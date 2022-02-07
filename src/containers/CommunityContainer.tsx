@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import CommunityInput from '../components/Community/Input/CommunityInput';
 import CommunityList from '../components/Community/List/CommunityList';
 import { useDispatch, useSelector } from 'react-redux';
-import { addPostRequest, deletePostRequest } from '../modules/reducers/post';
+import { addPostRequest, deletePostRequest, loadPostRequest } from '../modules/reducers/post';
 import { RootState } from '../modules/reducers';
 
 const CommunityContainer = () => {
@@ -41,6 +41,10 @@ const CommunityContainer = () => {
   const clickDeletePost = (key: number) => {
     dispatch(deletePostRequest(key));
   };
+
+  useEffect(() => {
+    dispatch(loadPostRequest());
+  }, []);
 
   return (
     <>

@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios, { AxiosResponse } from 'axios';
 import { all, fork, put, takeLatest, call } from 'redux-saga/effects';
 import {
   ADD_POST_REQUEST,
@@ -7,7 +7,34 @@ import {
   DELETE_POST_REQUEST,
   DELETE_POST_SUCCESS,
   DELETE_POST_FAILURE,
+  LOAD_POST_REQUEST,
+  LOAD_POST_SUCCESS,
+  LOAD_POST_FAILURE,
 } from '../reducers/post';
+
+axios.defaults.baseURL = '172.20.2.115:6007';
+
+// 게시글 load
+function loadPostDataApi() {
+  return axios.get('/boards');
+}
+
+function* loadPost() {
+  try {
+    const result: Promise<AxiosResponse<any, any>> = yield call(loadPostDataApi);
+    console.log(result);
+    yield put({
+      type: LOAD_POST_SUCCESS,
+      data: result,
+    });
+  } catch (err) {
+    console.error(err);
+    yield put({
+      type: LOAD_POST_FAILURE,
+      error: err,
+    });
+  }
+}
 
 // 게시글추가
 function addPostDataApi() {
@@ -64,6 +91,10 @@ function* watchDeletePost() {
   yield takeLatest(DELETE_POST_REQUEST, deletePost);
 }
 
+function* watchLoadPost() {
+  yield takeLatest(LOAD_POST_REQUEST, loadPost);
+}
+
 export default function* postSaga() {
-  yield all([fork(watchAddPost), fork(watchDeletePost)]);
+  yield all([fork(watchAddPost), fork(watchDeletePost), fork(watchLoadPost)]);
 }
