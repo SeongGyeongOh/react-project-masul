@@ -25,7 +25,7 @@ type postType = {
   title: string;
   content: string;
   userId: string;
-  nickName: string;
+  nickName: string | null;
 };
 
 // 게시글 load
