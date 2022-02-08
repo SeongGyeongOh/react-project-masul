@@ -9,6 +9,10 @@ const CommunityContainer = () => {
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
 
+  // const arr: number[] = [1, 10, 3, 8, 5];
+  // const sort = arr.sort((a, b) => b - a);
+  // console.log(sort);
+
   const dispatch = useDispatch();
 
   const data = useSelector((state: RootState) => state.post.data);

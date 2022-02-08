@@ -143,7 +143,7 @@ const post = (state: PostState = initialState, action: DataAction) =>
         draft.addPostLoading = false;
         draft.addPostDone = true;
         draft.addPostError = null;
-        draft.data = action.data;
+        draft.data = action.data.sort((a, b) => b.id - a.id);
         break;
       case LOAD_POST_FAILURE:
         draft.addPostLoading = false;
@@ -175,7 +175,7 @@ const post = (state: PostState = initialState, action: DataAction) =>
         draft.deletePostLoading = false;
         draft.deletePostDone = true;
         draft.deletePostError = null;
-        draft.data = action.data;
+        draft.data = action.data.sort((a, b) => b.id - a.id);
         break;
       case DELETE_POST_FAILURE:
         draft.deletePostLoading = false;
