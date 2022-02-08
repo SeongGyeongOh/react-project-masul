@@ -37,11 +37,13 @@ export const loadPostFailure = () => {
   };
 };
 
-export const addPostRequest = (title: string, content: string) => {
+export const addPostRequest = (title: string, content: string, nickname: string, userId: string) => {
   return {
     type: ADD_POST_REQUEST,
     title: title,
     content: content,
+    nickName: nickname,
+    userId: userId,
   };
 };
 
@@ -97,7 +99,7 @@ export type DataProps = {
   id: number;
   title: string;
   content: string;
-  nickName?: string;
+  nickName: string;
   status?: string;
   created: string;
   updated: string;
