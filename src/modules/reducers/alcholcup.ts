@@ -1,15 +1,11 @@
 import produce from 'immer';
-import { data, DataType } from '../data';
+import { DataType } from '../sagas/alcholcup';
 
 export type alcholcupProps = {
-  alcholcupLists: DataType[];
   alcholLoading: boolean;
   alcholDone: boolean;
   alcholError: string | null;
-  likeAlcholLoading: boolean;
-  likeAlcholDone: boolean;
-  likeAlcholError: string | null;
-  data: object;
+  data: DataType[];
   error: string | null;
 };
 
@@ -17,66 +13,36 @@ export const ALCHOLCUP_REQUEST = 'ALCHOLCUP_REQUEST' as const;
 export const ALCHOLCUP_SUCCESS = 'ALCHOLCUP_SUCCESS' as const;
 export const ALCHOLCUP_FAILURE = 'ALCHOLCUP_FAILURE' as const;
 
-export const LIKE_ALCHOLCUP_REQUEST = 'LIKE_ALCHOLCUP_REQUEST' as const;
-export const LIKE_ALCHOLCUP_SUCCESS = 'LIKE_ALCHOLCUP_SUCCESS' as const;
-export const LIKE_ALCHOLCUP_FAILURE = 'LIKE_ALCHOLCUP_FAILURE' as const;
-
 const initialState: alcholcupProps = {
-  alcholcupLists: [],
   alcholLoading: false,
   alcholDone: false,
   alcholError: null,
-  likeAlcholLoading: false,
-  likeAlcholDone: false,
-  likeAlcholError: null,
   data: [],
-  error: null,
+  error: '',
 };
-
-const dummyAlcholcup = data.sort(() => Math.random() - 0.5).slice(0, 16);
-const aa = [...data.sort(() => Math.random() - 0.5).slice(0, 16)];
 
 export type Action =
   | ReturnType<typeof alcholRequestData>
   | ReturnType<typeof alcholSuccessData>
-  | ReturnType<typeof alcholFailureData>
-  | ReturnType<typeof likeRequestData>
-  | ReturnType<typeof likeSuccessData>
-  | ReturnType<typeof likeFailureData>;
+  | ReturnType<typeof alcholFailureData>;
 
 export const alcholRequestData = () => {
   return {
     type: ALCHOLCUP_REQUEST,
   };
 };
-export const alcholSuccessData = (data: alcholcupProps) => {
+
+export const alcholSuccessData = (data: DataType[]) => {
   return {
     type: ALCHOLCUP_SUCCESS,
-    data: data,
-  };
-};
-export const alcholFailureData = (error: alcholcupProps) => {
-  return {
-    type: ALCHOLCUP_FAILURE,
-    error: error,
+    data,
   };
 };
 
-export const likeRequestData = () => {
+export const alcholFailureData = (error: string) => {
   return {
-    type: LIKE_ALCHOLCUP_REQUEST,
-  };
-};
-export const likeSuccessData = (data: alcholcupProps) => {
-  return {
-    type: LIKE_ALCHOLCUP_SUCCESS,
-    data: data,
-  };
-};
-export const likeFailureData = (error: alcholcupProps) => {
-  return {
-    type: LIKE_ALCHOLCUP_FAILURE,
-    error: error,
+    type: ALCHOLCUP_FAILURE,
+    error,
   };
 };
 
@@ -91,27 +57,11 @@ const alcholcup = (state: alcholcupProps = initialState, action: Action) =>
       case ALCHOLCUP_SUCCESS:
         draft.alcholLoading = false;
         draft.alcholDone = true;
-        draft.alcholcupLists = dummyAlcholcup;
-        // console.log('reducer: ', (draft.alcholcupLists = data));
+        draft.data = action.data;
         break;
       case ALCHOLCUP_FAILURE:
         draft.alcholLoading = false;
-        // draft.alcholError = error;
-        break;
-      case LIKE_ALCHOLCUP_REQUEST:
-        draft.likeAlcholLoading = true;
-        draft.likeAlcholDone = false;
-        draft.likeAlcholError = null;
-        break;
-      case LIKE_ALCHOLCUP_SUCCESS:
-        // const alchol = draft.alcholcupLists.find((v) => v.id === action.data.PostId);
-        // alchol.Likers.push({ id: action.data.UserId });
-        draft.likeAlcholLoading = false;
-        draft.likeAlcholDone = true;
-        break;
-      case LIKE_ALCHOLCUP_FAILURE:
-        draft.likeAlcholLoading = false;
-        // draft.likeAlcholError = action.error;
+        draft.alcholError = action.error;
         break;
       default:
         break;

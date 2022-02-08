@@ -1,3 +1,7 @@
+import { RootState } from './../reducers/index';
+import { useSelector } from 'react-redux';
+import { addPostRequest, deletePostRequest } from './../reducers/post';
+import { ActionType } from 'typesafe-actions';
 import axios from 'axios';
 import { all, fork, put, takeLatest, call } from 'redux-saga/effects';
 import {
@@ -20,6 +24,8 @@ type resultType = {
 type postType = {
   title: string;
   content: string;
+  userId: string;
+  nickName: string | null;
 };
 
 // 게시글 load
@@ -31,7 +37,6 @@ function* loadPost() {
   try {
     const result: resultType = yield call(loadPostDataApi);
     const { data } = result;
-
     yield put({
       type: LOAD_POST_SUCCESS,
       data: data,
@@ -50,12 +55,13 @@ function addPostDataApi(data: postType) {
   return axios.post('http://172.20.2.115:6008/boards', data);
 }
 
-function* addPost(action: any) {
+function* addPost(action: ActionType<typeof addPostRequest>) {
   try {
     const data = {
-      userId: 'kakao123454',
       title: action.title,
       content: action.content,
+      nickName: action.nickName,
+      userId: action.userId,
     };
 
     const result: resultType = yield call(addPostDataApi, data);
@@ -77,12 +83,14 @@ function deletePostDataApi(data: number) {
   return axios.delete(`http://172.20.2.115:6008/boards/${data}`);
 }
 
-function* deletePost(action: any) {
+function* deletePost(action: ActionType<typeof deletePostRequest>) {
   try {
-    yield call(deletePostDataApi, action.data); // 삭제
+    // delete
+    yield call(deletePostDataApi, action.data);
+
+    // load
     const result: resultType = yield call(loadPostDataApi);
     const { data } = result;
-    console.log(data);
 
     yield put({
       type: DELETE_POST_SUCCESS,

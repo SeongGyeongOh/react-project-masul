@@ -8,16 +8,18 @@ type ListProps = {
   onChangeTitle: (e: React.ChangeEvent<HTMLInputElement>) => void;
   onChangeContent: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
   clickAddPost: (e: React.MouseEvent<HTMLButtonElement>) => void;
+  nickname: string | null;
 };
 
-const CommunityInput = ({ title, content, onChangeTitle, onChangeContent, clickAddPost }: ListProps) => {
+const CommunityInput = ({ title, content, onChangeTitle, onChangeContent, clickAddPost, nickname }: ListProps) => {
   const { TextArea } = Input;
+  const firstName = nickname?.slice(0, 1);
 
   return (
     <div className="community">
       <div className="community__top">
         <div className="community__top__nickname">
-          <span>j</span>
+          <span>{firstName}</span>
         </div>
         <div className="community__top__title">
           <Input placeholder="제목" value={title} onChange={onChangeTitle} />

@@ -37,11 +37,13 @@ export const loadPostFailure = () => {
   };
 };
 
-export const addPostRequest = (title: string, content: string) => {
+export const addPostRequest = (title: string, content: string, nickname: string | null, userId: string) => {
   return {
     type: ADD_POST_REQUEST,
     title: title,
     content: content,
+    nickName: nickname,
+    userId: userId,
   };
 };
 
@@ -97,7 +99,7 @@ export type DataProps = {
   id: number;
   title: string;
   content: string;
-  nickName?: string;
+  nickName: string;
   status?: string;
   created: string;
   updated: string;
@@ -143,7 +145,7 @@ const post = (state: PostState = initialState, action: DataAction) =>
         draft.addPostLoading = false;
         draft.addPostDone = true;
         draft.addPostError = null;
-        draft.data = action.data;
+        draft.data = action.data.sort((a, b) => b.id - a.id);
         break;
       case LOAD_POST_FAILURE:
         draft.addPostLoading = false;
@@ -175,7 +177,7 @@ const post = (state: PostState = initialState, action: DataAction) =>
         draft.deletePostLoading = false;
         draft.deletePostDone = true;
         draft.deletePostError = null;
-        draft.data = action.data;
+        draft.data = action.data.sort((a, b) => b.id - a.id);
         break;
       case DELETE_POST_FAILURE:
         draft.deletePostLoading = false;

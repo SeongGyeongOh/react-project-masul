@@ -16,23 +16,30 @@ type DataProps = {
 type dataTaype = {
   data: DataProps[];
   clickDeletePost: (id: number) => void;
+  userId: string;
 };
 
-const CommunityList = ({ data, clickDeletePost }: dataTaype) => {
+const CommunityList = ({ data, clickDeletePost, userId }: dataTaype) => {
+  console.log(userId);
+
   const postList = data.map((item) => {
+    // date 표시
     const parse = item.created;
     const today = new Date(parse);
-    // + '-' + today.getMonth() + '-' + today.getDay();
     const year = today.getFullYear();
     const month = today.getMonth() + 1;
     const day = today.getDate();
     const date = year + '-' + month + '-' + day;
 
+    // nickName 첫글자
+    const name = item.nickName;
+    const firstName = name?.slice(0, 1);
+
     return (
       <li className="community" key={item.id}>
         <div className="community__top">
           <div className="community__top__nickname">
-            <span>j</span>
+            <span>{firstName}</span>
           </div>
           <div className="community__top__info">
             <div>{item.nickName}</div>
@@ -44,7 +51,7 @@ const CommunityList = ({ data, clickDeletePost }: dataTaype) => {
         <div className="community__bottom">
           <div className="community__bottom__icon">
             <div onClick={() => clickDeletePost(item.id)}>
-              <Icon size={21} color={'#B6B6CA'} icon="garbage" />
+              {item.userId === userId ? <Icon size={21} color={'#B6B6CA'} icon="garbage" /> : null}
             </div>
           </div>
         </div>

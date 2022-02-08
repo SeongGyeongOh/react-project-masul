@@ -10,8 +10,9 @@ const CommunityContainer = () => {
   const [content, setContent] = useState('');
 
   const dispatch = useDispatch();
-
   const data = useSelector((state: RootState) => state.post.data);
+  const login = useSelector((state: RootState) => state.login);
+  const { nickname, userId } = login;
 
   const onChangeTitle = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target;
@@ -24,7 +25,7 @@ const CommunityContainer = () => {
   };
 
   const clickAddPost = () => {
-    dispatch(addPostRequest(title, content));
+    dispatch(addPostRequest(title, content, nickname, userId));
     setTitle('');
     setContent('');
   };
@@ -45,9 +46,10 @@ const CommunityContainer = () => {
         onChangeTitle={onChangeTitle}
         onChangeContent={onChangeContent}
         clickAddPost={clickAddPost}
+        nickname={nickname}
       />
       {data.length > 0 ? (
-        <CommunityList data={data} clickDeletePost={clickDeletePost} />
+        <CommunityList data={data} clickDeletePost={clickDeletePost} userId={userId} />
       ) : (
         <div>리스트 데이터가 없습니다.</div>
       )}
