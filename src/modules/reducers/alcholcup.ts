@@ -26,10 +26,9 @@ export type Action =
   | ReturnType<typeof alcholSuccessData>
   | ReturnType<typeof alcholFailureData>;
 
-export const alcholRequestData = (data: alcholcupProps[]) => {
+export const alcholRequestData = () => {
   return {
     type: ALCHOLCUP_REQUEST,
-    data,
   };
 };
 
