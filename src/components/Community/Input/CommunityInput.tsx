@@ -8,7 +8,7 @@ type ListProps = {
   onChangeTitle: (e: React.ChangeEvent<HTMLInputElement>) => void;
   onChangeContent: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
   clickAddPost: (e: React.MouseEvent<HTMLButtonElement>) => void;
-  nickname: string;
+  nickname: string | null;
 };
 
 const CommunityInput = ({ title, content, onChangeTitle, onChangeContent, clickAddPost, nickname }: ListProps) => {
