@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import Footer from '../components/Footer';
 import Header from '../components/Header';
+import HeaderContainer from '../containers/HeaderContainer';
 
 type Props = {
   child: React.ReactNode;
@@ -22,7 +23,7 @@ const StyledLayout = styled.div`
 const MainLayout = ({ child }: Props) => {
   return (
     <StyledLayout>
-      <Header />
+      <HeaderContainer />
       <div className="mainpd">{child}</div>
       <Footer />
     </StyledLayout>

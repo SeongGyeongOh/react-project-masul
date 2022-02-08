@@ -12,7 +12,6 @@ import rootSaga from './modules/sagas';
 import 'antd/dist/antd.min.css';
 
 const sagaMiddleware = createSagaMiddleware();
-
 const enhancer =
   process.env.NODE_ENV === 'production'
     ? compose(applyMiddleware(sagaMiddleware))

@@ -5,10 +5,8 @@ import Alcholcup from './pages/Alcholcup';
 import Login from './pages/Login';
 import Recommend from './pages/Recommend';
 import Community from './pages/Community';
-import { useDispatch, useSelector } from 'react-redux';
-import { LoginService } from './service/loginService';
-import { checkUserLogin, loginSuccessAction } from './modules/reducers/login';
-import { RootState } from './modules/reducers';
+import { useDispatch } from 'react-redux';
+import { checkUserLogin } from './modules/reducers/login';
 
 declare global {
   interface Window {
@@ -17,26 +15,10 @@ declare global {
 }
 
 const App = () => {
-  const loginService = new LoginService();
   const dispatch = useDispatch();
-  const { isLogin, snsType, nickName } = useSelector((state: RootState) => ({
-    isLogin: state.login.isLogin,
-    snsType: state.login.snsType,
-    nickName: state.login.nickName,
-  }));
 
   useEffect(() => {
-    loginService.onAuthChange((user) => {
-      if (user) {
-        // TODO : 유저 닉네임 가져오기
-        dispatch(checkUserLogin('google', '닉네임 안썼다ㅜㅜ'));
-      }
-    });
-
-    if (window.Kakao.Auth.getAccessToken()) {
-      // TODO : 유저 닉네임 가져오기
-      dispatch(checkUserLogin('kakao', '닉네임 안썼다ㅜㅜ'));
-    }
+    dispatch(checkUserLogin());
   }, []);
 
   return (
