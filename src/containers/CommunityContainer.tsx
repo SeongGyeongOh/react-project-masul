@@ -46,6 +46,7 @@ const CommunityContainer = () => {
         onChangeTitle={onChangeTitle}
         onChangeContent={onChangeContent}
         clickAddPost={clickAddPost}
+        nickname={nickname}
       />
       {data.length > 0 ? (
         <CommunityList data={data} clickDeletePost={clickDeletePost} userId={userId} />

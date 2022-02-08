@@ -37,7 +37,6 @@ function* loadPost() {
   try {
     const result: resultType = yield call(loadPostDataApi);
     const { data } = result;
-    console.log(data);
     yield put({
       type: LOAD_POST_SUCCESS,
       data: data,
