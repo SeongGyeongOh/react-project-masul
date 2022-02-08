@@ -5,6 +5,7 @@ import Alcholcup from './pages/Alcholcup';
 import Login from './pages/Login';
 import Recommend from './pages/Recommend';
 import Community from './pages/Community';
+import Menu from './pages/Menu';
 import { useDispatch, useSelector } from 'react-redux';
 import { LoginService } from './service/loginService';
 import { checkUserLogin, loginSuccessAction } from './modules/reducers/login';
@@ -47,7 +48,7 @@ const App = () => {
         <Route path="/login" element={<Login />} />
         <Route path="/community" element={<Community />} />
         <Route path="/alcoholcup" element={<Alcholcup />} />
-        <Route path="/menu" element={<></>} />
+        <Route path="/menu" element={<Menu />} />
         <Route path="/search" element={<></>} />
       </Routes>
     </BrowserRouter>
