@@ -4,6 +4,7 @@ import { action, ActionType, createAsyncAction, createReducer } from 'typesafe-a
 import { createAction } from '@reduxjs/toolkit';
 
 export type LoginState = {
+  uid: string | null;
   isLogin: boolean;
   userId: string;
   snsType: string;
@@ -11,6 +12,7 @@ export type LoginState = {
 };
 
 const initialState: LoginState = {
+  uid: null,
   isLogin: false,
   userId: '',
   snsType: '',
@@ -18,6 +20,7 @@ const initialState: LoginState = {
 };
 
 export type UserType = {
+  uid: string;
   nickname: string;
   userId: string;
   snsType: string;
@@ -26,25 +29,29 @@ export type UserType = {
 export const snsLoginAction = createAction('SNS_LOGIN', (snsType: string) => {
   return { payload: snsType };
 });
-export const loginSuccessAction = createAction('LOGIN_SUCCESS', (userToken: string) => {
-  return { payload: userToken };
+export const loginSuccessAction = createAction('LOGIN_SUCCESS', (uid: string) => {
+  return { payload: uid };
 });
 export const loginFailAction = createAction('LOGIN_FAIL');
 export const logoutAction = createAction('LOGOUT', (snsType: string) => {
   return { payload: snsType };
 });
 
-export const setNicknameAction = createAction('SET_NICKNAME', (nickname: string, userId: string, snsType: string) => {
-  const params: UserType = {
-    nickname: nickname,
-    userId: userId,
-    snsType: snsType,
-  };
+export const setNicknameAction = createAction(
+  'SET_NICKNAME',
+  (uid: string, nickname: string, userId: string, snsType: string) => {
+    const params: UserType = {
+      uid: uid,
+      nickname: nickname,
+      userId: userId,
+      snsType: snsType,
+    };
 
-  return {
-    payload: params,
-  };
-});
+    return {
+      payload: params,
+    };
+  },
+);
 
 export const checkUserLogin = createAction('CHECK_USER_LOGIN');
 
@@ -83,6 +90,7 @@ const login = (state = initialState, action: LoginAction) =>
       case loginSuccessAction.type:
         draft.isLogin = true;
         draft.userId = state.snsType + Date.now();
+        draft.uid = action.payload;
         break;
       case loginFailAction.type:
         break;
@@ -92,6 +100,7 @@ const login = (state = initialState, action: LoginAction) =>
         draft.isLogin = false;
         draft.nickname = null;
         draft.snsType = '';
+        draft.userId = '';
         break;
       case logoutFailAction.type:
         break;

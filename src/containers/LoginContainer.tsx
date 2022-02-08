@@ -35,7 +35,8 @@ export const LoginContainer = () => {
   const navigate = useNavigate();
   const nicknameInput = useRef<Input>(null);
 
-  const { isLogin, snsType, nickName, userId } = useSelector((state: RootState) => ({
+  const { uid, isLogin, snsType, nickName, userId } = useSelector((state: RootState) => ({
+    uid: state.login.uid,
     isLogin: state.login.isLogin,
     snsType: state.login.snsType,
     nickName: state.login.nickname,
@@ -53,7 +54,9 @@ export const LoginContainer = () => {
 
   const setNickname = () => {
     const nickname = nicknameInput.current?.state.value;
-    nickname ? dispatch(setNicknameAction(nickname, userId, snsType)) : alert('닉네임을 입력해주세요');
+    nickname
+      ? dispatch(setNicknameAction(uid || '잘못된 사용자', nickname, userId, snsType))
+      : alert('닉네임을 입력해주세요');
   };
 
   useEffect(() => {}, []);
@@ -67,7 +70,7 @@ export const LoginContainer = () => {
           <StyledButton onClick={setNickname}>다음</StyledButton>
         </>
       )}
-      {isLogin && nickName !== null && <StyledButton onClick={() => handleLogout()}>{nickName}</StyledButton>}
+      {isLogin && nickName !== null && <StyledButton onClick={() => handleLogout()}>로그아웃</StyledButton>}
     </StyledDiv>
   );
 };
