@@ -2,13 +2,14 @@ import { AxiosError } from 'axios';
 import produce from 'immer';
 import { action, ActionType, createAsyncAction, createReducer } from 'typesafe-actions';
 import { createAction } from '@reduxjs/toolkit';
+import { DRAFTABLE } from 'immer/dist/internal';
 
 export type LoginState = {
   uid: string | null;
   isLogin: boolean;
   userId: string;
   snsType: string;
-  nickname: string | null;
+  nickname: string;
 };
 
 const initialState: LoginState = {
@@ -16,7 +17,7 @@ const initialState: LoginState = {
   isLogin: false,
   userId: '',
   snsType: '',
-  nickname: null,
+  nickname: '',
 };
 
 export type UserType = {
@@ -55,9 +56,10 @@ export const setNicknameAction = createAction(
 
 export const checkUserLogin = createAction('CHECK_USER_LOGIN');
 
-export const loginStateAction = createAction('LOGIN_STATE', (snsType: string, nickname: string) => {
+export const loginStateAction = createAction('LOGIN_STATE', (snsType: string, nickname: string, userId: string) => {
   return {
     payload: {
+      userId: userId,
       snsType: snsType,
       nickname: nickname,
     },
@@ -98,7 +100,7 @@ const login = (state = initialState, action: LoginAction) =>
         break;
       case logoutSuccessAction.type:
         draft.isLogin = false;
-        draft.nickname = null;
+        draft.nickname = '';
         draft.snsType = '';
         draft.userId = '';
         break;
@@ -111,6 +113,7 @@ const login = (state = initialState, action: LoginAction) =>
         break;
       case loginStateAction.type:
         draft.isLogin = true;
+        draft.userId = action.payload.userId;
         draft.nickname = action.payload.nickname;
         draft.snsType = action.payload.snsType;
         break;
