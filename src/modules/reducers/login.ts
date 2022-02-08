@@ -9,7 +9,7 @@ export type LoginState = {
   isLogin: boolean;
   userId: string;
   snsType: string;
-  nickname: string | null;
+  nickname: string;
 };
 
 const initialState: LoginState = {
@@ -17,7 +17,7 @@ const initialState: LoginState = {
   isLogin: false,
   userId: '',
   snsType: '',
-  nickname: null,
+  nickname: '',
 };
 
 export type UserType = {
@@ -100,7 +100,7 @@ const login = (state = initialState, action: LoginAction) =>
         break;
       case logoutSuccessAction.type:
         draft.isLogin = false;
-        draft.nickname = null;
+        draft.nickname = '';
         draft.snsType = '';
         draft.userId = '';
         break;

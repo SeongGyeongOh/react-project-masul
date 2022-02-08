@@ -16,9 +16,10 @@ type DataProps = {
 type dataTaype = {
   data: DataProps[];
   clickDeletePost: (id: number) => void;
+  userId: string;
 };
 
-const CommunityList = ({ data, clickDeletePost }: dataTaype) => {
+const CommunityList = ({ data, clickDeletePost, userId }: dataTaype) => {
   const postList = data.map((item) => {
     const parse = item.created;
     const today = new Date(parse);
@@ -44,7 +45,7 @@ const CommunityList = ({ data, clickDeletePost }: dataTaype) => {
         <div className="community__bottom">
           <div className="community__bottom__icon">
             <div onClick={() => clickDeletePost(item.id)}>
-              <Icon size={21} color={'#B6B6CA'} icon="garbage" />
+              {item.userId === userId ? <Icon size={21} color={'#B6B6CA'} icon="garbage" /> : null}
             </div>
           </div>
         </div>

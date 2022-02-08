@@ -9,13 +9,10 @@ const CommunityContainer = () => {
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
 
-  // const arr: number[] = [1, 10, 3, 8, 5];
-  // const sort = arr.sort((a, b) => b - a);
-  // console.log(sort);
-
   const dispatch = useDispatch();
-
   const data = useSelector((state: RootState) => state.post.data);
+  const login = useSelector((state: RootState) => state.login);
+  const { nickname, userId } = login;
 
   const onChangeTitle = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target;
@@ -28,7 +25,7 @@ const CommunityContainer = () => {
   };
 
   const clickAddPost = () => {
-    dispatch(addPostRequest(title, content));
+    dispatch(addPostRequest(title, content, nickname, userId));
     setTitle('');
     setContent('');
   };
@@ -51,7 +48,7 @@ const CommunityContainer = () => {
         clickAddPost={clickAddPost}
       />
       {data.length > 0 ? (
-        <CommunityList data={data} clickDeletePost={clickDeletePost} />
+        <CommunityList data={data} clickDeletePost={clickDeletePost} userId={userId} />
       ) : (
         <div>리스트 데이터가 없습니다.</div>
       )}
