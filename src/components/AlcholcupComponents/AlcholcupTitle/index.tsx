@@ -5,7 +5,6 @@ const AlcholcupTitleStyled = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-bottom: 1.5rem;
   h2 {
     font-size: 2rem;
     margin-bottom: 0;

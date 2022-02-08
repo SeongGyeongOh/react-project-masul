@@ -12,7 +12,7 @@ const LoginComponent = ({ handleLogin }: Props) => {
   return (
     <>
       <LoginButton snsType="kakao" text="카카오 로그인" handleLogin={handleLogin} />
-      <LoginButton snsType="naver" text="네이버 로그인" handleLogin={handleLogin} />
+      {/* <LoginButton snsType="naver" text="네이버 로그인" handleLogin={handleLogin} /> */}
       <LoginButton snsType="google" text="구글 로그인" handleLogin={handleLogin} />
     </>
   );

@@ -35,20 +35,17 @@ export const LoginContainer = () => {
   const navigate = useNavigate();
   const nicknameInput = useRef<Input>(null);
 
-  const { isLogin, snsType, nickName, userId } = useSelector((state: RootState) => ({
+  const { uid, isLogin, snsType, nickName, userId } = useSelector((state: RootState) => ({
+    uid: state.login.uid,
     isLogin: state.login.isLogin,
     snsType: state.login.snsType,
-    nickName: state.login.nickName,
+    nickName: state.login.nickname,
     userId: state.login.userId,
   }));
 
   const handleLogin = (e: React.MouseEvent<HTMLElement, MouseEvent>) => {
     e.preventDefault();
     dispatch(snsLoginAction(e.currentTarget.id));
-    // if (e.currentTarget.id === 'naver') {
-    //   console.log('네이버 로그인을 합시다');
-    // }
-    // navigate('/');
   };
 
   const handleLogout = () => {
@@ -57,7 +54,9 @@ export const LoginContainer = () => {
 
   const setNickname = () => {
     const nickname = nicknameInput.current?.state.value;
-    nickname ? dispatch(setNicknameAction(nickname, userId, snsType)) : alert('닉네임을 입력해주세요');
+    nickname
+      ? dispatch(setNicknameAction(uid || '잘못된 사용자', nickname, userId, snsType))
+      : alert('닉네임을 입력해주세요');
   };
 
   useEffect(() => {}, []);

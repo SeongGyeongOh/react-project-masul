@@ -1,26 +1,36 @@
-import { all, fork, delay, put, takeLatest } from 'redux-saga/effects';
+import { all, call, fork, put, takeLatest } from 'redux-saga/effects';
 import { ALCHOLCUP_FAILURE, ALCHOLCUP_REQUEST, ALCHOLCUP_SUCCESS } from '../reducers/alcholcup';
 import axios from 'axios';
-import { data } from '../data';
-import { alcholcupProps, Action } from '../../modules/reducers/alcholcup';
+import { Action } from '../../modules/reducers/alcholcup';
 
-function addAlcholcupAPI(data: alcholcupProps) {
-  // return axios.Comment(`/api/post/${data.postId}/alcholcup`, data);
-  return axios.get('data', data);
+export interface DataType {
+  id?: number;
+  type?: string;
+  name?: string;
+  img?: string;
+  taste?: string;
+  feeling?: string;
+  condition?: string;
+  description?: string;
+}
+
+type resultType = {
+  data: DataType[];
+};
+
+function addAlcholcupAPI() {
+  return axios.get(`http://172.20.2.115:6008/drinks`);
 }
 
 function* addAlcholcup(action: Action) {
-  console.log(action);
-  // const datas = data;
-  // const RandomDatas = datas.sort(() => Math.random() - 0.5).slice(0, 16);
-  // const dummyAlcholcup = data.sort(() => Math.random() - 0.5).slice(0, 16);
-  // const temp = [...data];
-  // const dummyAlcholcup = temp.sort(() => Math.random() - 0.5).slice(0, 16);
   try {
-    // const result = yield call(addAlcholcupAPI, action.data);
+    const result: resultType = yield call(addAlcholcupAPI);
+    // const { data } = result;
+    // console.log(data);
+    // console.log(action.data);
     yield put({
       type: ALCHOLCUP_SUCCESS,
-      data: data,
+      data: result.data,
     });
   } catch (err: any) {
     console.error(err);

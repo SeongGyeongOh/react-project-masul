@@ -1,14 +1,16 @@
 import React, { useState, useCallback, useEffect } from 'react';
-import { AlcholcupComponents } from '../components/AlcholcupComponents';
 import styled from 'styled-components';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '../modules/reducers';
-import Loading from '../components/Loading';
-import { Button } from 'antd';
+import { Button, Card } from 'antd';
 import { alcholRequestData } from '../modules/reducers/alcholcup';
-import { DataType } from '../modules/data';
 import RoundSelect from '../components/AlcholcupComponents/RoundSelect';
 import AlcholcupTitle from '../components/AlcholcupComponents/AlcholcupTitle';
+import { DataType } from '../modules/sagas/alcholcup';
+import { AlcholcupComponents } from '../components/AlcholcupComponents';
+import Loading from '../components/Loading';
+import { Global } from '../components/AlcholcupComponents/styled';
+import Img from '../assets/logo/logo_main.png';
 
 const AlcholDetails = styled.div`
   .alcholDetails__wrap {
@@ -25,15 +27,17 @@ export type AlcholcupType = {
   showAlcholcup: boolean;
   roundValue: number | undefined;
   value: number;
-  alcholLists: DataType[];
+  data: DataType[];
 };
 
 export const AlcholcupContainers = () => {
+  const { Meta } = Card;
+
   // dispatch
   const dispatch = useDispatch();
 
   // useSelector
-  const alcholcupLists: DataType[] = useSelector((state: RootState) => state.alcholcup.data);
+  const data: DataType[] = useSelector((state: RootState) => state.alcholcup.data);
 
   // useState
   const [visible, setVisible] = useState(true);
@@ -41,13 +45,13 @@ export const AlcholcupContainers = () => {
   const [roundValue, setRoundValue] = useState(16);
 
   // datas
-  const alcholLists = [...alcholcupLists].sort(() => Math.random() - 0.5).slice(0, roundValue);
+  const alcholLists = [...data].sort(() => Math.random() - 0.5).slice(0, roundValue);
 
   // 이벤트
-  const loadAlcholDatas = useCallback(() => {
+  const loadAlcholDatas = useCallback((data) => {
     setVisible(false);
     setShowAlcholcup(true);
-    dispatch(alcholRequestData());
+    dispatch(alcholRequestData(data));
   }, []);
 
   const handleChange = useCallback((value) => {
@@ -55,29 +59,36 @@ export const AlcholcupContainers = () => {
     setRoundValue(value);
   }, []);
 
-  console.log(alcholLists);
+  console.log('alcholLists : ', alcholLists);
 
   return (
     <AlcholDetails>
+      <Global />
       <AlcholcupTitle />
       {visible ? <RoundSelect handleChange={handleChange} /> : null}
-      {alcholcupLists.length < 0
-        ? showAlcholcup && <Loading />
+      {data.length < 0
+        ? showAlcholcup
         : visible && (
-            <Button className="alcholcupBtn" type="primary" onClick={loadAlcholDatas} style={{ display: 'block' }}>
-              술드컵 시작🍺
-            </Button>
+            <>
+              <Card
+                onClick={loadAlcholDatas}
+                hoverable
+                style={{ width: '100%' }}
+                cover={<img alt="술드컵" src={Img} />}
+              >
+                <Meta title="술드컵 시작🍺" />
+              </Card>
+            </>
           )}
-      {showAlcholcup ? (
-        <>
-          <AlcholcupComponents alcholLists={alcholLists} roundValue={roundValue} />
-        </>
-      ) : (
-        '준비중 입니다만,,,,🙈'
-      )}
-
-      <div>
-        총 {alcholLists.length}개의 후보 중 무작위 {roundValue}개가 대결합니다.
+      {showAlcholcup
+        ? alcholLists.length > 0 && (
+            <div>
+              <AlcholcupComponents alcholLists={alcholLists} roundValue={roundValue} />
+            </div>
+          )
+        : null}
+      <div style={{ textAlign: 'center', padding: '1.5rem 0' }}>
+        총 {data.length}개의 후보 중 무작위 {roundValue}개가 대결합니다.
       </div>
     </AlcholDetails>
   );

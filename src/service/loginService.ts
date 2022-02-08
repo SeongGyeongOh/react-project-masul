@@ -1,5 +1,17 @@
+import { LoginUser } from './../modules/sagas/login';
 import { initializeApp } from 'firebase/app';
-import { getAuth, GoogleAuthProvider, onAuthStateChanged, signInWithPopup, signOut, User } from 'firebase/auth';
+import {
+  deleteUser,
+  getAuth,
+  GoogleAuthProvider,
+  onAuthStateChanged,
+  signInWithPopup,
+  signOut,
+  updateProfile,
+  User,
+} from 'firebase/auth';
+import { resolve } from 'path/posix';
+import UserService from './userService';
 
 const firebaseConfig = {
   apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
@@ -15,12 +27,13 @@ export class LoginService {
   provider = new GoogleAuthProvider();
 
   googleLogin = async () => {
-    try {
-      await signInWithPopup(this.auth, this.provider);
-      console.log('구글 로그인 성공');
-    } catch (err) {
-      console.log(err);
-    }
+    const result = await signInWithPopup(this.auth, this.provider);
+    return result.user.displayName;
+  };
+
+  uploadUser = (uid: string, userId: string, nickname: string) => {
+    const userService = new UserService();
+    userService.upload(uid, userId, nickname);
   };
 
   googleLogout = async () => {
@@ -31,22 +44,30 @@ export class LoginService {
     }
   };
 
-  onAuthChange(onUserStateChange: (user: User | null) => void) {
-    onAuthStateChanged(this.auth, (user) => {
-      onUserStateChange(user);
+  onAuthChange() {
+    const auth = getAuth();
+    return new Promise<string>((resolve, reject) => {
+      onAuthStateChanged(auth, (user) => {
+        user && resolve(user.displayName || '닉네임 없음');
+        // onUserStateChange(user);
+      });
+      return resolve;
     });
   }
 
-  kakaoLogin() {
-    window.Kakao.Auth.login({
-      success: (response: any) => {
-        console.log('카카오 로그인 성공');
-      },
-      fail: (err: any) => {
-        console.log(err);
-      },
+  kakaoLogin = () => {
+    return new Promise((resolve, reject) => {
+      window.Kakao.Auth.login({
+        success: (res: any) => {
+          console.log(res);
+          this.kakaoGetUser(resolve);
+        },
+        fail: () => {
+          reject(() => false);
+        },
+      });
     });
-  }
+  };
 
   kakaoLogout = () => {
     if (!window.Kakao.Auth.getAccessToken()) {
@@ -55,6 +76,33 @@ export class LoginService {
     }
     window.Kakao.Auth.logout(function () {
       console.log('로그아웃 완료', window.Kakao.Auth.getAccessToken());
+    });
+  };
+
+  kakaoGetUser = (resolve: (value: string) => void) => {
+    window.Kakao.API.request({
+      url: '/v2/user/me',
+      success: (response: any) => {
+        resolve(response.id);
+      },
+      fail: (error: any) => {
+        console.log(error);
+      },
+    });
+  };
+
+  kakaoCheckNickname = () => {
+    return new Promise<string>((resolve, reject) => {
+      const userService = new UserService();
+      window.Kakao.API.request({
+        url: '/v2/user/me',
+        success: (response: any) => {
+          resolve(response.id);
+        },
+        fail: (error: any) => {
+          console.log(error);
+        },
+      });
     });
   };
 }

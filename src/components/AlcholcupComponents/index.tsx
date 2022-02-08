@@ -1,32 +1,43 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { DataType } from '../../modules/data';
-import { Global, AlcholStyled } from './styled';
+import styled from 'styled-components';
+import { DataType } from '../../modules/sagas/alcholcup';
+import { AlcholStyled } from './styled';
 
 type AlcholcupType = {
   alcholLists: DataType[];
   roundValue: number;
 };
 
+const DescWrapper = styled.ul`
+  font-size: 1rem;
+  margin: 0;
+
+  li {
+    padding: 0.5rem 0;
+  }
+`;
+
 export const AlcholcupComponents = ({ alcholLists, roundValue }: AlcholcupType) => {
-  const [alchols, setAlchols]: any = useState(alcholLists);
-  const [displays, setDisplays]: any = useState([]);
-  const [winners, setWinners]: any = useState([]);
-  const [value, setValue]: any = useState(false);
-  const [winnerText, setWinnerText]: any = useState('');
-  const [selectRound, setSelectRound]: any = useState(roundValue);
-  let [rounds, setRounds]: any = useState(1);
+  const [alchols, setAlchols] = useState(alcholLists);
+  const [displays, setDisplays] = useState<DataType[]>([]);
+  const [winners, setWinners] = useState<DataType[]>([]);
+  const [value, setValue] = useState<boolean>(false);
+  const [winnerText, setWinnerText] = useState<string>('');
+  const [selectRound, setSelectRound] = useState<number>(roundValue);
+  let [rounds, setRounds] = useState<number>(1);
 
   useEffect(() => {
     setDisplays([alchols[0], alchols[1]]);
   }, []);
 
-  // console.log('초기 display : ', displays);
+  console.log('초기 display : ', displays);
 
   const onDescription = useCallback(() => {
     setValue(true);
   }, []);
 
-  const clickHandler = (alchol: any) => () => {
+  const clickHandler = (alchol: DataType) => () => {
+    console.log(alchol);
     if (alchols.length <= 2) {
       setSelectRound(alchols.length);
       if (winners.length === 0) {
@@ -34,7 +45,7 @@ export const AlcholcupComponents = ({ alcholLists, roundValue }: AlcholcupType) 
         onDescription();
         setWinnerText('우승');
       } else {
-        let updatedAlchol = [...winners, alchol];
+        let updatedAlchol: DataType[] = [...winners, alchol];
         setAlchols(updatedAlchol);
         setDisplays([updatedAlchol[0], updatedAlchol[1]]);
         setWinners([]);
@@ -48,11 +59,10 @@ export const AlcholcupComponents = ({ alcholLists, roundValue }: AlcholcupType) 
       setRounds(rounds + 1);
     }
   };
-  // console.log('클릭 된 winners : ', winners);
+  console.log('클릭 된 winners : ', winners);
 
   return (
     <>
-      <Global />
       <AlcholStyled>
         {!value ? (
           <div className="rounds">
@@ -62,10 +72,10 @@ export const AlcholcupComponents = ({ alcholLists, roundValue }: AlcholcupType) 
           <div className="rounds">
             {winnerText}
             <br />
-            <span>{alchols[0].name}</span>
+            <span>{displays[0].name}</span>
           </div>
         )}
-        {displays.map((drinks: any) => {
+        {displays.map((drinks) => {
           return (
             <div className="tableWrap" key={drinks.id}>
               <div className="table__box position-relative" key={drinks.id} onClick={clickHandler(drinks)}>
@@ -77,20 +87,23 @@ export const AlcholcupComponents = ({ alcholLists, roundValue }: AlcholcupType) 
             </div>
           );
         })}
+        {!value ? null : (
+          <DescWrapper>
+            <li className="medium">
+              술 이름 : <span className="bold">{displays[0].name}</span>
+            </li>
+            <li className="medium">
+              술 종류 : <span className="bold">{displays[0].type}</span>
+            </li>
+            <li className="medium">
+              술 맛 : <span className="bold">{displays[0].taste}</span>
+            </li>
+            <li className="medium">
+              술 설명 : <span className="bold">{displays[0].description}</span>
+            </li>
+          </DescWrapper>
+        )}
       </AlcholStyled>
-      {/* <Image src={v.img} alt={v.name} /> */}
-      {/* <span>{winners.length === 0 && <HeartTwoTone twoToneColor={colors} />}</span> */}
-      {/* </div>
-              <p>{v.name}</p>
-            </div>
-          </div>
-        );
-      })}
-      {!value ? <div className="round">현재 16강 : {round}</div> : null}
-      {value ? <AlcholcupDesc lastDesc={lastDesc} lastName={lastName} lastType={lastType} lastAlc={lastAlc} /> : null} */}
-      {/* {value ? <div>{alcholcupLists[0].description}</div> : null} */}
-      {/* {likes ? <LikeButton onClick={addLikes} /> : null} */}
-      {/* <LikeButton onClick={addLikes} /> */}
     </>
   );
 };
