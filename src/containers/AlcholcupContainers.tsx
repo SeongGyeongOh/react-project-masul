@@ -48,10 +48,10 @@ export const AlcholcupContainers = () => {
   const alcholLists = [...data].sort(() => Math.random() - 0.5).slice(0, roundValue);
 
   // 이벤트
-  const loadAlcholDatas = useCallback((data) => {
+  const loadAlcholDatas = useCallback(() => {
     setVisible(false);
     setShowAlcholcup(true);
-    dispatch(alcholRequestData(data));
+    dispatch(alcholRequestData());
   }, []);
 
   const handleChange = useCallback((value) => {

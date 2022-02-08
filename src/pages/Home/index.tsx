@@ -6,6 +6,7 @@ import { loginSuccessAction } from '../../modules/reducers/login';
 import { LoginService } from '../../service/loginService';
 
 const Home = () => {
+  // eslint-disable-next-line react/no-children-prop
   return <MainLayout child={<HomeContainer />} />;
 };
 
