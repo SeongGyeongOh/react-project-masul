@@ -32,12 +32,12 @@ const menu = (state = initialState, action: MenuAction) =>
     produce(state, (draft) => {
         switch (action.type) {
             case getDrinkListAction.type: 
-            break;
+                break;
             case getDrinkListSuccessAction.type:
                 draft.data = action.payload
-            break;
+                break;
             case getDrinkListFailAction.type:
-            break;
+                break;
         }
     });
 

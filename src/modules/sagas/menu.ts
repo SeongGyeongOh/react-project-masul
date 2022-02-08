@@ -25,7 +25,7 @@ function getDrinkListApi() {
 
 function* getDrinkListSaga(action: MenuAction) {
     
-    console.log("action: ");
+    console.log("action: ", action);
 
     try { 
         const result: resultType = yield call(getDrinkListApi);
@@ -35,7 +35,7 @@ function* getDrinkListSaga(action: MenuAction) {
         
         yield put({
             type: getDrinkListSuccessAction.type,
-            data: data
+            payload: data
         })
     } catch (err) {
         console.log("err: ", err);

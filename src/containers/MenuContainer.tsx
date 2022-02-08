@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import MenuList from '../components/Menu';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import { getDrinkListAction } from '../modules/reducers/menu';
@@ -17,16 +17,16 @@ const MenuContainer = () => {
         console.log("selector is same : ", bool);
         return bool;
     });
-
-    console.log("menuState : ", data);
-
-    dispatch(getDrinkListAction());
     console.log("MenuContainer");
+
+    useEffect(() => {
+        dispatch(getDrinkListAction());
+        {console.log("datasssss : ", data)}
+    }, []);
 
     return (
         <>
-        {data ? data : '없음'}
-        {console.log("datasssss : ", data)}
+        <div>{data.length}</div>
         <MenuList />
         </>
     );
