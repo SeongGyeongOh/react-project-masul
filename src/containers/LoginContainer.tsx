@@ -38,7 +38,7 @@ export const LoginContainer = () => {
   const { isLogin, snsType, nickName, userId } = useSelector((state: RootState) => ({
     isLogin: state.login.isLogin,
     snsType: state.login.snsType,
-    nickName: state.login.nickName,
+    nickName: state.login.nickname,
     userId: state.login.userId,
   }));
 

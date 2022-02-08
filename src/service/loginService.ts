@@ -8,6 +8,7 @@ import {
   updateProfile,
   User,
 } from 'firebase/auth';
+import { resolve } from 'path/posix';
 
 const firebaseConfig = {
   apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
@@ -44,9 +45,14 @@ export class LoginService {
     }
   };
 
-  onAuthChange(onUserStateChange: (user: User | null) => void) {
-    onAuthStateChanged(this.auth, (user) => {
-      onUserStateChange(user);
+  onAuthChange() {
+    const auth = getAuth();
+    return new Promise<string>((resolve, reject) => {
+      onAuthStateChanged(auth, (user) => {
+        user && resolve(user.displayName || '닉네임 없음');
+        // onUserStateChange(user);
+      });
+      return resolve;
     });
   }
 
@@ -71,6 +77,25 @@ export class LoginService {
     }
     window.Kakao.Auth.logout(function () {
       console.log('로그아웃 완료', window.Kakao.Auth.getAccessToken());
+    });
+  };
+
+  kakaoCheckNickname = () => {
+    return new Promise<string>((resolve, reject) => {
+      window.Kakao.API.request({
+        url: '/v2/user/me',
+        data: {
+          property_keys: ['properties.nickname'],
+        },
+        success: (response: any) => {
+          const nickname: string = response.properties.nickname;
+          resolve(nickname);
+        },
+        fail: (error: any) => {
+          console.log(error);
+        },
+      });
+      return resolve;
     });
   };
 }

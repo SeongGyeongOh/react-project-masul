@@ -7,18 +7,18 @@ export type LoginState = {
   isLogin: boolean;
   userId: string;
   snsType: string;
-  nickName: string | null;
+  nickname: string | null;
 };
 
 const initialState: LoginState = {
   isLogin: false,
   userId: '',
   snsType: '',
-  nickName: null,
+  nickname: null,
 };
 
 export type UserType = {
-  nickName: string;
+  nickname: string;
   userId: string;
   snsType: string;
 };
@@ -34,9 +34,9 @@ export const logoutAction = createAction('LOGOUT', (snsType: string) => {
   return { payload: snsType };
 });
 
-export const setNicknameAction = createAction('SET_NICKNAME', (nickName: string, userId: string, snsType: string) => {
+export const setNicknameAction = createAction('SET_NICKNAME', (nickname: string, userId: string, snsType: string) => {
   const params: UserType = {
-    nickName: nickName,
+    nickname: nickname,
     userId: userId,
     snsType: snsType,
   };
@@ -46,14 +46,17 @@ export const setNicknameAction = createAction('SET_NICKNAME', (nickName: string,
   };
 });
 
-export const checkUserLogin = createAction('CHECK_USER_LOGIN', (snsType: string, nickName: string) => {
+export const checkUserLogin = createAction('CHECK_USER_LOGIN');
+
+export const loginStateAction = createAction('LOGIN_STATE', (snsType: string, nickname: string) => {
   return {
     payload: {
       snsType: snsType,
-      nickName: nickName,
+      nickname: nickname,
     },
   };
 });
+
 export const logoutSuccessAction = createAction('LOGOUT_SUCCESS');
 export const logoutFailAction = createAction('LOGOUT_FAIL');
 
@@ -66,6 +69,7 @@ export const actions = {
   logoutFailAction,
   setNicknameAction,
   checkUserLogin,
+  loginStateAction,
 };
 
 export type LoginAction = ActionType<typeof actions>;
@@ -86,17 +90,19 @@ const login = (state = initialState, action: LoginAction) =>
         break;
       case logoutSuccessAction.type:
         draft.isLogin = false;
-        draft.nickName = null;
+        draft.nickname = null;
         draft.snsType = '';
         break;
       case logoutFailAction.type:
         break;
       case setNicknameAction.type:
-        draft.nickName = action.payload.nickName;
+        draft.nickname = action.payload.nickname;
         break;
       case checkUserLogin.type:
+        break;
+      case loginStateAction.type:
         draft.isLogin = true;
-        draft.nickName = action.payload.nickName;
+        draft.nickname = action.payload.nickname;
         draft.snsType = action.payload.snsType;
         break;
       default:

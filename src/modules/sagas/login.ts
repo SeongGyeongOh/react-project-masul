@@ -6,6 +6,8 @@ import {
   snsLoginAction,
   logoutAction,
   setNicknameAction,
+  checkUserLogin,
+  loginStateAction,
 } from './../reducers/login';
 import { LoginService } from '../../service/loginService';
 import { all, fork, put, takeLatest, call, takeEvery } from 'redux-saga/effects';
@@ -44,21 +46,21 @@ function* naverLoginSaga(action: LoginAction) {}
 function* setUserNicknameSaga(action: ActionType<typeof setNicknameAction>) {
   try {
     // db에 유저 정보 올리기!!
-    const { userId, nickName, snsType } = action.payload;
+    const { userId, nickname, snsType } = action.payload;
 
     if (snsType === 'kakao') {
       window.Kakao.API.request({
         url: '/v1/user/update_profile',
         data: {
           properties: {
-            nickname: nickName,
+            nickname: nickname,
           },
         },
       });
     }
 
     if (snsType === 'google') {
-      loginService.googleUpdateProfile(nickName);
+      loginService.googleUpdateProfile(nickname);
     }
   } catch (err) {
     console.log(err);
@@ -85,8 +87,37 @@ function* logoutSaga(action: LoginAction) {
   }
 }
 
+function* checkUserLoginSaga(action: LoginAction) {
+  try {
+    const nickname: Promise<string> = yield call(loginService.onAuthChange);
+    console.log(nickname);
+    yield put({
+      type: loginStateAction.type,
+      payload: {
+        snsType: 'google',
+        nickname: nickname,
+      },
+    });
+
+    if (window.Kakao.Auth.getAccessToken()) {
+      const nickname: Promise<string> = yield call(loginService.kakaoCheckNickname);
+      console.log(nickname);
+      yield put({
+        type: loginStateAction.type,
+        payload: {
+          snsType: 'kakao',
+          nickname: nickname,
+        },
+      });
+    }
+  } catch (err) {
+    console.log(err);
+  }
+}
+
 export default function* loginSaga() {
   yield takeEvery(snsLoginAction, snsLoginSaga);
   yield takeEvery(logoutAction, logoutSaga);
   yield takeEvery(setNicknameAction, setUserNicknameSaga);
+  yield takeEvery(checkUserLogin, checkUserLoginSaga);
 }
