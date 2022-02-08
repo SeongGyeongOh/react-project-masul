@@ -57,9 +57,13 @@ export const AlcholStyled = styled.div`
       }
     }
   }
-  .round {
-    font-size: 1.5rem;
+  .rounds {
+    font-family: 'Harmony_B';
+    font-size: 2.2rem;
     text-align: center;
-    margin-top: 20px;
+
+    span {
+      font-size: 1.8rem;
+    }
   }
 `;

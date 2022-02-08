@@ -8,16 +8,19 @@ type AlcholcupType = {
 };
 
 export const AlcholcupComponents = ({ alcholLists, roundValue }: AlcholcupType) => {
-  const [alchols, setAlchols]: any = useState([]);
+  const [alchols, setAlchols]: any = useState(alcholLists);
   const [displays, setDisplays]: any = useState([]);
   const [winners, setWinners]: any = useState([]);
   const [value, setValue]: any = useState(false);
-  let [rounds, setRounds]: any = useState(roundValue);
+  const [winnerText, setWinnerText]: any = useState('');
+  const [selectRound, setSelectRound]: any = useState(roundValue);
+  let [rounds, setRounds]: any = useState(1);
 
   useEffect(() => {
-    setAlchols(alcholLists);
-    setDisplays([alcholLists[0], alcholLists[1]]);
+    setDisplays([alchols[0], alchols[1]]);
   }, []);
+
+  // console.log('초기 display : ', displays);
 
   const onDescription = useCallback(() => {
     setValue(true);
@@ -25,44 +28,55 @@ export const AlcholcupComponents = ({ alcholLists, roundValue }: AlcholcupType) 
 
   const clickHandler = (alchol: any) => () => {
     if (alchols.length <= 2) {
+      setSelectRound(alchols.length);
       if (winners.length === 0) {
         setDisplays([alchol]);
         onDescription();
+        setWinnerText('우승');
       } else {
         let updatedAlchol = [...winners, alchol];
         setAlchols(updatedAlchol);
         setDisplays([updatedAlchol[0], updatedAlchol[1]]);
         setWinners([]);
+        setSelectRound(updatedAlchol.length);
+        setRounds(rounds - updatedAlchol.length + 1);
       }
     } else if (alchols.length > 2) {
       setWinners([...winners, alchol]);
       setDisplays([alchols[2], alchols[3]]);
       setAlchols(alchols.slice(2));
+      setRounds(rounds + 1);
     }
   };
-  console.log('winners : ', winners);
+  // console.log('클릭 된 winners : ', winners);
 
   return (
     <>
       <Global />
       <AlcholStyled>
+        {!value ? (
+          <div className="rounds">
+            {selectRound}강 : {rounds}/ {selectRound / 2}
+          </div>
+        ) : (
+          <div className="rounds">
+            {winnerText}
+            <br />
+            <span>{alchols[0].name}</span>
+          </div>
+        )}
         {displays.map((drinks: any) => {
           return (
             <div className="tableWrap" key={drinks.id}>
               <div className="table__box position-relative" key={drinks.id} onClick={clickHandler(drinks)}>
                 <div className="table__img">
-                  <img src={drinks.img} alt={drinks.id} />
+                  <img src={drinks.img} alt={drinks.name} />
                 </div>
                 <p>{drinks.name}</p>
               </div>
             </div>
           );
         })}
-        {winners !== 0 ? (
-          <div>
-            현재 {roundValue}강 : {rounds}
-          </div>
-        ) : null}
       </AlcholStyled>
       {/* <Image src={v.img} alt={v.name} /> */}
       {/* <span>{winners.length === 0 && <HeartTwoTone twoToneColor={colors} />}</span> */}

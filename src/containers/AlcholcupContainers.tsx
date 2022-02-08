@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '../modules/reducers';
 import Loading from '../components/Loading';
-import { Button, Select } from 'antd';
+import { Button } from 'antd';
 import { alcholRequestData } from '../modules/reducers/alcholcup';
 import { DataType } from '../modules/data';
 import RoundSelect from '../components/AlcholcupComponents/RoundSelect';
@@ -20,7 +20,7 @@ const AlcholDetails = styled.div`
   }
 `;
 
-type AlcholcupType = {
+export type AlcholcupType = {
   visible: boolean;
   showAlcholcup: boolean;
   roundValue: number | undefined;
@@ -69,10 +69,16 @@ export const AlcholcupContainers = () => {
             </Button>
           )}
       {showAlcholcup ? (
-        <AlcholcupComponents alcholLists={alcholLists} roundValue={roundValue} />
+        <>
+          <AlcholcupComponents alcholLists={alcholLists} roundValue={roundValue} />
+        </>
       ) : (
         '준비중 입니다만,,,,🙈'
       )}
+
+      <div>
+        총 {alcholLists.length}개의 후보 중 무작위 {roundValue}개가 대결합니다.
+      </div>
     </AlcholDetails>
   );
 };
