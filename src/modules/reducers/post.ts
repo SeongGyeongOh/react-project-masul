@@ -1,4 +1,6 @@
+import { action } from 'typesafe-actions';
 import produce from 'immer';
+import { map } from 'jquery';
 
 // 액션 타입
 export const LOAD_POST_REQUEST = 'post/LOAD_POST_REQUEST' as const;
@@ -22,7 +24,7 @@ export const loadPostRequest = () => {
   };
 };
 
-export const loadPostSuccess = (data: DataProps) => {
+export const loadPostSuccess = (data: DataProps[]) => {
   return {
     type: LOAD_POST_SUCCESS,
     data: data,
@@ -35,10 +37,11 @@ export const loadPostFailure = () => {
   };
 };
 
-export const addPostRequest = (data: DataProps) => {
+export const addPostRequest = (title: string, content: string) => {
   return {
     type: ADD_POST_REQUEST,
-    data: data,
+    title: title,
+    content: content,
   };
 };
 
@@ -63,10 +66,10 @@ export const deletePostRequest = (id: number) => {
   };
 };
 
-export const deletePostSuccess = (id: number) => {
+export const deletePostSuccess = (data: DataProps[]) => {
   return {
     type: DELETE_POST_SUCCESS,
-    data: id,
+    data: data,
   };
 };
 
@@ -94,8 +97,11 @@ export type DataProps = {
   id: number;
   title: string;
   content: string;
-  nickName: string;
-  status: string;
+  nickName?: string;
+  status?: string;
+  created: string;
+  updated: string;
+  userId: string;
 };
 
 export type PostState = {
@@ -137,7 +143,7 @@ const post = (state: PostState = initialState, action: DataAction) =>
         draft.addPostLoading = false;
         draft.addPostDone = true;
         draft.addPostError = null;
-        draft.data.unshift(action.data);
+        draft.data = action.data;
         break;
       case LOAD_POST_FAILURE:
         draft.addPostLoading = false;
@@ -169,7 +175,7 @@ const post = (state: PostState = initialState, action: DataAction) =>
         draft.deletePostLoading = false;
         draft.deletePostDone = true;
         draft.deletePostError = null;
-        draft.data = draft.data.filter((v) => v.id !== action.data);
+        draft.data = action.data;
         break;
       case DELETE_POST_FAILURE:
         draft.deletePostLoading = false;

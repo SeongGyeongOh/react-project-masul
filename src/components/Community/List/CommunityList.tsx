@@ -4,10 +4,13 @@ import Icon from '../../../const/Icons/Icon';
 
 type DataProps = {
   id: number;
-  title: string;
-  content: string;
-  nickName: string;
-  status: string;
+  title?: string;
+  content?: string;
+  nickName?: string;
+  status?: string;
+  created: string;
+  updated: string;
+  userId: string;
 };
 
 type dataTaype = {
@@ -17,29 +20,35 @@ type dataTaype = {
 
 const CommunityList = ({ data, clickDeletePost }: dataTaype) => {
   const postList = data.map((item) => {
+    const parse = item.created;
+    const today = new Date(parse);
+    // + '-' + today.getMonth() + '-' + today.getDay();
+    const year = today.getFullYear();
+    const month = today.getMonth() + 1;
+    const day = today.getDate();
+    const date = year + '-' + month + '-' + day;
+
     return (
-      <div className="community" key={item.id}>
+      <li className="community" key={item.id}>
         <div className="community__top">
           <div className="community__top__nickname">
             <span>j</span>
           </div>
           <div className="community__top__info">
             <div>{item.nickName}</div>
-            <div className="community__top__info__date">{item.title}</div>
+            <div>{item.title}</div>
+            <div className="community__top__info__date">{date}</div>
           </div>
         </div>
         <div className="community__middles">{item.content}</div>
         <div className="community__bottom">
           <div className="community__bottom__icon">
-            <div>
-              <Icon size={21} color={'#B6B6CA'} icon="modify" />
-            </div>
             <div onClick={() => clickDeletePost(item.id)}>
               <Icon size={21} color={'#B6B6CA'} icon="garbage" />
             </div>
           </div>
         </div>
-      </div>
+      </li>
     );
   });
 
