@@ -37,7 +37,7 @@ export const loadPostFailure = () => {
   };
 };
 
-export const addPostRequest = (title: string, content: string, nickname: string, userId: string) => {
+export const addPostRequest = (title: string, content: string, nickname: string | null, userId: string) => {
   return {
     type: ADD_POST_REQUEST,
     title: title,
