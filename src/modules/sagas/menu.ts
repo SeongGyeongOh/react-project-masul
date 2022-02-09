@@ -13,19 +13,12 @@ type resultType = {
 }
 
 function getDrinkListApi() {
-    console.log('apiHost : ', apiHost);
-
     const requestUrl = apiHost + ":" + apiPort + "/drinks"
-    
-    console.log('requestUrl : ', requestUrl);
-
     return axios.get(requestUrl);
 }
 
 
 function* getDrinkListSaga(action: MenuAction) {
-    
-    console.log("action: ", action);
 
     try { 
         const result: resultType = yield call(getDrinkListApi);
