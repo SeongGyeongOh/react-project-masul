@@ -10,7 +10,7 @@ import logoBg from '../../assets/logo/logo_main.png';
 import Icon from '../../const/Icons/Icon';
 import { Steps, Step } from 'react-multistep-component';
 import { RootState } from '../../modules/reducers';
-import { reDataRequest, selDataRequest } from '../../modules/reducers/recommend';
+import { selDataRequest } from '../../modules/reducers/recommend';
 
 const MultiSteps = () => {
   const dispatch = useDispatch();
@@ -50,7 +50,6 @@ const MultiSteps = () => {
             </div>
           </div>
         </Step>
-
         <Step>
           <Step1 clickSelData={clickSelData} next={next} />
         </Step>
