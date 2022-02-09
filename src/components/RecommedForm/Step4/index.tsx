@@ -48,7 +48,7 @@ const Step4 = ({ clickSelData, next }: PropsTypsStep) => {
         <div
           className="next-Btn"
           onClick={() => {
-            clickSelData(taste[currentNum].taste, 'taste');
+            clickSelData(taste[currentNum - 1].taste, 'taste');
           }}
         >
           <button onClick={next}>다음</button>

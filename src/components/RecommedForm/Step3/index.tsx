@@ -49,7 +49,7 @@ const Step3 = ({ clickSelData, next }: PropsTypsStep) => {
         <div
           className="next-Btn"
           onClick={() => {
-            clickSelData(feeling[currentNum].feeling, 'feeling');
+            clickSelData(feeling[currentNum - 1].feeling, 'feeling');
           }}
         >
           <button onClick={next}>다음</button>

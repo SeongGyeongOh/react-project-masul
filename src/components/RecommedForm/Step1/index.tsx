@@ -56,7 +56,7 @@ const Step1 = ({ clickSelData, next }: PropsTypsStep) => {
         <div
           className="next-Btn"
           onClick={() => {
-            clickSelData(type[currentNum].type, 'type');
+            clickSelData(type[currentNum - 1].type, 'type');
           }}
         >
           <button onClick={next}>다음</button>

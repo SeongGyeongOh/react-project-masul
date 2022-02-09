@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../modules/reducers';
+import Icon from '../../const/Icons/Icon';
 
 const Result = () => {
   const resultData = useSelector((state: RootState) => state.recommend.recommendList);
@@ -48,12 +49,14 @@ const Result = () => {
             </li>
           </ul>
         ) : (
-          <div>추천해드릴 술이 없습니다ㅠㅠ.... </div>
+          <div className="result_wrap_blank">추천해드릴 술이 없습니다ㅠㅠ.... </div>
         )}
-        <button onClick={again}>다시해보기</button>
-        <div className="start-Btn">
-          <button onClick={home}>홈으로가기</button>
-        </div>
+        <button className="home_btn" onClick={home}>
+          <Icon size={30} color={'#33434d'} icon="home" />
+        </button>
+        <button className="next_btn" onClick={again}>
+          다시해보기
+        </button>
       </div>
     </div>
   );
