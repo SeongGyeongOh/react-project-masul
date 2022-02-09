@@ -2,15 +2,14 @@ import React, { useEffect, useState } from 'react';
 
 interface ChildProps {
   id: number;
-  url: string;
+  taste: string;
   txt: string;
-  condition: string;
   clickSelData: (type: string ,typeName:string) => void;
   changeNum:(num:number) => void;
   currentNum:number;
 }
 
-const StepCondition = ({ id, url, txt, clickSelData,condition,changeNum,currentNum }: ChildProps) => {
+const StepTaste = ({ id, txt, clickSelData,taste,changeNum,currentNum }: ChildProps) => {
   const [clickChild,setChild] = useState<string>('');
 
   useEffect(()=>{
@@ -21,22 +20,18 @@ const StepCondition = ({ id, url, txt, clickSelData,condition,changeNum,currentN
     }
   },[currentNum])
 
-
   return (
     <div
       key={id}
       onClick={() => {
-        clickSelData(condition,'condition');
+        clickSelData(taste,'taste');
         changeNum(id);
       }}
-      className={clickChild=='active' ? 'con_box active' : 'con_box'}
+      className={clickChild==='active' ? 'con_box active' : 'con_box'}
     >
-      <div className="con_txt">{txt}</div>
-      <div className="con_img">
-        <img src={url} alt="img" />
-      </div>
+      <div className={clickChild==='active' ? 'con_txt active' : 'con_txt'}>{txt}</div>
     </div>
   );
 };
 
-export default StepCondition;
+export default StepTaste;

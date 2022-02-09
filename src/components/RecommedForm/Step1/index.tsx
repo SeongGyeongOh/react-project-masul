@@ -1,6 +1,5 @@
 import { List } from 'antd/lib/form/Form';
 import React, { useState, useEffect } from 'react';
-import { collapseTextChangeRangesAcrossMultipleVersions } from 'typescript';
 import b from '../../../assets/icons/name_b.png';
 import m from '../../../assets/icons/name_m.png';
 import ma from '../../../assets/icons/name_ma.png';
@@ -24,31 +23,15 @@ const type = [
 ];
 
 type PropsTypsStep = {
-  data: any;
-  stepOne: string;
-  dataType: (arg: string) => void;
+  clickSelData : (type: string,typeName:string) => void;
 };
 
-const Step1 = ({ data, dataType }: PropsTypsStep) => {
-  //StepType 자식에게 보내는 용의 useState
-  const [parentType, setParentType] = useState<string>('');
+const Step1 = ({ clickSelData }: PropsTypsStep) => {
 
-  //StepType 자식이 클릭한 type값을 가져와서 필터 함수를 걸어, result라는 변수에 담음
-  const updateType = (parentType: string): void => {
-    setParentType(parentType);
-  };
-
-  //parentType이 변경될 떄마다 dataType에 result를 담아 부모에게 전달!
-  useEffect(() => {
-    const result = data.filter((recom: { type: string }) => {
-      {
-        if (recom.type === parentType) {
-          return true;
-        }
-      }
-    });
-    dataType(result);
-  }, [parentType]);
+  const [currentNum,setNum] = useState<number>(0);
+  const changeNum = (currentNum:number) => {
+    setNum(currentNum);
+  }
 
   return (
     <div className="step step1">
@@ -62,9 +45,10 @@ const Step1 = ({ data, dataType }: PropsTypsStep) => {
                   key={list.id}
                   url={list.url}
                   type={list.type}
-                  id={0}
-                  parentType={parentType}
-                  updateType={updateType}
+                  id={list.id}
+                  clickSelData={clickSelData}
+                  changeNum={changeNum}
+                  currentNum={currentNum}
                 />
               );
             })}

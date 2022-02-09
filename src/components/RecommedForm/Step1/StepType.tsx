@@ -1,40 +1,38 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState,useEffect } from 'react';
 
 interface ChildProps {
   id: number;
   url: string;
   type: string;
-  parentType: string;
-  updateType: (arg: string) => void;
+  clickSelData : (type: string,typeName:string) => void;
+  changeNum:(num:number) => void;
+  currentNum:number;
 }
 
-const StepType = ({ id, url, type, parentType, updateType }: ChildProps) => {
-  const [isType, setType] = useState<boolean>(false);
+const StepType = ({ id, url, type, clickSelData,changeNum,currentNum }: ChildProps) => {
+  const [clickChild,setChild] = useState<string>('');
 
-  useEffect(() => {
-    if (isType) {
-      setType(!isType);
-    } else {
-      setType(!isType);
+  useEffect(()=>{
+    setChild('');
+    if(id===currentNum){
+      setChild('active');
     }
-  }, [parentType]);
+  },[currentNum])
 
-  const typeCl = () => {
-    setType(!isType);
-  };
+
   return (
-    <li key={id}>
+    <li key={id} className={clickChild}>
       <div
         onClick={() => {
-          typeCl;
-          console.log(isType);
-          updateType(type);
+          changeNum(id);
+          console.log(id);
+          clickSelData(type,'type');
         }}
-        className={isType ? 'li_img active' : 'li_img'}
+        className='li_img'
       >
         <img src={url} />
       </div>
-      <div onClick={typeCl} className={isType ? 'li_txt active' : 'li_txt'}>
+      <div className='li_txt'>
         {type}
       </div>
     </li>

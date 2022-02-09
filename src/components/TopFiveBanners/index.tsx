@@ -1,79 +1,60 @@
-import React, { useEffect, useState } from 'react';
-import styled from 'styled-components';
-import { HomeContainer } from '../../containers/HomeContainer';
+import React, { useMemo } from 'react';
 import { DataType } from '../../modules/sagas/alcholcup';
+import Slider, { Settings } from 'react-slick';
+import { Card } from 'antd';
+import { Global } from './style';
 
-const BannerWrapper = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  border: 1px solid #000;
-  padding: 0.5rem;
-  border-radius: 1.5rem;
+// slick css
+import 'slick-carousel/slick/slick.css';
+import 'slick-carousel/slick/slick-theme.css';
 
-  img {
-    flex: 0 0 20%;
-    width: rem;
-  }
-  .banner__contents {
-    flex: 0 0 78%;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-  }
-`;
+const { Meta } = Card;
 
-// interface itemsProps {
-//   img: string;
-//   name: string;
-// }
-
-const SliderItem = styled.div`
-  width: 100%;
-  img {
-    max-width: 100%;
-    height: auto;
-  }
-`;
-
-type BannersType = {
+export interface sliderProps {
+  /** 커스텀 클래스 */
+  className?: string;
+  /** 자동재생 (속도 설정시 number 타입으로) */
+  autoplay?: boolean | number;
+  /** 슬라이더 속도 */
+  speed?: number;
+  /** 반복 여부 */
+  loop?: boolean;
   bannerLists: DataType[];
-};
+}
 
-const TopFiveBanners = ({ bannerLists }: BannersType) => {
-  // console.log('TopFiveBanners : ', bannerLists);
+const TopFiveBanners = ({ bannerLists, autoplay = true, speed = 300, loop = true }: sliderProps) => {
+  const data = [...bannerLists];
 
-  const [data, setData] = useState(bannerLists);
+  const viewData = data.map((list, index) => (
+    <div key={index}>
+      <Card hoverable cover={<img src={list.img} alt={list.name} />}>
+        <Meta title={list.name} description={list.description} />
+      </Card>
+    </div>
+  ));
 
-  useEffect(() => {
-    setData([...bannerLists]);
-    console.log(bannerLists);
-  }, [bannerLists]);
+  const settings = useMemo<Settings>(
+    () => ({
+      dots: true,
+      infinite: loop,
+      speed: speed,
+      slidesToShow: 1,
+      autoplay: Boolean(autoplay),
+      autoplaySpeed: typeof autoplay === 'boolean' ? 3000 : autoplay,
+    }),
+    [autoplay, loop, speed],
+  );
 
   return (
     <>
-      {/* <HomeContainer> */}
-      {data.map((item, index) => (
-        <SliderItem key={index}>
-          <img src={item.img} alt={item.name} />
-        </SliderItem>
-      ))}
-      {/* </HomeContainer> */}
-      {data.map((value, index) => {
-        return (
-          <SliderItem key={index}>
-            <div className="banner__imgBox">
-              <img style={{ width: '100%' }} src={value.img} alt={value.name} />
-            </div>
-            <div className="banner__contents">
-              <div className="contents__name">{value.name}</div>
-              <div className="contents__description">{value.description}</div>
-            </div>
-          </SliderItem>
-        );
-      })}
+      <Global />
+      <div className="top__title">
+        <h2>
+          <span>마</span>시고 싶은 <span>술</span>은 어떤 술인가요?
+        </h2>
+        <p>오늘의 한 잔은 당신과의 사랑을 위하여😘</p>
+      </div>
+      <Slider {...settings}>{viewData}</Slider>
     </>
   );
 };

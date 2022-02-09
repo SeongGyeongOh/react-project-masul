@@ -1,16 +1,17 @@
 import React from 'react';
+import { useEffect } from 'react';
 import MultiSteps from './MultiSteps';
 import './recommend.scss';
 
 type Props = {
-  recommendData: () => void;
   data: any;
 };
 
-const index = ({ recommendData, data }: Props) => {
+const index = () => {
+
   return (
     <div>
-      <MultiSteps recommendData={recommendData} data={data} />
+      <MultiSteps />
     </div>
   );
 };

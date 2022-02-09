@@ -95,6 +95,10 @@ const login = (state = initialState, action: LoginAction) =>
         draft.uid = action.payload;
         break;
       case loginFailAction.type:
+        draft.isLogin = false;
+        draft.nickname = null;
+        draft.snsType = '';
+        draft.userId = '';
         break;
       case logoutAction.type:
         break;

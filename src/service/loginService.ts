@@ -28,7 +28,7 @@ export class LoginService {
 
   googleLogin = async () => {
     const result = await signInWithPopup(this.auth, this.provider);
-    return result.user.displayName;
+    return result.user?.email?.replaceAll('@', '').replaceAll('.', '');
   };
 
   uploadUser = (uid: string, userId: string, nickname: string) => {
@@ -48,8 +48,8 @@ export class LoginService {
     const auth = getAuth();
     return new Promise<string>((resolve, reject) => {
       onAuthStateChanged(auth, (user) => {
-        user && resolve(user.displayName || '닉네임 없음');
-        // onUserStateChange(user);
+        const updatedUid = user?.email?.replaceAll('@', '').replaceAll('.', '');
+        user && resolve(updatedUid || '닉네임 없음');
       });
       return resolve;
     });
