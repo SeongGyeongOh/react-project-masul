@@ -11,9 +11,10 @@ const condition = [
 ];
 type PropsTypsStep = {
   clickSelData: (type: string, typeName: string) => void;
+  next: () => void | null;
 };
 
-const Step2 = ({ clickSelData }: PropsTypsStep) => {
+const Step2 = ({ clickSelData, next }: PropsTypsStep) => {
   const [currentNum, setNum] = useState<number>(0);
   const changeNum = (currentNum: number) => {
     setNum(currentNum);
@@ -32,12 +33,19 @@ const Step2 = ({ clickSelData }: PropsTypsStep) => {
                 txt={list.txt}
                 condition={list.condition}
                 id={list.id}
-                clickSelData={clickSelData}
                 changeNum={changeNum}
                 currentNum={currentNum}
               />
             );
           })}
+        </div>
+        <div
+          className="next-Btn"
+          onClick={() => {
+            clickSelData(condition[currentNum - 1].condition, 'condition');
+          }}
+        >
+          <button onClick={next}>다음</button>
         </div>
       </div>
     </div>

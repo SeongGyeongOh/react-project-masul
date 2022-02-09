@@ -3,25 +3,29 @@ import { Slider } from 'antd';
 import StepStress from './StepTaste';
 
 const taste = [
-  { id: 1,  taste: 'clean', txt: '깔끔한' },
+  { id: 1, taste: 'clean', txt: '깔끔' },
   { id: 2, taste: 'tough', txt: '거친' },
-  { id: 3,  taste: 'sweet', txt: '달달한' },
-  { id: 4,  taste: 'savory', txt: '풍미있는' },
-  { id: 5,  taste: 'light', txt: '산뜻한' },
-  { id: 6,  taste: 'flavorful', txt: '향긋한' },
-  { id: 7,  taste: 'fruit', txt: '과일향나는' },
-  { id: 8,  taste: 'balance', txt: '균형있는' },
+  { id: 3, taste: 'sweet', txt: '달달' },
+  { id: 4, taste: 'savory', txt: '풍미' },
+  { id: 5, taste: 'light', txt: '산뜻' },
+  { id: 6, taste: 'flavorful', txt: '향긋' },
+  { id: 7, taste: 'fruit', txt: '과일향' },
+  { id: 8, taste: 'balance', txt: '균형' },
+  { id: 9, taste: 'soft', txt: '부드러운' },
+  { id: 10, taste: 'bitter', txt: '씁쓸' },
+  { id: 11, taste: 'heavy', txt: '무거운' },
 ];
 
 type PropsTypsStep = {
-  clickSelData : (type: string,typeName:string) => void;
+  clickSelData: (type: string, typeName: string) => void;
+  next: () => void | null;
 };
 
-const Step4 = ({ clickSelData, }: PropsTypsStep) => {
-  const [currentNum,setNum] = useState<number>(0);
-  const changeNum = (currentNum:number) => {
+const Step4 = ({ clickSelData, next }: PropsTypsStep) => {
+  const [currentNum, setNum] = useState<number>(0);
+  const changeNum = (currentNum: number) => {
     setNum(currentNum);
-  }
+  };
 
   return (
     <div className="step step4">
@@ -35,12 +39,19 @@ const Step4 = ({ clickSelData, }: PropsTypsStep) => {
                 txt={list.txt}
                 taste={list.taste}
                 id={list.id}
-                clickSelData={clickSelData}
                 changeNum={changeNum}
                 currentNum={currentNum}
               />
             );
           })}
+        </div>
+        <div
+          className="next-Btn"
+          onClick={() => {
+            clickSelData(taste[currentNum - 1].taste, 'taste');
+          }}
+        >
+          <button onClick={next}>다음</button>
         </div>
       </div>
     </div>

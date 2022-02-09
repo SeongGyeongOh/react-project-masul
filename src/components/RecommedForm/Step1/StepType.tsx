@@ -1,24 +1,22 @@
-import React, { useState,useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 
 interface ChildProps {
   id: number;
   url: string;
   type: string;
-  clickSelData : (type: string,typeName:string) => void;
-  changeNum:(num:number) => void;
-  currentNum:number;
+  changeNum: (num: number) => void;
+  currentNum: number;
 }
 
-const StepType = ({ id, url, type, clickSelData,changeNum,currentNum }: ChildProps) => {
-  const [clickChild,setChild] = useState<string>('');
+const StepType = ({ id, url, type, changeNum, currentNum }: ChildProps) => {
+  const [clickChild, setChild] = useState<string>('');
 
-  useEffect(()=>{
+  useEffect(() => {
     setChild('');
-    if(id===currentNum){
+    if (id === currentNum) {
       setChild('active');
     }
-  },[currentNum])
-
+  }, [currentNum]);
 
   return (
     <li key={id} className={clickChild}>
@@ -26,15 +24,12 @@ const StepType = ({ id, url, type, clickSelData,changeNum,currentNum }: ChildPro
         onClick={() => {
           changeNum(id);
           console.log(id);
-          clickSelData(type,'type');
         }}
-        className='li_img'
+        className="li_img"
       >
         <img src={url} />
       </div>
-      <div className='li_txt'>
-        {type}
-      </div>
+      <div className="li_txt">{type}</div>
     </li>
   );
 };

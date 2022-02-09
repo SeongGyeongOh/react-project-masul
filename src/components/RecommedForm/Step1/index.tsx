@@ -23,15 +23,15 @@ const type = [
 ];
 
 type PropsTypsStep = {
-  clickSelData : (type: string,typeName:string) => void;
+  clickSelData: (type: string, typeName: string) => void;
+  next: () => void | null;
 };
 
-const Step1 = ({ clickSelData }: PropsTypsStep) => {
-
-  const [currentNum,setNum] = useState<number>(0);
-  const changeNum = (currentNum:number) => {
+const Step1 = ({ clickSelData, next }: PropsTypsStep) => {
+  const [currentNum, setNum] = useState<number>(0);
+  const changeNum = (currentNum: number) => {
     setNum(currentNum);
-  }
+  };
 
   return (
     <div className="step step1">
@@ -46,13 +46,20 @@ const Step1 = ({ clickSelData }: PropsTypsStep) => {
                   url={list.url}
                   type={list.type}
                   id={list.id}
-                  clickSelData={clickSelData}
                   changeNum={changeNum}
                   currentNum={currentNum}
                 />
               );
             })}
           </ul>
+        </div>
+        <div
+          className="next-Btn"
+          onClick={() => {
+            clickSelData(type[currentNum - 1].type, 'type');
+          }}
+        >
+          <button onClick={next}>다음</button>
         </div>
       </div>
     </div>
