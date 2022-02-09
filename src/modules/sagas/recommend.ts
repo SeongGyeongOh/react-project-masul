@@ -1,20 +1,19 @@
 import axios from 'axios';
 import { all, fork, put, takeLatest, call } from 'redux-saga/effects';
 import { data } from '../data';
-import { DataAction, RESULT_REQUEST } from '../reducers/recommend';
+import { DataAction } from '../reducers/recommend';
 
-import { 
+import {
   RECOMMEND_REQUEST,
-  RECOMMEND_SUCCESS, 
+  RECOMMEND_SUCCESS,
   RECOMMEND_FAILURE,
-  SELECTED_REQUEST, 
-  SELECTED_SUCCESS, 
+  SELECTED_REQUEST,
+  SELECTED_SUCCESS,
   SELECTED_FAILURE,
 } from '../reducers/recommend';
 
-
- //recommend_data
-function* loadData(action:DataAction) {
+//recommend_data
+function* loadData(action: DataAction) {
   const recomData = [...data];
   try {
     // const result: ResponseGenerator = yield call(loadDataApi);
@@ -22,7 +21,7 @@ function* loadData(action:DataAction) {
       type: RECOMMEND_SUCCESS,
       data: recomData,
     });
-  } catch (err:any) {
+  } catch (err: any) {
     console.error(err);
     yield put({
       type: RECOMMEND_FAILURE,
@@ -31,14 +30,14 @@ function* loadData(action:DataAction) {
   }
 }
 
- //selected_data
-function* selData(action:any){
+//selected_data
+function* selData(action: any) {
   const typeName = action.typeName;
-  let recomData = action.data.filter((v: any)=> v[typeName]===action.typeTest);
-  try{
+  let recomData = action.data.filter((v: any) => v[typeName] === action.typeTest);
+  try {
     yield put({
       type: SELECTED_SUCCESS,
-      data : recomData,
+      data: recomData,
     });
   } catch (err) {
     console.error(err);
@@ -49,36 +48,14 @@ function* selData(action:any){
   }
 }
 
-//result_data
-function* resultData(action:any){
-    let data = action.data;
-    console.log(data)
-    try{
-      yield put({
-        type: SELECTED_SUCCESS,
-        data : data,
-      });
-    } catch (err) {
-      console.error(err);
-      yield put({
-        type: SELECTED_FAILURE,
-        error: err,
-      });
-    }
-}
-
 function* watchLoadData() {
   yield takeLatest(RECOMMEND_REQUEST, loadData);
 }
 
-function* watchSelData(){
-  yield takeLatest(SELECTED_REQUEST, selData)
-}
-
-function* watchresultData(){
-  yield takeLatest(RESULT_REQUEST, resultData)
+function* watchSelData() {
+  yield takeLatest(SELECTED_REQUEST, selData);
 }
 
 export default function* recommendSaga() {
-  yield all([fork(watchLoadData),fork(watchSelData),fork(watchresultData)]);
+  yield all([fork(watchLoadData), fork(watchSelData)]);
 }
