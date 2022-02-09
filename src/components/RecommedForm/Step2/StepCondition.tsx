@@ -5,31 +5,27 @@ interface ChildProps {
   url: string;
   txt: string;
   condition: string;
-  clickSelData: (type: string ,typeName:string) => void;
-  changeNum:(num:number) => void;
-  currentNum:number;
+  changeNum: (num: number) => void;
+  currentNum: number;
 }
 
-const StepCondition = ({ id, url, txt, clickSelData,condition,changeNum,currentNum }: ChildProps) => {
-  const [clickChild,setChild] = useState<string>('');
+const StepCondition = ({ id, url, txt, condition, changeNum, currentNum }: ChildProps) => {
+  const [clickChild, setChild] = useState<string>('');
 
-  useEffect(()=>{
+  useEffect(() => {
     setChild('');
-    if(id===currentNum){
+    if (id === currentNum) {
       setChild('active');
-      console.log(clickChild);
     }
-  },[currentNum])
-
+  }, [currentNum]);
 
   return (
     <div
       key={id}
       onClick={() => {
-        clickSelData(condition,'condition');
         changeNum(id);
       }}
-      className={clickChild=='active' ? 'con_box active' : 'con_box'}
+      className={clickChild == 'active' ? 'con_box active' : 'con_box'}
     >
       <div className="con_txt">{txt}</div>
       <div className="con_img">

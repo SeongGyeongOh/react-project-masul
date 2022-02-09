@@ -1,4 +1,4 @@
-import React, {  } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import Result from './Result';
@@ -13,44 +13,49 @@ import { reDataRequest, selDataRequest } from '../../modules/reducers/recommend'
 const MultiSteps = () => {
   const dispatch = useDispatch();
 
-const data = useSelector((state: RootState) => state.recommend.recommendList);
-const clickSelData = (typeTest: string, typeName:string) => {
-  dispatch(selDataRequest(typeTest,typeName, data));
-};
+  const data = useSelector((state: RootState) => state.recommend.recommendList);
+  const clickSelData = (typeTest: string, typeName: string) => {
+    dispatch(selDataRequest(typeTest, typeName, data));
+  };
 
-const ResultData = ()=>{
-  dispatch(reDataRequest(data));
-}
-
+  const next = () => {
+    const nextBtn: any = document.querySelector('.steps-nav-next');
+    nextBtn.click();
+  };
 
   return (
     <>
-    <Steps>
-      <Step>
-        <div className="result">
-          <div className="result_wrap">
-          <h2>술 추천을 받고싶으시다면 계속해주세요!</h2>
-          <Link to="/"><button>홈으로 돌아가기</button></Link>
-        </div>
-        </div>
+      <Steps>
+        <Step>
+          <div className="result">
+            <div className="result_wrap">
+              <h2>술 추천을 받고싶으시다면 계속해주세요!</h2>
+              <Link to="/">
+                <button>홈으로 돌아가기</button>
+              </Link>
+            </div>
+            <div className="start-Btn">
+              <button onClick={next}>시작하기</button>
+            </div>
+          </div>
         </Step>
-        
-      <Step>
-        <Step1 clickSelData={clickSelData} />
-      </Step>
-      <Step>
-        <Step2 clickSelData={clickSelData} />
-      </Step>
-      <Step>
-        <Step3 clickSelData={clickSelData}/>
-      </Step>
-      <Step>
-        <Step4 clickSelData={clickSelData}/>
-      </Step>
-      <Step>
-      <Result ResultData={ResultData}/>
-      </Step>
-    </Steps>
+
+        <Step>
+          <Step1 clickSelData={clickSelData} next={next} />
+        </Step>
+        <Step>
+          <Step2 clickSelData={clickSelData} next={next} />
+        </Step>
+        <Step>
+          <Step3 clickSelData={clickSelData} next={next} />
+        </Step>
+        <Step>
+          <Step4 clickSelData={clickSelData} next={next} />
+        </Step>
+        <Step>
+          <Result />
+        </Step>
+      </Steps>
     </>
   );
 };

@@ -4,32 +4,30 @@ interface ChildProps {
   id: number;
   taste: string;
   txt: string;
-  clickSelData: (type: string ,typeName:string) => void;
-  changeNum:(num:number) => void;
-  currentNum:number;
+  changeNum: (num: number) => void;
+  currentNum: number;
 }
 
-const StepTaste = ({ id, txt, clickSelData,taste,changeNum,currentNum }: ChildProps) => {
-  const [clickChild,setChild] = useState<string>('');
+const StepTaste = ({ id, txt, taste, changeNum, currentNum }: ChildProps) => {
+  const [clickChild, setChild] = useState<string>('');
 
-  useEffect(()=>{
+  useEffect(() => {
     setChild('');
-    if(id===currentNum){
+    if (id === currentNum) {
       setChild('active');
       console.log(clickChild);
     }
-  },[currentNum])
+  }, [currentNum]);
 
   return (
     <div
       key={id}
       onClick={() => {
-        clickSelData(taste,'taste');
         changeNum(id);
       }}
-      className={clickChild==='active' ? 'con_box active' : 'con_box'}
+      className={clickChild === 'active' ? 'con_box active' : 'con_box'}
     >
-      <div className={clickChild==='active' ? 'con_txt active' : 'con_txt'}>{txt}</div>
+      <div className={clickChild === 'active' ? 'con_txt active' : 'con_txt'}>{txt}</div>
     </div>
   );
 };

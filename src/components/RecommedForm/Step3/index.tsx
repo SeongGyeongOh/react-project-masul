@@ -16,9 +16,10 @@ const feeling = [
 
 type PropsTypsStep = {
   clickSelData: (type: string, typeName: string) => void;
+  next: () => void | null;
 };
 
-const Step3 = ({ clickSelData }: PropsTypsStep) => {
+const Step3 = ({ clickSelData, next }: PropsTypsStep) => {
   const [currentNum, setNum] = useState<number>(0);
   const changeNum = (currentNum: number) => {
     setNum(currentNum);
@@ -38,13 +39,20 @@ const Step3 = ({ clickSelData }: PropsTypsStep) => {
                   txt={list.txt}
                   feeling={list.feeling}
                   id={list.id}
-                  clickSelData={clickSelData}
                   changeNum={changeNum}
                   currentNum={currentNum}
                 />
               );
             })}
           </ul>
+        </div>
+        <div
+          className="next-Btn"
+          onClick={() => {
+            clickSelData(feeling[currentNum].feeling, 'feeling');
+          }}
+        >
+          <button onClick={next}>다음</button>
         </div>
       </div>
     </div>
