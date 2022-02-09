@@ -3,6 +3,8 @@ import './footer.scss';
 import { NavLink } from 'react-router-dom';
 import styled from 'styled-components';
 import Icon from '../../const/Icons/Icon';
+import { RootState } from '../../modules/reducers';
+import { useSelector } from 'react-redux';
 
 const FooterStyled = styled.div`
   width: 350px;
@@ -15,6 +17,9 @@ const StyledIcon = styled.img`
 
 const Footer = () => {
   const [value, setValue] = useState('#B6B6CA');
+
+  const login = useSelector((state: RootState) => state.login);
+  const { isLogin } = login;
 
   const colorChange = () => {
     setValue('red');
@@ -38,7 +43,11 @@ const Footer = () => {
           </NavLink>
         </li>
         <li>
-          <NavLink to="/community" className={({ isActive }) => (isActive ? 'active' : 'not')}>
+          <NavLink
+            onClick={() => (isLogin ? null : alert('로그인 후 진행하여 주십시요'))}
+            to="/community"
+            className={({ isActive }) => (isActive ? 'active' : 'not')}
+          >
             <Icon size={28} color={'#B6B6CA'} icon="community" />
           </NavLink>
         </li>
