@@ -42,7 +42,7 @@ const CommunityList = ({ data, clickDeletePost, userId }: dataTaype) => {
             <span>{firstName}</span>
           </div>
           <div className="community__top__info">
-            <div>{item.nickName}</div>
+            <div className="bold">{item.nickName}</div>
             <div>{item.title}</div>
             <div className="community__top__info__date">{date}</div>
           </div>
@@ -51,7 +51,7 @@ const CommunityList = ({ data, clickDeletePost, userId }: dataTaype) => {
         <div className="community__bottom">
           <div className="community__bottom__icon">
             <div onClick={() => clickDeletePost(item.id)}>
-              {item.userId === userId ? <Icon size={21} color={'#B6B6CA'} icon="garbage" /> : null}
+              {item.userId === userId ? <Icon size={21} color={'#33434d'} icon="garbage" /> : null}
             </div>
           </div>
         </div>
