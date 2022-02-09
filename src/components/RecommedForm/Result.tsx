@@ -1,71 +1,42 @@
-import React from 'react';
+import { data } from 'jquery';
+import {Link} from 'react-router-dom'
+import React, { useEffect } from 'react';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../modules/reducers';
 
-const data = [
-  {
-    id: 1,
-    type: '위스키',
-    name: '발렌타인(17년)',
-    img: 'https://file.mk.co.kr/mkde/N0/2020/03/20200304_4411081_1583307027.jpg',
-    price: 100000,
-    likeNum: 0,
-    alc: 40,
-    stress: 5,
-    taste: 'clean',
-    feeling: 'joy',
-    condition: 'present',
-    description: '스모키한 훈제향과 매운맛이 강하면서도 목으로 넘어가는느낌이 soft.',
-  },
-  {
-    id: 2,
-    type: '위스키',
-    name: '발렌타인(17년)',
-    img: 'https://file.mk.co.kr/mkde/N0/2020/03/20200304_4411081_1583307027.jpg',
-    price: 100000,
-    likeNum: 0,
-    alc: 20,
-    stress: 5,
-    taste: 'clean',
-    feeling: 'joy',
-    condition: 'present',
-    description: '스모키한 훈제향과 매운맛이 강하면서도 목으로 넘어가는느낌이 soft.',
-  },
-  {
-    id: 3,
-    type: '위스',
-    name: '발렌타인(17년)',
-    img: 'https://file.mk.co.kr/mkde/N0/2020/03/20200304_4411081_1583307027.jpg',
-    price: 100000,
-    likeNum: 0,
-    alc: 50,
-    stress: 5,
-    taste: 'clean',
-    feeling: 'joy',
-    condition: 'present',
-    description: '스모키한 훈제향과 매운맛이 강하면서도 목으로 넘어가는느낌이 soft.',
-  },
-];
+type Props = {
+  ResultData : () => void;
+};
 
-// const result1 = data.filter((result) => {
-//   return result.condition > 'zalkdjfl';
-// if (result.alc > 30) {
-//   if (result.type === '위스키') {
-//     return true;
-//   }
-// }
-// return false;
-// });
+const Result = ({ResultData}: Props) => {
 
-// console.log(result1);
-// => expected output: Array [2, 3]
 
-const Result = () => {
+  const resultData = useSelector((state:RootState)=>state.recommend.recommendList)
+
+  const again = ()=>{
+    window.location.replace("/recommend");
+  }
+
+
   return (
-    <></>
-    // <div key={result1[0].id}>
-    //   <h2>결과</h2>
-    //   <div>{result1[0].id}</div>
-    // </div>
-  );
+    <div className="result">
+      <div className ="result_wrap">
+        <h2 >결과</h2>
+        {resultData.length > 0 ? (
+        <ul>
+          <li className="img"><img src={resultData[0].img} alt={resultData[0].name}/></li>
+          <li><span>술 이름</span> <br/> {resultData[0].name}</li>
+          <li><span>도수</span> <br/>{resultData[0].alc}</li>
+          <li><span>가격</span> <br/>{resultData[0].price}</li>
+          <li><span>설명</span> <br/>{resultData[0].description}</li>
+        </ul>
+      ):(
+        <div>추천해드릴 술이 없습니다ㅠㅠ.... </div>
+      )}
+        <button onClick={again}>다시해보기</button>
+      </div>
+    </div>
+ );
 };
 
 export default Result;
