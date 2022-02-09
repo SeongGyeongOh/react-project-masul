@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux';
 import { Global } from '../styled';
 // import { HeartTwoTone } from '@ant-design/icons';
 // import LikeButton from '../LikeButton';
-import AlcholcupDesc from './AlcholcupDesc';
+import AlcholcupDesc from '../AlcholcupDesc';
 
 const AlcholcupCard = ({ alcholcup }: any) => {
   const { alcholcupLists } = useSelector((state: any) => state.alcholcup);

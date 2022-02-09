@@ -2,23 +2,27 @@ import { AxiosError } from 'axios';
 import produce from 'immer';
 import { action, ActionType, createAsyncAction, createReducer } from 'typesafe-actions';
 import { createAction } from '@reduxjs/toolkit';
+import { DRAFTABLE } from 'immer/dist/internal';
 
 export type LoginState = {
+  uid: string | null;
   isLogin: boolean;
   userId: string;
   snsType: string;
-  nickName: string | null;
+  nickname: string | null;
 };
 
 const initialState: LoginState = {
+  uid: null,
   isLogin: false,
   userId: '',
   snsType: '',
-  nickName: null,
+  nickname: null,
 };
 
-type UserType = {
-  nickName: string;
+export type UserType = {
+  uid: string;
+  nickname: string;
   userId: string;
   snsType: string;
 };
@@ -26,34 +30,46 @@ type UserType = {
 export const snsLoginAction = createAction('SNS_LOGIN', (snsType: string) => {
   return { payload: snsType };
 });
-export const loginSuccessAction = createAction('LOGIN_SUCCESS');
+export const loginSuccessAction = createAction('LOGIN_SUCCESS', (uid: string) => {
+  return { payload: uid };
+});
 export const loginFailAction = createAction('LOGIN_FAIL');
 export const logoutAction = createAction('LOGOUT', (snsType: string) => {
   return { payload: snsType };
 });
 
-export const setNicknameAction = createAction('SET_NICKNAME', (nickName: string, userId: string, snsType: string) => {
-  return {
-    payload: {
-      nickName: nickName,
+export const setNicknameAction = createAction(
+  'SET_NICKNAME',
+  (uid: string, nickname: string, userId: string, snsType: string) => {
+    const params: UserType = {
+      uid: uid,
+      nickname: nickname,
       userId: userId,
       snsType: snsType,
+    };
+
+    return {
+      payload: params,
+    };
+  },
+);
+
+export const checkUserLogin = createAction('CHECK_USER_LOGIN');
+
+export const loginStateAction = createAction('LOGIN_STATE', (snsType: string, nickname: string, userId: string) => {
+  return {
+    payload: {
+      userId: userId,
+      snsType: snsType,
+      nickname: nickname,
     },
   };
 });
 
-export const checkUserLogin = createAction('CHECK_USER_LOGIN', (snsType: string, nickName: string) => {
-  return {
-    payload: {
-      snsType: snsType,
-      nickName: nickName,
-    },
-  };
-});
 export const logoutSuccessAction = createAction('LOGOUT_SUCCESS');
 export const logoutFailAction = createAction('LOGOUT_FAIL');
 
-const actions = {
+export const actions = {
   snsLoginAction,
   loginSuccessAction,
   loginFailAction,
@@ -62,6 +78,7 @@ const actions = {
   logoutFailAction,
   setNicknameAction,
   checkUserLogin,
+  loginStateAction,
 };
 
 export type LoginAction = ActionType<typeof actions>;
@@ -75,6 +92,7 @@ const login = (state = initialState, action: LoginAction) =>
       case loginSuccessAction.type:
         draft.isLogin = true;
         draft.userId = state.snsType + Date.now();
+        draft.uid = action.payload;
         break;
       case loginFailAction.type:
         break;
@@ -82,17 +100,21 @@ const login = (state = initialState, action: LoginAction) =>
         break;
       case logoutSuccessAction.type:
         draft.isLogin = false;
-        draft.nickName = null;
+        draft.nickname = null;
         draft.snsType = '';
+        draft.userId = '';
         break;
       case logoutFailAction.type:
         break;
       case setNicknameAction.type:
-        draft.nickName = action.payload.nickName;
+        draft.nickname = action.payload.nickname;
         break;
       case checkUserLogin.type:
+        break;
+      case loginStateAction.type:
         draft.isLogin = true;
-        draft.nickName = action.payload.nickName;
+        draft.userId = action.payload.userId;
+        draft.nickname = action.payload.nickname;
         draft.snsType = action.payload.snsType;
         break;
       default:

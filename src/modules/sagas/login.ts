@@ -6,16 +6,18 @@ import {
   snsLoginAction,
   logoutAction,
   setNicknameAction,
+  checkUserLogin,
+  loginStateAction,
+  UserType,
 } from './../reducers/login';
-import { useDispatch } from 'react-redux';
 import { LoginService } from '../../service/loginService';
 import { all, fork, put, takeLatest, call, takeEvery } from 'redux-saga/effects';
 import UserService from '../../service/userService';
+import { ActionType } from 'typesafe-actions';
 
-type UserType = {
-  nickName: string;
-  userId: string;
-  snsType: string;
+export type LoginUser = {
+  id: number;
+  nickname: string;
 };
 const loginService = new LoginService();
 const userService = new UserService();
@@ -24,29 +26,54 @@ const userService = new UserService();
 function* snsLoginSaga(action: LoginAction) {
   try {
     if (action.payload === 'google') {
-      yield call(loginService.googleLogin);
+      const uid: string = yield call(loginService.googleLogin);
+      const user: UserType = yield call(userService.getUser, uid);
+      if (user === null) {
+        yield put({
+          type: loginSuccessAction.type,
+          payload: uid,
+        });
+      } else {
+        yield put({
+          type: loginStateAction.type,
+          payload: {
+            snsType: 'google',
+            nickname: user.nickname,
+            userId: user.userId,
+          },
+        });
+      }
     }
 
     if (action.payload === 'kakao') {
-      yield call(loginService.kakaoLogin);
-    }
+      const uid: string = yield call(loginService.kakaoLogin);
+      const user: UserType = yield call(userService.getUser, uid);
 
-    yield put({
-      type: loginSuccessAction.type,
-    });
+      if (user === null) {
+        yield put({
+          type: loginSuccessAction.type,
+          payload: uid,
+        });
+      } else {
+        yield put({
+          type: loginStateAction.type,
+          payload: {
+            snsType: 'kakao',
+            nickname: user.nickname,
+            userId: user.userId,
+          },
+        });
+      }
+    }
   } catch (err) {
     console.log(err);
   }
 }
 
-// 네이버 로그인
-function* naverLoginSaga(action: LoginAction) {}
-
-function* setUserNicknameSaga(action: LoginAction) {
+function* setUserNicknameSaga(action: ActionType<typeof setNicknameAction>) {
   try {
-    // db에 유저 정보 올리기!!
-    const payload = action.payload?.valueOf();
-    console.log(payload);
+    const { uid, userId, nickname } = action.payload;
+    loginService.uploadUser(uid, userId, nickname);
   } catch (err) {
     console.log(err);
   }
@@ -72,8 +99,39 @@ function* logoutSaga(action: LoginAction) {
   }
 }
 
+function* checkUserLoginSaga(action: LoginAction) {
+  try {
+    if (window.Kakao.Auth.getAccessToken()) {
+      const uid: string = yield call(loginService.kakaoCheckNickname);
+      const userData: UserType = yield call(userService.getUser, uid);
+      yield put({
+        type: loginStateAction.type,
+        payload: {
+          snsType: 'google',
+          nickname: userData.nickname,
+          userId: userData.userId,
+        },
+      });
+    }
+
+    const uid: string = yield call(loginService.onAuthChange);
+    const userData: UserType = yield call(userService.getUser, uid);
+    yield put({
+      type: loginStateAction.type,
+      payload: {
+        snsType: 'google',
+        nickname: userData.nickname,
+        userId: userData.userId,
+      },
+    });
+  } catch (err) {
+    console.log(err);
+  }
+}
+
 export default function* loginSaga() {
   yield takeEvery(snsLoginAction, snsLoginSaga);
   yield takeEvery(logoutAction, logoutSaga);
   yield takeEvery(setNicknameAction, setUserNicknameSaga);
+  yield takeEvery(checkUserLogin, checkUserLoginSaga);
 }

@@ -1,27 +1,35 @@
 import styled, { createGlobalStyle } from 'styled-components';
 
 export const Global = createGlobalStyle`
-  .ant-image-mask {
-    display: none;
+  .ant-select-selector {
+    margin: 2rem 0;
+
+    .ant-select-selection-placeholder {
+      font-size: 20px;
+      line-height: 50px !important;
+    }
+
+    .ant-select-selection-item {
+      font-size: 30px;
+      line-height: 50px !important;
+    }
+  }
+  .ant-select-single:not(.ant-select-customize-input) {
+    .ant-select-selector {
+      height: 50px;
+    }
+  }
+  .ant-btn {
+    width: 100%;
+    padding: 2rem 0;
+
+    span {
+      font-size: 3rem;
+    }
   }
 `;
 
 export const AlcholStyled = styled.div`
-  Button {
-    margin: 1rem 1rem 1rem 0;
-  }
-  .alcholcupBtn {
-    font-family: 'Harmony_B';
-    background: #33434d;
-    /* padding: 2rem 1rem; */
-
-    /* span {
-      padding: 0rem 1rem;
-      font-size: 2rem;
-      display: inline-block;
-    } */
-  }
-
   .tableWrap {
     padding: 5px;
 
@@ -57,9 +65,13 @@ export const AlcholStyled = styled.div`
       }
     }
   }
-  .round {
-    font-size: 1.5rem;
+  .rounds {
+    font-family: 'Harmony_B';
+    font-size: 2.2rem;
     text-align: center;
-    margin-top: 20px;
+
+    span {
+      font-size: 1.8rem;
+    }
   }
 `;

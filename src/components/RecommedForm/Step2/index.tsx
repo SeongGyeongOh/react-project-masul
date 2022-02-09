@@ -1,24 +1,23 @@
 import React, { useState, useEffect } from 'react';
 import party from '../../../assets/icons/party.png';
+import alone from '../../../assets/icons/alone.png';
 import present from '../../../assets/icons/present.png';
 import StepCondition from './StepCondition';
 
 const condition = [
-  { id: 1, url: party, condition: 'alone', txt: '혼술' },
+  { id: 1, url: alone, condition: 'alone', txt: '혼술' },
   { id: 2, url: party, condition: 'party', txt: '모임' },
   { id: 3, url: present, condition: 'present', txt: '선물' },
 ];
 type PropsTypsStep = {
-  clickSelData : (type: string,typeName:string) => void;
+  clickSelData: (type: string, typeName: string) => void;
 };
 
-const Step2 = ({ clickSelData, }: PropsTypsStep) => {
-
-  const [currentNum,setNum] = useState<number>(0);
-  const changeNum = (currentNum:number) => {
+const Step2 = ({ clickSelData }: PropsTypsStep) => {
+  const [currentNum, setNum] = useState<number>(0);
+  const changeNum = (currentNum: number) => {
     setNum(currentNum);
-  }
-
+  };
 
   return (
     <div className="step step2">

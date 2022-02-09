@@ -1,33 +1,36 @@
-import { all, fork, delay, put, takeLatest } from 'redux-saga/effects';
-import {
-  ALCHOLCUP_FAILURE,
-  ALCHOLCUP_REQUEST,
-  ALCHOLCUP_SUCCESS,
-  LIKE_ALCHOLCUP_FAILURE,
-  LIKE_ALCHOLCUP_REQUEST,
-  LIKE_ALCHOLCUP_SUCCESS,
-} from '../reducers/alcholcup';
+import { all, call, fork, put, takeLatest } from 'redux-saga/effects';
+import { ALCHOLCUP_FAILURE, ALCHOLCUP_REQUEST, ALCHOLCUP_SUCCESS } from '../reducers/alcholcup';
 import axios from 'axios';
-import { data } from '../data';
-import { alcholcupProps, Action } from '../../modules/reducers/alcholcup';
+import { Action } from '../../modules/reducers/alcholcup';
 
-function addAlcholcupAPI(data: alcholcupProps) {
-  // return axios.Comment(`/api/post/${data.postId}/alcholcup`, data);
-  return axios.get('data', data);
+export interface DataType {
+  id?: number;
+  type?: string;
+  name?: string;
+  img?: string;
+  taste?: string;
+  feeling?: string;
+  condition?: string;
+  description?: string;
+}
+
+type resultType = {
+  data: DataType[];
+};
+
+function addAlcholcupAPI() {
+  return axios.get(`http://172.20.2.115:6008/drinks`);
 }
 
 function* addAlcholcup(action: Action) {
-  console.log(action);
-
-  // const dummyAlcholcup = data.sort(() => Math.random() - 0.5).slice(0, 16);
-  const temp = [...data];
-  const dummyAlcholcup = temp.sort(() => Math.random() - 0.5).slice(0, 16);
   try {
-    // const result = yield call(addAlcholcupAPI, action.data);
-    yield delay(4500);
+    const result: resultType = yield call(addAlcholcupAPI);
+    // const { data } = result;
+    // console.log(data);
+    // console.log(action.data);
     yield put({
       type: ALCHOLCUP_SUCCESS,
-      data: dummyAlcholcup,
+      data: result.data,
     });
   } catch (err: any) {
     console.error(err);
@@ -38,34 +41,10 @@ function* addAlcholcup(action: Action) {
   }
 }
 
-function likeAlcholAPI(data: alcholcupProps) {
-  // return axios.patch(`/post/${data}/like`);
-}
-
-function* likeAlchol(action: Action) {
-  try {
-    // const result = yield call(likeAlcholAPI, action.data);
-    yield put({
-      type: LIKE_ALCHOLCUP_SUCCESS,
-      data: data,
-    });
-  } catch (err: any) {
-    console.error(err);
-    yield put({
-      type: LIKE_ALCHOLCUP_FAILURE,
-      error: err.response.data,
-    });
-  }
-}
-
 function* watchAddAlcholData() {
   yield takeLatest(ALCHOLCUP_REQUEST, addAlcholcup);
 }
 
-function* watchLikeAlchol() {
-  yield takeLatest(LIKE_ALCHOLCUP_REQUEST, likeAlchol);
-}
-
 export default function* alcholSaga() {
-  yield all([fork(watchAddAlcholData), fork(watchLikeAlchol)]);
+  yield all([fork(watchAddAlcholData)]);
 }
