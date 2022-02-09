@@ -25,12 +25,12 @@ export interface sliderProps {
 const TopFiveBanners = ({ bannerLists, autoplay = true, speed = 300, loop = true }: sliderProps) => {
   const data = [...bannerLists];
 
-  const viewData = data.map((list) => (
-    <>
+  const viewData = data.map((list, index) => (
+    <div key={index}>
       <Card hoverable cover={<img src={list.img} alt={list.name} />}>
         <Meta title={list.name} description={list.description} />
       </Card>
-    </>
+    </div>
   ));
 
   const settings = useMemo<Settings>(

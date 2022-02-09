@@ -2,6 +2,7 @@ import {
   logoutFailAction,
   logoutSuccessAction,
   loginSuccessAction,
+  loginFailAction,
   LoginAction,
   snsLoginAction,
   logoutAction,
@@ -66,6 +67,9 @@ function* snsLoginSaga(action: LoginAction) {
       }
     }
   } catch (err) {
+    yield put({
+      type: loginFailAction.type,
+    });
     console.log(err);
   }
 }
