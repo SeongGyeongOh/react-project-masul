@@ -18,13 +18,16 @@
       display: flex;
       justify-content: center;
       span {
+        font-family: 'Harmony_L';
+
         height: 2rem;
         width: 2rem;
-        background-color: red;
+        background-color: #33434d;
         border-radius: 50%;
         display: flex;
         justify-content: center;
         align-items: center;
+        color: #fff;
       }
     }
     .community__top__info {
