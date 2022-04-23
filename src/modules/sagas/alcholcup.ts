@@ -1,7 +1,7 @@
 import { all, call, fork, put, takeLatest } from 'redux-saga/effects';
 import { ALCHOLCUP_FAILURE, ALCHOLCUP_REQUEST, ALCHOLCUP_SUCCESS } from '../reducers/alcholcup';
-import axios from 'axios';
 import { Action } from '../../modules/reducers/alcholcup';
+import { data } from '../data';
 
 export interface DataType {
   id?: number;
@@ -19,18 +19,15 @@ type resultType = {
 };
 
 function addAlcholcupAPI() {
-  return axios.get(`http://172.20.2.115:6008/drinks`);
+  return data;
 }
 
 function* addAlcholcup(action: Action) {
   try {
     const result: resultType = yield call(addAlcholcupAPI);
-    // const { data } = result;
-    // console.log(data);
-    // console.log(action.data);
     yield put({
       type: ALCHOLCUP_SUCCESS,
-      data: result.data,
+      data: result,
     });
   } catch (err: any) {
     console.error(err);

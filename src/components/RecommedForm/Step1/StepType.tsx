@@ -16,18 +16,17 @@ const StepType = ({ id, url, type, changeNum, currentNum }: ChildProps) => {
     if (id === currentNum) {
       setChild('active');
     }
-  }, [currentNum]);
+  }, [currentNum, id]);
 
   return (
     <li key={id} className={clickChild}>
       <div
         onClick={() => {
           changeNum(id);
-          console.log(id);
         }}
         className="li_img"
       >
-        <img src={url} />
+        <img src={url} alt="no imgae" />
       </div>
       <div className="li_txt">{type}</div>
     </li>

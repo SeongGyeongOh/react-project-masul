@@ -25,7 +25,7 @@ const App = () => {
 
   useEffect(() => {
     dispatch(checkUserLogin());
-  }, []);
+  }, [dispatch]);
 
   return (
     <BrowserRouter>

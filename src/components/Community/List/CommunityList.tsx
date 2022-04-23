@@ -20,8 +20,6 @@ type dataTaype = {
 };
 
 const CommunityList = ({ data, clickDeletePost, userId }: dataTaype) => {
-  console.log(userId);
-
   const postList = data.map((item) => {
     // date 표시
     const parse = item.created;

@@ -1,48 +1,36 @@
-import axios from 'axios';
 import { all, fork, put, takeLatest, call } from 'redux-saga/effects';
 
 import { getDrinkListAction, getDrinkListFailAction, getDrinkListSuccessAction, MenuAction } from '../reducers/menu';
-import { DataType } from '../data';
-
-const apiHost = process.env.REACT_APP_API_HOST;
-const apiPort = process.env.REACT_APP_API_PORT;
-
+import { data, DataType } from '../data';
 
 type resultType = {
-    data: DataType[]
-}
+  data: DataType[];
+};
 
 function getDrinkListApi() {
-    const requestUrl = apiHost + ":" + apiPort + "/drinks"
-    return axios.get(requestUrl);
+  return data;
 }
 
-
 function* getDrinkListSaga(action: MenuAction) {
+  try {
+    const result: resultType = yield call(getDrinkListApi);
 
-    try { 
-        const result: resultType = yield call(getDrinkListApi);
-        const { data } = result
-
-        console.log('data : ', data);
-        
-        yield put({
-            type: getDrinkListSuccessAction.type,
-            payload: data
-        })
-    } catch (err) {
-        console.log("err: ", err);
-        yield put({
-            type: getDrinkListFailAction.type
-        })
-    }
-
+    yield put({
+      type: getDrinkListSuccessAction.type,
+      payload: result,
+    });
+  } catch (err) {
+    console.log('err: ', err);
+    yield put({
+      type: getDrinkListFailAction.type,
+    });
+  }
 }
 
 function* watchGetDrinkListSaga() {
-    yield takeLatest(getDrinkListAction, getDrinkListSaga)
+  yield takeLatest(getDrinkListAction, getDrinkListSaga);
 }
 
 export default function* menuSaga() {
-    yield all([fork(watchGetDrinkListSaga)]);
+  yield all([fork(watchGetDrinkListSaga)]);
 }

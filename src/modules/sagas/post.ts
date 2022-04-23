@@ -16,6 +16,7 @@ import {
   LOAD_POST_FAILURE,
 } from '../reducers/post';
 import { DataProps } from '../reducers/post';
+import { data } from '../data';
 
 type resultType = {
   data: DataProps[];
@@ -30,7 +31,8 @@ type postType = {
 
 // 게시글 load
 function loadPostDataApi() {
-  return axios.get('http://172.20.2.115:6008/boards');
+  // return axios.get('http://172.20.2.115:6008/boards');
+  return data;
 }
 
 function* loadPost() {
@@ -52,7 +54,8 @@ function* loadPost() {
 
 // 게시글추가
 function addPostDataApi(data: postType) {
-  return axios.post('http://172.20.2.115:6008/boards', data);
+  // return axios.post('http://172.20.2.115:6008/boards', data);
+  return {};
 }
 
 function* addPost(action: ActionType<typeof addPostRequest>) {
@@ -80,7 +83,8 @@ function* addPost(action: ActionType<typeof addPostRequest>) {
 
 // 게시글 삭제
 function deletePostDataApi(data: number) {
-  return axios.delete(`http://172.20.2.115:6008/boards/${data}`);
+  // return axios.delete(`http://172.20.2.115:6008/boards/${data}`);
+  return {};
 }
 
 function* deletePost(action: ActionType<typeof deletePostRequest>) {

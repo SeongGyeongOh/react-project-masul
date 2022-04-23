@@ -1,9 +1,6 @@
-import React, { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
+import React from 'react';
 import { HomeContainer } from '../../containers/HomeContainer';
 import MainLayout from '../../layout/MainLayout';
-import { loginSuccessAction } from '../../modules/reducers/login';
-import { LoginService } from '../../service/loginService';
 
 const Home = () => {
   // eslint-disable-next-line react/no-children-prop

@@ -16,23 +16,28 @@ const SlideWrapper = styled.section`
 `;
 
 export const HomeContainer = () => {
+  const [banenrList, setBannerList] = useState<DataType[]>([]);
   // dispatch
   const dispatch = useDispatch();
 
   // useSelector
   const data: DataType[] = useSelector((state: RootState) => state.alcholcup.data);
 
-  // datas
-  const bannerLists = [...data].sort(() => Math.random() - 0.5).slice(0, 5);
+  useEffect(() => {
+    if (data) {
+      const bannerLists = [...data].sort(() => Math.random() - 0.5).slice(0, 5);
+      setBannerList(bannerLists);
+    }
+  }, [data]);
 
   // useEffect
   useEffect(() => {
     dispatch(alcholRequestData());
-  }, []);
+  }, [dispatch]);
 
   return (
     <SlideWrapper>
-      {bannerLists.length > 0 ? <TopFiveBanners bannerLists={bannerLists} /> : '준비중입니다,.,,,'}
+      {banenrList.length > 0 ? <TopFiveBanners bannerLists={banenrList} /> : '준비중입니다,.,,,'}
     </SlideWrapper>
   );
 };

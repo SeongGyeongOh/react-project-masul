@@ -93,7 +93,6 @@ export class LoginService {
 
   kakaoCheckNickname = () => {
     return new Promise<string>((resolve, reject) => {
-      const userService = new UserService();
       window.Kakao.API.request({
         url: '/v2/user/me',
         success: (response: any) => {

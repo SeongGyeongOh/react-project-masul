@@ -28,16 +28,13 @@ export const AlcholcupComponents = ({ alcholLists, roundValue }: AlcholcupType) 
 
   useEffect(() => {
     setDisplays([alchols[0], alchols[1]]);
-  }, []);
-
-  console.log('초기 display : ', displays);
+  }, [alchols]);
 
   const onDescription = useCallback(() => {
     setValue(true);
   }, []);
 
   const clickHandler = (alchol: DataType) => () => {
-    console.log(alchol);
     if (alchols.length <= 2) {
       setSelectRound(alchols.length);
       if (winners.length === 0) {
@@ -59,7 +56,6 @@ export const AlcholcupComponents = ({ alcholLists, roundValue }: AlcholcupType) 
       setRounds(rounds + 1);
     }
   };
-  console.log('클릭 된 winners : ', winners);
 
   return (
     <>

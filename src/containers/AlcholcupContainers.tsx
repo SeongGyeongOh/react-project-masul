@@ -2,13 +2,12 @@ import React, { useState, useCallback, useEffect } from 'react';
 import styled from 'styled-components';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '../modules/reducers';
-import { Button, Card } from 'antd';
+import { Card } from 'antd';
 import { alcholRequestData } from '../modules/reducers/alcholcup';
 import RoundSelect from '../components/AlcholcupComponents/RoundSelect';
 import AlcholcupTitle from '../components/AlcholcupComponents/AlcholcupTitle';
 import { DataType } from '../modules/sagas/alcholcup';
 import { AlcholcupComponents } from '../components/AlcholcupComponents';
-import Loading from '../components/Loading';
 import { Global } from '../components/AlcholcupComponents/styled';
 import Img from '../assets/logo/logo_main.png';
 
@@ -43,30 +42,32 @@ export const AlcholcupContainers = () => {
   const [visible, setVisible] = useState(true);
   const [showAlcholcup, setShowAlcholcup] = useState(false);
   const [roundValue, setRoundValue] = useState(16);
-
+  const [alcholList, setAlcholist] = useState<DataType[]>([]);
   // datas
-  const alcholLists = [...data].sort(() => Math.random() - 0.5).slice(0, roundValue);
+  useEffect(() => {
+    if (data) {
+      const alcholList = [...data].sort(() => Math.random() - 0.5).slice(0, roundValue);
+      setAlcholist(alcholList);
+    }
+  }, [data, roundValue]);
 
   // 이벤트
   const loadAlcholDatas = useCallback(() => {
     setVisible(false);
     setShowAlcholcup(true);
     dispatch(alcholRequestData());
-  }, []);
+  }, [dispatch]);
 
   const handleChange = useCallback((value) => {
-    console.log(`selected ${value}`);
     setRoundValue(value);
   }, []);
-
-  console.log('alcholLists : ', alcholLists);
 
   return (
     <AlcholDetails>
       <Global />
       <AlcholcupTitle />
       {visible ? <RoundSelect handleChange={handleChange} /> : null}
-      {data.length < 0
+      {data?.length
         ? showAlcholcup
         : visible && (
             <>
@@ -81,14 +82,14 @@ export const AlcholcupContainers = () => {
             </>
           )}
       {showAlcholcup
-        ? alcholLists.length > 0 && (
+        ? alcholList.length > 0 && (
             <div>
-              <AlcholcupComponents alcholLists={alcholLists} roundValue={roundValue} />
+              <AlcholcupComponents alcholLists={alcholList} roundValue={roundValue} />
             </div>
           )
         : null}
       <div style={{ textAlign: 'center', padding: '1.5rem 0' }}>
-        총 {data.length}개의 후보 중 무작위 {roundValue}개가 대결합니다.
+        총 {data?.length}개의 후보 중 무작위 {roundValue}개가 대결합니다.
       </div>
     </AlcholDetails>
   );
